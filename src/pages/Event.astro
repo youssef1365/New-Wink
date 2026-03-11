@@ -1,0 +1,27 @@
+---
+import EventsLayout from '../layouts/EventsLayout.jsx';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Morocco Foodex — Trade missions, B2B exhibitions, and market discovery events across 4 continents and 20+ markets." />
+    <title>Events | Morocco Foodex</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <script is:inline>
+      (function () {
+        const saved = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', saved);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <EventsLayout client:load />
+  </body>
+</html>

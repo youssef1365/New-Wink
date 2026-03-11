@@ -1,0 +1,35 @@
+---
+import PackLayout from '../layouts/PackLayout.jsx';
+import PackagesLayout from '../components/PackagesLayout.jsx';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tailored packages for enterprises, government bodies, and event organizers." />
+    <title>Packages | Wink B2B Agency</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <script is:inline>
+      (function () {
+        const saved = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', saved);
+      })();
+    </script>
+    <style>
+      html, body, main {
+        background-color: var(--color-two);
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <PackLayout activeSection="packages" client:load>
+      <PackagesLayout />
+    </PackLayout>
+  </body>
+</html>

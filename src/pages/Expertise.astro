@@ -1,0 +1,27 @@
+---
+import ExpertiseLayout from '../layouts/ExpertiseLayout.jsx';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Wink B2B Agency — Five interconnected pillars of expertise powering every program we design and deliver." />
+    <title>Expertise | Wink B2B Agency</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+
+    <script is:inline>
+      (function () {
+        const saved = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', saved);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <ExpertiseLayout client:load />
+  </body>
+</html>

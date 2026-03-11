@@ -1,0 +1,32 @@
+---
+import EnterprisesLayout from '../layouts/EnterprisesLayout.jsx';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Enterprise International Growth Programs — structured buyer sourcing, B2B meetings and investor engagement to accelerate global expansion." />
+    <title>Enterprise Programs | Wink B2B Agency</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <script is:inline>
+        (function () {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+    <style>
+        html, body, main {
+            background-color: var(--color-two);
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<EnterprisesLayout activeSection="programs" client:load />
+</body>
+</html>
