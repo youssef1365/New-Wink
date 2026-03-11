@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useScroll } from 'framer-motion';
 import Header from '../components/Header.jsx';
-import Footer from '../components/Footer.jsx';
+import Footer from '../components/footer.jsx';
 import ExpertisePage from '../components/ExpertisePage.jsx';
 
 export default function ExpertiseLayout() {

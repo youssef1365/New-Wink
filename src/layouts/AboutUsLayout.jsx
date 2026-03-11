@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useScroll } from 'framer-motion';
 import Header from '../components/Header.jsx';
-import Footer from '../components/Footer.jsx';
+import Footer from '../components/footer.jsx';
 import AboutUsSection from '../components/aboutuspage.jsx';
 
 const AboutLayout = ({ activeSection = '' }) => {
