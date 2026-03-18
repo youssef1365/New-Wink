@@ -108,7 +108,7 @@ const Vision = ({ lines = [], subtext, image }) => {
         .vis-container {
           position: relative;
           height: 250vh;
-          background-color: #020d14;
+          background-color: #002e43;
           width: 100%;
         }
 
@@ -122,7 +122,7 @@ const Vision = ({ lines = [], subtext, image }) => {
           align-items: center;
           justify-content: center;
           isolation: isolate;
-          background-color: #020d14;
+          background-color: #002e43;
         }
 
         .vis-bg {
@@ -139,7 +139,7 @@ const Vision = ({ lines = [], subtext, image }) => {
           inset: -1px;
           z-index: 1;
           background:
-            linear-gradient(to bottom, #020d14 0%, transparent 18%, transparent 82%, #020d14 100%);
+            linear-gradient(to bottom, #002e43 0%, transparent 18%, transparent 82%, #002e43 100%);
         }
 
         :root[data-theme="light"] .vis-container,
@@ -206,7 +206,7 @@ const Vision = ({ lines = [], subtext, image }) => {
           .vis-line { flex-wrap: wrap; gap: 0.2em; }
           .vis-mask-layer {
             background:
-              linear-gradient(to bottom, #020d14 0%, transparent 20%, transparent 80%, #020d14 100%);
+              linear-gradient(to bottom, #002e43 0%, transparent 20%, transparent 80%, #002e43 100%);
           }
           :root[data-theme="light"] .vis-mask-layer {
             background:

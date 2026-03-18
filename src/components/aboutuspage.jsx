@@ -9,102 +9,11 @@ const TIMELINE_EVENTS = [
 ];
 
 const STATS = [
-    { value: '15+', title: 'Years of Experience', desc: 'International Business Development Experience', style: 'lines' },
-    { value: '900+', title: 'Global Network', desc: 'Across Europe, Africa, Asia, America & the Middle East', style: 'image', bgImage: '/b2b_img.jpg' },
-    { value: '350+', title: 'Strategic Programs', desc: 'Connecting Buyers & Suppliers Across Markets', style: 'clean' },
-    { value: '50K+', title: 'B2B Meetings', desc: 'Curated Meetings Organized Worldwide', style: 'geo' },
+    { value: null, label: null, title: '+15 Years of Experience', desc: 'International Business Development Experience', style: 'lines' },
+    { value: null, label: null, title: 'Global Network', desc: 'Across Europe, Africa, Asia, America & the Middle East', style: 'clean' },
+    { value: null, label: null, title: 'B2B Meetings', desc: 'Curated Meetings Organized Worldwide', style: 'image', bgImage: '/14.jpeg' },
+    { value: null, label: null, title: 'Strategic Programs', desc: 'Connecting Buyers & Suppliers Across Markets', style: 'geo' },
 ];
-
-const Timeline = () => {
-    const [active, setActive] = useState(null);
-    const [reached, setReached] = useState(-1);
-    const outerRef = useRef(null);
-
-    const { scrollYProgress } = useScroll({
-        target: outerRef,
-        offset: ['start start', 'end end'],
-    });
-
-    const lineWidth = useTransform(scrollYProgress, [0.01, 0.99], ['0%', '100%']);
-
-    useEffect(() => {
-        return scrollYProgress.on('change', (v) => {
-            if (v < 0.01) {
-                setActive(null);
-                setReached(-1);
-                return;
-            }
-            const ratio = Math.min((v - 0.01) / 0.98, 1);
-            const i = Math.min(
-                Math.floor(ratio * TIMELINE_EVENTS.length),
-                TIMELINE_EVENTS.length - 1
-            );
-            setActive(i);
-            setReached(prev => Math.max(prev, i));
-        });
-    }, [scrollYProgress]);
-
-    const isUnlocked = (i) => i <= reached + 1;
-
-    return (
-        <div className="tl-outer" ref={outerRef}>
-            <div className="tl-sticky">
-                <div className="tl-inner">
-                    <div className="tl-track">
-                        <div className="tl-line-bg" />
-                        <motion.div className="tl-line-fill" style={{ width: lineWidth }} />
-                        {TIMELINE_EVENTS.map((ev, i) => (
-                            <button
-                                key={i}
-                                className={`tl-node ${active === i ? 'tl-node--active' : ''} ${i <= reached ? 'tl-node--past' : ''} ${!isUnlocked(i) ? 'tl-node--locked' : ''}`}
-                                onClick={() => {
-                                    if (!isUnlocked(i)) return;
-                                    setActive(i);
-                                    setReached(prev => Math.max(prev, i));
-                                }}
-                                disabled={!isUnlocked(i)}
-                            >
-                                {active === i && <div className="tl-dot-glow" />}
-                                <div className="tl-dot">
-                                    {!isUnlocked(i) ? <div className="tl-dot-lock" /> : <div className="tl-dot-inner" />}
-                                </div>
-                                <span className="tl-year">{isUnlocked(i) ? ev.year : '—'}</span>
-                                <span className="tl-label">{isUnlocked(i) ? ev.label : '...'}</span>
-                            </button>
-                        ))}
-                    </div>
-
-                    <div className="tl-content-area">
-                        <AnimatePresence mode="wait">
-                            {active === null ? (
-                                <motion.div key="hint" className="tl-hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                                    <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }} style={{ fontSize: '1.6rem' }}>↓</motion.div>
-                                    <span>Scroll to explore our story</span>
-                                </motion.div>
-                            ) : (
-                                <motion.div
-                                    key={active}
-                                    className="tl-panel"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -12 }}
-                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                                >
-                                    <div className="tl-panel-inner">
-                                        <span className="tl-panel-eyebrow">{String(active + 1).padStart(2, '0')} / {String(TIMELINE_EVENTS.length).padStart(2, '0')}</span>
-                                        <h4 className="tl-panel-year-big">{TIMELINE_EVENTS[active].year}</h4>
-                                        <h3 className="tl-panel-title">{TIMELINE_EVENTS[active].label}</h3>
-                                        <p className="tl-panel-desc">{TIMELINE_EVENTS[active].description}</p>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
 
 const CONTINENT_MARKERS = [
     { name: 'Americas', cx: 0.155, cy: 0.42 },
@@ -261,6 +170,78 @@ const WorldMap = () => {
     );
 };
 
+const Timeline = () => {
+    const [active, setActive] = useState(null);
+    const [reached, setReached] = useState(-1);
+    const outerRef = useRef(null);
+
+    const { scrollYProgress } = useScroll({
+        target: outerRef,
+        offset: ['start start', 'end end'],
+    });
+
+    const lineWidth = useTransform(scrollYProgress, [0.01, 0.99], ['0%', '100%']);
+
+    useEffect(() => {
+        return scrollYProgress.on('change', (v) => {
+            if (v < 0.01) { setActive(null); setReached(-1); return; }
+            const ratio = Math.min((v - 0.01) / 0.98, 1);
+            const i = Math.min(Math.floor(ratio * TIMELINE_EVENTS.length), TIMELINE_EVENTS.length - 1);
+            setActive(i);
+            setReached(prev => Math.max(prev, i));
+        });
+    }, [scrollYProgress]);
+
+    const isUnlocked = (i) => i <= reached + 1;
+
+    return (
+        <div className="tl-outer" ref={outerRef}>
+            <div className="tl-sticky">
+                <div className="tl-inner">
+                    <div className="tl-track">
+                        <div className="tl-line-bg" />
+                        <motion.div className="tl-line-fill" style={{ width: lineWidth }} />
+                        {TIMELINE_EVENTS.map((ev, i) => (
+                            <button
+                                key={i}
+                                className={`tl-node ${active === i ? 'tl-node--active' : ''} ${i <= reached ? 'tl-node--past' : ''} ${!isUnlocked(i) ? 'tl-node--locked' : ''}`}
+                                onClick={() => { if (!isUnlocked(i)) return; setActive(i); setReached(prev => Math.max(prev, i)); }}
+                                disabled={!isUnlocked(i)}
+                            >
+                                {active === i && <div className="tl-dot-glow" />}
+                                <div className="tl-dot">
+                                    {!isUnlocked(i) ? <div className="tl-dot-lock" /> : <div className="tl-dot-inner" />}
+                                </div>
+                                <span className="tl-year">{isUnlocked(i) ? ev.year : '—'}</span>
+                                <span className="tl-label">{isUnlocked(i) ? ev.label : '...'}</span>
+                            </button>
+                        ))}
+                    </div>
+                    <div className="tl-content-area">
+                        <AnimatePresence mode="wait">
+                            {active === null ? (
+                                <motion.div key="hint" className="tl-hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                                    <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }} style={{ fontSize: '1.6rem' }}>↓</motion.div>
+                                    <span>Scroll to explore our story</span>
+                                </motion.div>
+                            ) : (
+                                <motion.div key={active} className="tl-panel" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
+                                    <div className="tl-panel-inner">
+                                        <span className="tl-panel-eyebrow">{String(active + 1).padStart(2, '0')} / {String(TIMELINE_EVENTS.length).padStart(2, '0')}</span>
+                                        <h4 className="tl-panel-year-big">{TIMELINE_EVENTS[active].year}</h4>
+                                        <h3 className="tl-panel-title">{TIMELINE_EVENTS[active].label}</h3>
+                                        <p className="tl-panel-desc">{TIMELINE_EVENTS[active].description}</p>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const GlanceSection = () => (
     <>
         <div className="glance-wrap">
@@ -270,7 +251,15 @@ const GlanceSection = () => (
             </motion.div>
             <div className="glance-grid">
                 {STATS.map((s, i) => (
-                    <motion.div key={i} className={`glance-card glance-card--${s.style}`} style={s.style === 'image' ? { '--card-bg': `url(${s.bgImage})` } : {}} initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}>
+                    <motion.div
+                        key={i}
+                        className={`glance-card glance-card--${s.style}`}
+                        style={s.style === 'image' ? { '--card-bg': `url(${s.bgImage})` } : {}}
+                        initial={{ opacity: 0, y: 28 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    >
                         {s.style === 'lines' && <div className="glance-lines-bg">{[...Array(8)].map((_, li) => <span key={li} className="glance-line" style={{ '--li': li }} />)}</div>}
                         {s.style === 'image' && <div className="glance-img-overlay" />}
                         {s.style === 'geo' && (
@@ -287,7 +276,12 @@ const GlanceSection = () => (
                         )}
                         <div className="glance-card-content">
                             <div className="glance-top">
-                                <span className="glance-value">{s.value}</span>
+                                {s.value && (
+                                    <div className="glance-stat-row">
+                                        <span className="glance-value">{s.value}</span>
+                                        {s.label && <span className="glance-value-label">{s.label}</span>}
+                                    </div>
+                                )}
                                 <span className="glance-card-title">{s.title}</span>
                                 <p className="glance-desc">{s.desc}</p>
                             </div>
@@ -304,8 +298,8 @@ const GlanceSection = () => (
         <style>{`
             .glance-wrap { position: relative; z-index: 2; max-width: 1240px; margin: clamp(4rem,8vw,7rem) auto 0; display: flex; flex-direction: column; gap: 2.5rem; }
             .glance-header { display: flex; flex-direction: column; gap: 0.3rem; }
-            .glance-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-third); opacity: 0.4; margin: 0; font-family: 'Montserrat', sans-serif; }
-            .glance-title { font-size: clamp(1.8rem,3.5vw,2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--color-third); margin: 0; font-family: 'Montserrat', sans-serif; }
+            .glance-value { font-size: clamp(2.2rem,3.5vw,2rem); font-weight: 800; letter-spacing: -0.04em; color: #ffffff; line-height: 1; font-family: 'Montserrat', sans-serif; }
+            .glance-card-title { font-size: clamp(2.2rem,3.5vw,2rem); font-weight: 800; letter-spacing: -0.04em; color: #ffffff; line-height: 1; font-family: 'Montserrat', sans-serif; }
             .glance-accent { color: var(--color-one,#00CEC1); }
             .glance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
             .glance-card { background: #07283d; border-radius: 18px; min-height: 280px; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: default; }
@@ -321,8 +315,9 @@ const GlanceSection = () => (
             .glance-geo-svg { position: absolute; bottom: -10px; right: -10px; width: 75%; height: auto; }
             .glance-card-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; flex: 1; padding: 2.2rem 1.75rem 1.6rem; }
             .glance-top { display: flex; flex-direction: column; gap: 0.5rem; }
-            .glance-value { font-size: clamp(2.2rem,3.5vw,3rem); font-weight: 800; letter-spacing: -0.04em; color: #ffffff; line-height: 1; font-family: 'Montserrat', sans-serif; }
-            .glance-card-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); font-family: 'Montserrat', sans-serif; }
+            .glance-stat-row { display: flex; align-items: baseline; gap: 0.5rem; }
+            ..glance-value { font-size: 1rem; font-weight: 800; letter-spacing: 0.04em; color: #0073a9; line-height: 1; font-family: 'Montserrat', sans-serif; }
+             .glance-value-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(#00CEC1); opacity: 0.6; font-family: 'Montserrat', sans-serif; }
             .glance-desc { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); line-height: 1.6; margin: 0.3rem 0 0; max-width: 160px; font-family: 'Montserrat', sans-serif; }
             .glance-bottom { display: flex; align-items: center; margin-top: 1.5rem; }
             .glance-arrow { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.65); transition: all 0.25s ease; flex-shrink: 0; }
@@ -334,10 +329,10 @@ const GlanceSection = () => (
 );
 
 const blocks = [
-    { id: 'B1', side: 'left',  tag: 'Block 1 — Core Statement',     title: 'Building the Next Generation of Growth Platforms', short: 'Wink is building the next generation of international growth platforms connecting high-growth markets through strategic trade and investment ecosystems.', full: null, image: '/2.png' },
-    { id: 'B2', side: 'right', tag: 'Block 2 — Programs & Approach', title: 'Structured Programs. Measurable Impact.',           short: 'We design and operate structured international programs that bring together institutions, companies, investors, and decision-makers — transforming cross-border ambition into measurable economic impact.', full: 'From multi-market trade acceleration initiatives and curated business forums to capital connection programs powered by smart technology, Wink goes beyond traditional matchmaking to architect scalable pathways for market expansion and long-term growth.', image: '/3.png' },
-    { id: 'B3', side: 'left',  tag: 'Block 3 — Differentiation',     title: 'Precision. Networks. Intelligence.',               short: 'What differentiates Wink is our ability to combine curated networks, disciplined execution, and technology-driven intelligence to structure international opportunities with precision and purpose.', full: null, image: '/4.png' },
-    { id: 'B4', side: 'right', tag: 'Block 4 — Global Footprint',     title: 'Trusted Global Operator',                         short: 'With active operations across the Middle East, Africa, Europe, and other dynamic regions, Wink is evolving into a trusted global operator shaping how markets connect, collaborate, and grow.', full: null, image: '/5.png' },
+    { id: 'B1', side: 'left',  tag: ' Core Statement',     title: 'Building the Next Generation of Growth Platforms', short: 'Wink is building the next generation of international growth platforms connecting high-growth markets through strategic trade and investment ecosystems.', full: null, image: '/2.png' },
+    { id: 'B2', side: 'right', tag: ' Programs & Approach', title: 'Structured Programs. Measurable Impact.',           short: 'We design and operate structured international programs that bring together institutions, companies, investors, and decision-makers — transforming cross-border ambition into measurable economic impact.', full: 'From multi-market trade acceleration initiatives and curated business forums to capital connection programs powered by smart technology, Wink goes beyond traditional matchmaking to architect scalable pathways for market expansion and long-term growth.', image: '/3.png' },
+    { id: 'B3', side: 'left',  tag: ' Differentiation',     title: 'Precision. Networks. Intelligence.',               short: 'What differentiates Wink is our ability to combine curated networks, disciplined execution, and technology-driven intelligence to structure international opportunities with precision and purpose.', full: null, image: '/4.png' },
+    { id: 'B4', side: 'right', tag: ' Global Footprint',     title: 'Trusted Global Operator',                         short: 'With active operations across the Middle East, Africa, Europe, and other dynamic regions, Wink is evolving into a trusted global operator shaping how markets connect, collaborate, and grow.', full: null, image: '/5.png' },
 ];
 
 const AboutBlock = ({ block }) => {
@@ -408,7 +403,6 @@ const HeroSection = () => (
             .hero-eyebrow__text { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.38em; color: var(--color-one,#00cec1); opacity: 0.7; }
             .hero-headline { font-size: clamp(2.2rem,5.5vw,4.8rem); font-weight: 900; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-third); text-transform: uppercase; margin: 0 0 1.4rem; }
             .hero-headline em { font-style: normal; color: var(--color-one,#00cec1); position: relative; display: inline-block; }
-            .hero-headline em::after { content: ''; position: absolute; bottom: 0.05em; left: 0; right: 0; height: 3px; background: linear-gradient(90deg,var(--color-one,#00cec1),transparent); border-radius: 2px; }
             .hero-subline { font-size: clamp(0.85rem,1.1vw,1rem); color: var(--color-third); opacity: 0.6; line-height: 1.8; max-width: 440px; margin: 0 0 2.4rem; }
             .hero-cta-row { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
             .hero-cta__primary { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 2.2rem; background: var(--color-one,#00cec1); color: rgba(4,18,28,1); font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.18em; border-radius: 6px; border: none; cursor: pointer; transition: all 0.25s; text-decoration: none; }
@@ -467,92 +461,46 @@ const AboutUsSection = () => {
                 .abt-bg__b { position: absolute; border-radius: 50%; filter: blur(100px); width: 50vw; height: 50vw; bottom: 0; right: -5%; background: radial-gradient(circle, rgba(0,63,92,0.2) 0%, transparent 70%); }
                 .abt-bg__dots { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(0,206,193,0.045) 1px, transparent 1px); background-size: 38px 38px; }
 
-                .abt-header-block {
-                    position: relative;
-                    z-index: 2;
-                    max-width: 1240px;
-                    margin: 0 auto;
-                    padding: clamp(4rem,7vw,7rem) clamp(1.5rem,7vw,8rem) clamp(3rem,5vw,4rem);
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1.2rem;
-                }
-
+                .abt-header-block { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; padding: clamp(4rem,7vw,7rem) clamp(1.5rem,7vw,8rem) clamp(3rem,5vw,4rem); display: flex; flex-direction: column; gap: 1.2rem; }
                 .abt-header__eye { display: block; font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.38em; color: var(--color-third); opacity: 0.5; }
                 .abt-header__h { font-size: clamp(3rem,7vw,6.5rem); font-weight: 900; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-third); text-transform: uppercase; margin: 0; }
                 .abt-header__h em { color: var(--color-third); font-style: normal; }
 
-                .tl-outer {
-                    position: relative;
-                    height: ${(TIMELINE_EVENTS.length + 1) * 100}vh;
-                    width: 100%;
-                    z-index: 2;
-                }
-
-                .tl-sticky {
-                    position: sticky;
-                    top: 0;
-                    height: 100vh;
-                    width: 100%;
-                    background: var(--color-two, #020d14);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 2;
-                }
-
-                .tl-inner {
-                    width: 100%;
-                    max-width: 1240px;
-                    padding: 0 clamp(1.5rem,7vw,8rem);
-                    display: flex;
-                    flex-direction: column;
-                    gap: 2.5rem;
-                }
-
+                .tl-outer { position: relative; height: ${(TIMELINE_EVENTS.length + 1) * 100}vh; width: 100%; z-index: 2; }
+                .tl-sticky { position: sticky; top: 0; height: 100vh; width: 100%; background: var(--color-two, #020d14); display: flex; align-items: center; justify-content: center; z-index: 2; }
+                .tl-inner { width: 100%; max-width: 1240px; padding: 0 clamp(1.5rem,7vw,8rem); display: flex; flex-direction: column; gap: 2.5rem; }
                 .tl-track { position: relative; display: flex; align-items: flex-start; justify-content: space-between; padding: 2rem 0 0; flex-shrink: 0; }
                 .tl-line-bg { position: absolute; top: 2.72rem; left: 0; right: 0; height: 1px; background: rgba(0,206,193,0.1); }
                 .tl-line-fill { position: absolute; top: 2.72rem; left: 0; height: 1px; background: linear-gradient(90deg, var(--color-one,#00CEC1), rgba(0,206,193,0.35)); }
-
                 .tl-node { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.55rem; flex: 1; background: none; border: none; cursor: pointer; padding: 0; transition: all 0.35s ease; }
                 .tl-node--locked { opacity: 0.18; filter: blur(0.6px); cursor: default; }
-
                 .tl-dot-glow { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle, rgba(0,206,193,0.28) 0%, rgba(0,206,193,0.06) 55%, transparent 72%); pointer-events: none; z-index: 0; animation: tlGlow 2.2s ease-in-out infinite; }
                 @keyframes tlGlow { 0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.65; } 50% { transform: translateX(-50%) scale(1.3); opacity: 1; } }
-
                 .tl-dot { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid rgba(0,206,193,0.2); display: flex; align-items: center; justify-content: center; background: var(--color-two,#020d14); transition: all 0.4s ease; position: relative; z-index: 1; }
                 .tl-dot-inner { width: 7px; height: 7px; border-radius: 50%; background: rgba(0,206,193,0.35); transition: all 0.35s ease; }
                 .tl-dot-lock { width: 5px; height: 5px; border-radius: 1px; background: rgba(0,206,193,0.15); }
-
                 .tl-node--active .tl-dot { border-color: var(--color-one,#00CEC1); box-shadow: 0 0 0 5px rgba(0,206,193,0.12), 0 0 22px rgba(0,206,193,0.35); }
                 .tl-node--active .tl-dot-inner { background: var(--color-one,#00CEC1); box-shadow: 0 0 12px rgba(0,206,193,0.85); width: 10px; height: 10px; }
                 .tl-node--past .tl-dot { border-color: rgba(0,206,193,0.45); }
                 .tl-node--past .tl-dot-inner { background: rgba(0,206,193,0.55); }
-
                 .tl-year { font-size: 0.75rem; font-weight: 900; letter-spacing: 0.06em; color: var(--color-third); opacity: 0.28; transition: all 0.35s ease; font-family: 'Montserrat', sans-serif; }
                 .tl-node--active .tl-year { color: var(--color-one,#00CEC1); opacity: 1; }
                 .tl-node--past .tl-year { opacity: 0.55; }
-
                 .tl-label { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-third); opacity: 0.18; text-align: center; max-width: 85px; line-height: 1.4; transition: all 0.35s ease; font-family: 'Montserrat', sans-serif; }
                 .tl-node--active .tl-label { opacity: 0.9; }
                 .tl-node--past .tl-label { opacity: 0.4; }
-
                 .tl-content-area { min-height: 280px; display: flex; flex-direction: column; justify-content: center; }
-
                 .tl-hint { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; color: var(--color-third); opacity: 0.3; font-family: 'Montserrat', sans-serif; padding: 2rem 0; }
                 .tl-hint span:last-child { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; }
-
                 .tl-panel { border-top: 1px solid rgba(0,206,193,0.1); }
                 .tl-panel-inner { background: rgba(0,206,193,0.025); border: 1px solid rgba(0,206,193,0.07); border-top: 2px solid var(--color-one,#00CEC1); border-radius: 0 0 12px 12px; padding: 2.5rem 2.8rem; display: flex; flex-direction: column; gap: 1rem; position: relative; overflow: hidden; }
                 .tl-panel-inner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 40% at 6% 12%, rgba(0,206,193,0.08) 0%, transparent 58%); pointer-events: none; }
-
                 .tl-panel-eyebrow { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-one,#00CEC1); opacity: 0.65; font-family: 'Montserrat', sans-serif; position: relative; z-index: 1; }
                 .tl-panel-year-big { font-size: clamp(3rem,6vw,5.5rem); font-weight: 900; letter-spacing: -0.04em; color: var(--color-third); line-height: 0.88; margin: 0; opacity: 0.1; font-family: 'Montserrat', sans-serif; }
                 .tl-panel-title { font-size: clamp(1.3rem,2.5vw,2rem); font-weight: 900; color: var(--color-third); margin: 0; letter-spacing: -0.025em; text-transform: uppercase; line-height: 1.1; font-family: 'Montserrat', sans-serif; position: relative; z-index: 1; }
                 .tl-panel-desc { font-size: clamp(0.88rem,1.2vw,1rem); color: var(--color-third); opacity: 0.58; line-height: 1.9; margin: 0; max-width: 700px; font-family: 'Montserrat', sans-serif; position: relative; z-index: 1; }
 
                 .abt-content-block { position: relative; z-index: 2; padding: clamp(4rem,7vw,7rem) clamp(1.5rem,7vw,8rem) clamp(6rem,11vw,11rem); }
-
                 .abt-rows { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(3rem,6vw,5rem); }
                 .abt-row { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 340px; border-radius: 12px; overflow: hidden; }
                 .abt-row[data-side="left"] .abt-row__visual { order: 1; }

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useScroll } from 'framer-motion';
 import Header from '../components/Header.jsx';
 import Footer from '../components/footer.jsx';
-import PackagesLayout from '../components/PackagesLayout.jsx';
-import CallToAction from '../components/CallToAction.jsx';
+import RegisterForm from '../components/RegisterForm.jsx';
 
-const PackagesPage = ({ activeSection = '' }) => {
+const RegisterLayout = ({ activeSection = '' }) => {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('theme') || 'dark';
@@ -28,18 +27,10 @@ const PackagesPage = ({ activeSection = '' }) => {
         theme={theme}
         setTheme={setTheme}
       />
-      <PackagesLayout />
-      <CallToAction
-        image="/9.png"
-        headline="Explore the Right Program for Your Growth Stage"
-        subheadline="From market testing to multi-country expansion, Wink structures your international journey."
-        ctaLabel=" Explore Programs"
-        href="/Packages"
-
-      />
+      <RegisterForm />
       <Footer />
     </>
   );
 };
 
-export default PackagesPage;
+export default RegisterLayout;

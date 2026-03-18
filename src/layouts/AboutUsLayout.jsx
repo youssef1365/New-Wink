@@ -3,6 +3,8 @@ import { useScroll } from 'framer-motion';
 import Header from '../components/Header.jsx';
 import Footer from '../components/footer.jsx';
 import AboutUsSection from '../components/aboutuspage.jsx';
+import CallToAction from '../components/CallToAction.jsx';
+
 
 const AboutLayout = ({ activeSection = '' }) => {
   const [theme, setTheme] = useState(() => {
@@ -28,6 +30,13 @@ const AboutLayout = ({ activeSection = '' }) => {
         setTheme={setTheme}
       />
       <AboutUsSection />
+      <CallToAction
+              image="/7.png"
+              headline="Let’s Architect </br>Your  Next Growth Initiative"
+              subheadline="Join a global network of decision-makers shaping the future of international business."
+              ctaLabel="Start the Conversation"
+              href="/Register"
+            />
       <Footer />
     </>
   );

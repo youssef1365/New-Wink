@@ -10,6 +10,8 @@ import StatsTransition from "./statstransition.jsx";
 import Events from "./events.jsx";
 import Footer from "./footer.jsx";
 import FinalCTA from "./LastSec.jsx";
+import CallToAction from '../components/CallToAction.jsx';
+
 
 
 export default function ScrollController() {
@@ -159,7 +161,15 @@ export default function ScrollController() {
       <div id="cta" data-section-id="cta" ref={reg("cta")}>
         <FinalCTA isActive={activeSection === "cta"} />
       </div>
+      <div>
+        <CallToAction
+          image="/8.png"
+          headline="Growth Doesn’t Happen by Chance. It’s Designed."
+          subheadline="Partner with Wink to build structured international opportunity ecosystems."
+          ctaLabel="Talk to an Expert Now"
 
+        />
+      </div>
       <Footer />
     </>
   );

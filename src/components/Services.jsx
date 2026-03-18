@@ -131,7 +131,7 @@ const Modal = ({ item, onClose }) => (
         >
             <button className="ep-modal-close" onClick={onClose}>✕</button>
             <div className="ep-modal-icon">{item.icon}</div>
-            <span className="ep-modal-badge">{item.id} — {item.label}</span>
+            <span className="ep-modal-badge">{item.label}</span>
             <h2 className="ep-modal-title">{item.title}</h2>
             <div className="ep-modal-rule" />
             <p className="ep-modal-desc">{item.description}</p>
@@ -162,7 +162,7 @@ export default function ExpertisePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
-                <span className="ep-eyebrow">Our Expertises</span>
+                <span className="ep-eyebrow">Our Expertise</span>
                 <h1 className="ep-headline">What We <em>Deliver</em></h1>
             </motion.div>
 
@@ -192,7 +192,7 @@ export default function ExpertisePage() {
 
             <style>{`
         :root {
-          --ep-bg: #020d14;
+          --ep-bg: #002e43;
           --ep-modal-bg: #071520;
           --ep-text: #ffffff;
           --ep-text-muted: rgba(255,255,255,0.35);
@@ -288,10 +288,10 @@ export default function ExpertisePage() {
           flex-shrink: 0;
         }
         .ep-pill:hover {
-          border-color: rgba(0,206,193,0.45);
-          background: rgba(0,206,193,0.07);
+          border-color: rgba(0,206,193,0.7);
+          background: rgba(0,206,193,0.45);
           transform: translateY(-6px);
-          box-shadow: 0 24px 60px rgba(0,206,193,0.12);
+          box-shadow: 0 0 60px rgba(0,206,193,0.6), 0 24px 60px rgba(0,206,193,0.3);
         }
 
         .ep-pill-icon {
@@ -335,7 +335,7 @@ export default function ExpertisePage() {
           padding: 2rem;
         }
         .ep-modal {
-          background: var(--ep-modal-bg);
+          background: #002e43;
           border: 1px solid rgba(0,206,193,0.18);
           border-radius: 24px;
           padding: 3rem 3.5rem;

@@ -10,13 +10,16 @@ const FinalCTA = () => {
   });
 
   const sectionOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1.15, 1.05]);
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
-  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
+    const bgScale = useTransform(scrollYProgress, [0, 1], [1.15, 1.05]);
+    const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
+    const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
+    const headlineY = useTransform(scrollYProgress, [0, 1], ['0%', '-12%']);
+    const subtextY = useTransform(scrollYProgress, [0, 1], ['0%', '-18%']);
 
-  const smoothBgY = useSpring(bgY, { stiffness: 50, damping: 20 });
-  const smoothContentY = useSpring(contentY, { stiffness: 60, damping: 25 });
-
+    const smoothBgY = useSpring(bgY, { stiffness: 50, damping: 20 });
+    const smoothContentY = useSpring(contentY, { stiffness: 60, damping: 25 });
+    const smoothHeadlineY = useSpring(headlineY, { stiffness: 55, damping: 22 });
+    const smoothSubtextY = useSpring(subtextY, { stiffness: 45, damping: 18 });
   const openContactModal = () => {
     window.dispatchEvent(new Event('openContactModal'));
   };
@@ -42,16 +45,6 @@ const FinalCTA = () => {
             y: smoothContentY,
           }}
         >
-          <motion.p
-            className="finalcta-eyebrow"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            Final Section
-          </motion.p>
-
           <motion.h2
             className="finalcta-headline"
             initial={{ opacity: 0, y: 28 }}
@@ -97,7 +90,7 @@ const FinalCTA = () => {
         .finalcta-container {
           position: relative;
           height: 400vh;
-          background-color: #020d14;
+          background-color: #002e43;
           width: 100%;
         }
 
@@ -111,7 +104,7 @@ const FinalCTA = () => {
           align-items: center;
           justify-content: center;
           isolation: isolate;
-          background-color: #020d14;
+          background-color: #002e43;
         }
 
         .finalcta-bg {
@@ -128,7 +121,7 @@ const FinalCTA = () => {
           inset: -1px;
           z-index: 1;
           background:
-            linear-gradient(to bottom, #020d14 0%, transparent 18%, transparent 82%, #020d14 100%);
+            linear-gradient(to bottom, #002e43 0%, transparent 18%, transparent 82%, #002e43 100%);
         }
 
         :root[data-theme="light"] .finalcta-container,
@@ -148,29 +141,21 @@ const FinalCTA = () => {
           flex-direction: column;
           align-items: center;
           text-align: center;
-          padding: 0 6vw;
+          padding: 1 6vw;
           width: 100%;
-          max-width: 700px;
-        }
-
-        .finalcta-eyebrow {
-          font-size: 0.62rem;
-          font-weight: 700;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-          color: var(--color-primary);
-          margin: 0 0 1.2rem 0;
+          max-width: 1000px;
         }
 
         .finalcta-headline {
-          font-size: clamp(1.9rem, 3.5vw, 3rem);
+          font-size: clamp(2.8rem, 6vw, 5.5rem);
           font-weight: 900;
-          line-height: 1.1;
+          line-height: 1.05;
           letter-spacing: -0.025em;
           text-transform: uppercase;
           color: white;
           text-shadow: 0 4px 32px rgba(0,0,0,0.5);
           margin: 0 0 1.4rem 0;
+          white-space: normal;
         }
 
         .finalcta-accent {
@@ -178,7 +163,7 @@ const FinalCTA = () => {
         }
 
         .finalcta-subheadline {
-          font-size: clamp(0.82rem, 1.1vw, 0.95rem);
+          font-size: clamp(1rem, 1.4vw, 1.2rem);
           font-weight: 400;
           line-height: 1.75;
           color: rgba(255, 255, 255, 0.7);
@@ -191,7 +176,7 @@ const FinalCTA = () => {
           align-items: center;
           gap: 0.65rem;
           background: white;
-          color: #020d14;
+          color: #002e43;
           border: none;
           padding: 1rem 2.4rem;
           font-size: 0.68rem;
@@ -210,7 +195,7 @@ const FinalCTA = () => {
         .finalcta-bg {
           position: absolute;
           inset: -15% 0;
-          background-image: url('/b2b-img.png');
+          background-image: url('/img.png');
           background-size: cover;
           background-position: center;
           z-index: 0;
@@ -221,7 +206,7 @@ const FinalCTA = () => {
           content: '';
           position: absolute;
           inset: 0;
-          background: var(--color-primary);
+          background: var( --color-third);
           transform: translateX(-105%);
           transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
           z-index: 0;
@@ -254,7 +239,7 @@ const FinalCTA = () => {
           .finalcta-container { height: 180vh; }
           .finalcta-mask-layer {
             background:
-              linear-gradient(to bottom, #020d14 0%, transparent 20%, transparent 80%, #020d14 100%);
+              linear-gradient(to bottom, #002e43 0%, transparent 20%, transparent 80%, #002e43 100%);
           }
           :root[data-theme="light"] .finalcta-mask-layer {
             background:

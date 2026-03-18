@@ -1,173 +1,235 @@
 import { motion } from 'framer-motion';
 
 const CallToAction = ({
-  image = '/your-image.jpg', // ← swappable per page
-  headline = "Design Your International Program",
+  image       = '/your-image.jpg',
+  headline    = 'Design Your International Program',
   subheadline = "Let's explore how Wink can support your next growth initiative.",
-  ctaLabel = "Start a Conversation",
-  onCtaClick = null,
+  ctaLabel    = 'Start a Conversation',
+  logoLetter  = 'W',
+  accentColor = '#00CEC1',
+  bgDark      = '#0b2a35',
+  btnVariant  = 'outline',
+  href        = null,
+  onCtaClick  = null,
 }) => {
 
   const handleCta = () => {
-    if (onCtaClick) {
-      onCtaClick();
-    } else {
-      window.dispatchEvent(new Event('openContactModal'));
-    }
+    if (onCtaClick) return onCtaClick();
+    if (href) return (window.location.href = href);
+    window.dispatchEvent(new Event('openContactModal'));
   };
 
   return (
     <>
-      <section className="cta-banner-section">
-        <div className="cta-banner-bg" style={{ backgroundImage: `url(${image})` }} />
-        <div className="cta-banner-overlay" />
+      <section className="ctab-section">
 
-        <div className="cta-banner-content">
+        <div className="ctab-bg" style={{ backgroundImage: `url(${image})` }} aria-hidden="true" />
+
+        <div className="ctab-overlay" aria-hidden="true" />
+
+        <div className="ctab-w-wrap" aria-hidden="true">
+          <span className="ctab-w-scaler">
+            <span
+              className="ctab-w-letter"
+              style={{ backgroundImage: `url(${image})` }}
+            >
+              {logoLetter}
+            </span>
+          </span>
+        </div>
+
+        <div className="ctab-content">
           <motion.h2
-            className="cta-banner-headline"
+            className="ctab-headline"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {headline}
-          </motion.h2>
+            dangerouslySetInnerHTML={{ __html: headline }}
+          />
 
           <motion.p
-            className="cta-banner-sub"
+            className="ctab-sub"
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+            transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
           >
             {subheadline}
           </motion.p>
 
           <motion.button
-            className="cta-banner-btn"
+            className={`ctab-btn${btnVariant === 'filled' ? ' ctab-btn--filled' : ''}`}
             onClick={handleCta}
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.28, ease: "easeOut" }}
+            transition={{ duration: 0.6, delay: 0.28, ease: 'easeOut' }}
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.97 }}
           >
             <span>{ctaLabel}</span>
-            <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-              <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+              <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </motion.button>
         </div>
+
       </section>
 
       <style>{`
-        .cta-banner-section {
+        .ctab-section {
           position: relative;
-          width: 100%;
-          height: clamp(220px, 35vw, 380px);
+          width: 85%;
+          height: clamp(120px, 17vw, 260px);
+          border-radius: 18px;
+          overflow: hidden;
           display: flex;
           align-items: center;
-          overflow: hidden;
+          background-color: ${bgDark};
+          box-sizing: border-box;
+          margin: 4rem auto 4rem;
         }
 
-        .cta-banner-bg {
+        .ctab-bg {
           position: absolute;
           inset: 0;
           background-size: cover;
           background-position: center;
-          transform: scale(1.04);
-          transition: transform 8s ease;
+          filter: blur(4px);
+          transform: scale(1.12);
           z-index: 0;
         }
 
-        .cta-banner-section:hover .cta-banner-bg {
-          transform: scale(1.08);
-        }
-
-        .cta-banner-overlay {
+        .ctab-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(
-            105deg,
-            rgba(0,0,0,0.78) 0%,
-            rgba(0,0,0,0.55) 50%,
-            rgba(0,0,0,0.2) 100%
-          );
           z-index: 1;
+          background: ${bgDark}cc;
         }
 
-        .cta-banner-content {
-          position: relative;
+        .ctab-w-wrap {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: -23%;
+          width: 75%;
           z-index: 2;
-          padding: 0 clamp(2rem, 8vw, 7rem);
+          pointer-events: none;
+          container-type: size;
+          overflow: visible;
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
+        }
+
+        .ctab-w-scaler {
+          display: block;
+          transform: scaleX(1.9);
+          transform-origin: right center;
+          line-height: 1;
+        }
+
+        .ctab-w-letter {
+          overflow: visible;
+          display: block;
+          font-family: 'Bebas Neue', sans-serif;
+          font-weight: 800;
+          font-size: 150cqh;
+          line-height: 1;
+          letter-spacing: 0em;
+          color: transparent;
+          background-size: cover;
+          background-position: center;
+          -webkit-background-clip: text;
+          background-clip: text;
+          white-space: nowrap;
+          margin-top: -0.23em;
+          user-select: none;
+          background-size: 100% 100%;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .ctab-content {
+          position: relative;
+          z-index: 3;
           display: flex;
           flex-direction: column;
-          gap: 0;
-          max-width: 680px;
+          align-items: flex-start;
+          padding: 0 clamp(1.8rem, 5vw, 3.5rem);
+          max-width: 65%;
         }
 
-        .cta-banner-headline {
-          font-size: clamp(1.6rem, 3vw, 2.6rem);
+        .ctab-headline {
+          font-size: clamp(1.3rem, 2.5vw, 4rem);
           font-weight: 900;
           line-height: 1.1;
-          letter-spacing: -0.025em;
-          color: white;
-          margin: 0 0 0.75rem 0;
-          text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+          letter-spacing: 0.04em;
+          color: #fff;
+          margin: 0 0 0.65rem;
         }
 
-        .cta-banner-sub {
-          font-size: clamp(0.8rem, 1.1vw, 0.95rem);
-          color: rgba(255,255,255,0.72);
+        .ctab-sub {
+          font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+          color: rgba(255,255,255,0.75);
           line-height: 1.65;
-          margin: 0 0 1.8rem 0;
-          max-width: 460px;
+          margin: 0 0 1.65rem;
+          max-width: 380px;
         }
 
-        .cta-banner-btn {
+        .ctab-btn {
           display: inline-flex;
           align-items: center;
           gap: 0.6rem;
-          background: white;
-          color: #020d14;
-          border: none;
-          padding: 0.85rem 2rem;
-          font-size: 0.68rem;
+          background: transparent;
+          color: #fff;
+          border: 2px solid ${accentColor};
+          padding: 0.78rem 1.8rem;
+          font-size: 0.67rem;
           font-weight: 800;
           text-transform: uppercase;
-          letter-spacing: 0.18em;
+          letter-spacing: 0.16em;
           border-radius: 100px;
           cursor: pointer;
-          width: fit-content;
           position: relative;
           overflow: hidden;
-          transition: box-shadow 0.35s ease, color 0.35s ease;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+          transition: box-shadow 0.3s ease;
         }
 
-        .cta-banner-btn::before {
+        .ctab-btn::before {
           content: '';
           position: absolute;
           inset: 0;
-          background: var(--color-primary);
+          background: ${accentColor};
           transform: translateX(-105%);
-          transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+          transition: transform 0.42s cubic-bezier(0.22,1,0.36,1);
           z-index: 0;
         }
 
-        .cta-banner-btn:hover::before { transform: translateX(0); }
-        .cta-banner-btn:hover { color: white; box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
+        .ctab-btn--filled {
+          background: ${accentColor};
+          border-color: ${accentColor};
+        }
 
-        .cta-banner-btn span,
-        .cta-banner-btn svg { position: relative; z-index: 1; }
+        .ctab-btn--filled::before {
+          background: rgba(255,255,255,0.2);
+        }
 
-        .cta-banner-btn svg { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
-        .cta-banner-btn:hover svg { transform: translateX(4px); }
+        .ctab-btn:hover::before { transform: translateX(0); }
+        .ctab-btn:hover { box-shadow: 0 6px 30px rgba(0,206,193,0.4); }
+        .ctab-btn span, .ctab-btn svg { position: relative; z-index: 1; }
+        .ctab-btn svg { transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1); }
+        .ctab-btn:hover svg { transform: translateX(3px); }
 
         @media (max-width: 768px) {
-          .cta-banner-section { height: auto; padding: 4rem 0; }
-          .cta-banner-content { padding: 0 1.75rem; }
+          .ctab-w-wrap { width: 60%; right: -8%; }
+          .ctab-content { max-width: 58%; }
+        }
+
+        @media (max-width: 480px) {
+          .ctab-w-wrap { display: none; }
+          .ctab-content { max-width: 100%; padding: 0 1.5rem; }
         }
       `}</style>
     </>

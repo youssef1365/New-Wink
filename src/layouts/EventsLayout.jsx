@@ -34,6 +34,7 @@ export default function EventsLayout() {
         headline="Join Our Next Trade Mission"
         subheadline="Be part of a curated B2B experience."
         ctaLabel="Register Now"
+        href="/Register"
       />
       <Footer />
     </>

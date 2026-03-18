@@ -8,21 +8,18 @@ const Packages = () => {
       title: "Enterprises",
       tag: "Program",
       items: ["Market Access Starter","International Growth Sprint", "Multi-Market Expansion Program","Annual International Booking","Partnership"],
-      href: "/enterprises", // ← YOUR PAGE REFERENCE
     },
     {
       id: "02",
-      title: "Government & Associations",
+      title: "Government",
       tag: "Program",
       items: ["International Hosted Buyers Program (HBP)", "Premium Structured B2B Access Programs"],
-      href: "/government-associations", // ← YOUR PAGE REFERENCE
     },
     {
       id: "03",
       title: "Event Organizers",
       tag: "Program",
       items: ["Export Trade Missions", "Trade Show Delegation Support", "Investment Promotion Tours"],
-      href: "/event-organizers", // ← YOUR PAGE REFERENCE
     }
   ];
 

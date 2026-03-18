@@ -264,8 +264,9 @@ export default function ContactModal() {
             .modal-backdrop {
               position: absolute;
               inset: 0;
-              background: var(--extra-color-third);
+              background: rgba(0, 0, 0, 0.45);
               backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
             }
 
             .modal-card {

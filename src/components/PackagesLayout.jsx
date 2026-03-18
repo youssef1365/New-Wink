@@ -23,7 +23,7 @@ const categories = [
     label: 'Government & Associations',
     subtitle: 'International Economic Promotion Programs',
     description: 'Structured trade missions, trade show delegation support and investment promotion initiatives.',
-    cta: 'View Public Sector Packages',
+    cta: 'View Institution Programs',
     href: '/Government',
     packages: [
       { title: 'Package 1 – International Hosted Buyers Program (HBP)' },
@@ -301,7 +301,7 @@ export default function ProgramsPage() {
 
         .prg-why { border-top: 1px solid rgba(209,219,220,0.08); padding: clamp(3rem, 6vw, 5rem) 4vw; max-width: 1200px; margin: 0 auto; }
         :root[data-theme="light"] .prg-why { border-top-color: rgba(0,63,92,0.1); }
-        .prg-why-label { text-align: center; margin-bottom: 2.5rem; }
+        .prg-why-label { text-align: center; margin-bottom: 2.5rem; font-size: 3rem; letter-spacing: 0.08em }
         .prg-why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; align-items: start; padding-bottom: 2rem; }
         .prg-why-card { display: flex; flex-direction: column; gap: 0.85rem; padding: 1.75rem 1.5rem; background: rgba(209,219,220,0.04); border: 1px solid rgba(209,219,220,0.08); border-radius: 10px; transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease; }
         .prg-why-card--down { margin-top: 2.5rem; }

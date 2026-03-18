@@ -10,29 +10,49 @@ const upcomingImages = {
 };
 
 const allEvents = [
-  { id: 1,  type: 'upcoming', name: 'FOODEX JAPAN 2026', location: 'Japan', date: 'March 10–13, 2026', dateSort: '2026-03-10', area: 'Asia', sector: 'Agri-food', details: "Morocco will showcase the richness and diversity of its agri-food sector at FOODEX Japan 2026, one of Asia's leading international food and beverage exhibitions. From fresh fruits and vegetables to processed snacks, aromatic herbs, premium olive and terroir oils, and seafood products, Moroccan exhibitors present solutions tailored to the needs of international markets." },
-  { id: 2,  type: 'upcoming', name: 'Moroccan Business Mission for Agri-food & Fresh Products', location: 'Jaal Hotel Marrakech', date: 'March 26, 2026', dateSort: '2026-03-26', area: 'Africa', sector: 'Agri-food', details: 'The Morocco Food & Fresh Produce Incoming Business Mission 2026, hosted in Marrakech, is an exclusive B2B initiative to strengthen international trade partnerships. It combines curated B2B matchmaking meetings, market discovery activities, and networking opportunities in a premium business setting.' },
-  { id: 3,  type: 'upcoming', name: 'International Food & Drink Event (IFE) 2026', location: 'ExCeL London, United Kingdom', date: '30 March – 01 April 2026', dateSort: '2026-03-30', area: 'Europe', sector: 'Food & Drink', details: 'IFE is the ultimate business event for food & drink product discovery, bringing together over 25,000 verified trade visitors, expert speakers, and global exhibitors from across the food & beverage industry.' },
-  { id: 4,  type: 'upcoming', name: 'Moroccan Trade Mission – Olive Oil Industry in New York', location: 'New York City', date: 'March 27, 2026', dateSort: '2026-03-27', area: 'Americas', sector: 'Olive Oil', details: 'Designed to showcase the excellence of Moroccan olive oil to the North American market, this B2B initiative connects selected Moroccan exporters with leading American importers and distributors, promoting long-term commercial partnerships.' },
-  { id: 5,  type: 'past', name: 'The Moroccan Seafood Trade Mission in Ghana', location: 'Ghana', date: 'December 9, 2025', dateSort: '2025-12-09', area: 'Africa', sector: 'Seafood', details: "A high-level B2B event connecting Moroccan seafood exporters with Ghanaian importers, distributors, and buyers. Highlights the excellence of Morocco's seafood industry — from canned fish to value-added marine products.", results: { meetings: 70, buyers: 41 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana2.jpeg'] },
-  { id: 6,  type: 'past', name: '8th China International Import Expo (CIIE 2025)', location: 'China', date: 'November 5–10, 2025', dateSort: '2025-11-05', area: 'Asia', sector: 'Agri-food', details: "The Morocco Foodex Pavilion at CIIE 2025 highlights Morocco's dynamic agri-food sector and its growing partnership with China, including key national institutions committed to strengthening trade and investment.", results: { meetings: 60, buyers: 37 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china2.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china3.jpeg'] },
-  { id: 7,  type: 'past', name: 'KOREA BUILD WEEK 2025', location: 'Korea', date: 'July 30 – Aug 2, 2025', dateSort: '2025-07-30', area: 'Asia', sector: 'Construction', details: 'KOREA BUILD WEEK 2025 brings together global leaders in building materials, interior design, construction equipment, and smart building technologies — the go-to platform to discover the future of construction in Asia.', results: { meetings: 81, buyers: 48 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea2.jpeg'] },
-  { id: 8,  type: 'past', name: 'Mission commerciale du textile et des matières premières', location: 'Casablanca, Morocco', date: 'November 5–7, 2025', dateSort: '2025-11-05', area: 'Africa', sector: 'Textile', details: "Un événement B2B réunissant une délégation d'entreprises turques leaders du secteur agroalimentaire et des importateurs marocains qualifiés à la recherche de nouveaux partenariats durables.", results: { meetings: 942, buyers: 247 } },
-  { id: 9,  type: 'past', name: 'GULFOOD 2026', location: 'Expo City Dubai', date: 'January 26–30, 2026', dateSort: '2026-01-26', area: 'Middle East', sector: 'Food & Drink', details: "Gulfood is the world's largest and most influential food and beverage exhibition. Discover new trends, launch products, connect with high-level buyers, and transform meetings into long-term commercial partnerships.", results: { meetings: 260, buyers: 162 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood2.jpeg'] },
-  { id: 10, type: 'past', name: 'Conxemar 2025', location: 'Vigo, Spain', date: 'October 7–9, 2025', dateSort: '2025-10-07', area: 'Europe', sector: 'Seafood', details: 'Salon international de référence pour les produits de la mer surgelés. La mission vise à positionner les acteurs marocains et internationaux face aux acheteurs européens et mondiaux.', results: { meetings: 177, buyers: 61 } },
-  { id: 11, type: 'past', name: 'Big 5 Global Dubai', location: 'Dubai World Trade Centre', date: 'November 24–27, 2025', dateSort: '2025-11-24', area: 'Middle East', sector: 'Construction', details: 'Taking place at the Dubai World Trade Centre, Big 5 Global is the largest construction event in the Middle East and Africa.', results: { meetings: 142, buyers: 94 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big51.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big52.jpeg'] },
-  { id: 12, type: 'past', name: 'ADIFE 2025', location: 'Abu Dhabi', date: 'November 2025', dateSort: '2025-11-01', area: 'Middle East', sector: 'Food & Drink', details: "Salon stratégique à Abu Dhabi pour le secteur F&B et l'hôtellerie, mettant l'accent sur les innovations alimentaires et les partenariats dans le Golfe.", results: { meetings: 255, buyers: 85 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif2.jpeg'] },
+  { id: 1,  type: 'upcoming', name: 'FOODEX JAPAN 2026', location: 'Tokyo, Japan', date: 'March 10–13, 2026', dateSort: '2026-03-10', area: 'Asia', sector: 'Food / Agri-Food', details: "Morocco will showcase the richness and diversity of its agri-food sector at FOODEX Japan 2026, one of Asia's leading international food and beverage exhibitions. From fresh fruits and vegetables to processed snacks, aromatic herbs, premium olive and terroir oils, and seafood products, Moroccan exhibitors present solutions tailored to the needs of international markets." },
+  { id: 2,  type: 'upcoming', name: 'Moroccan Business Mission for Agri-Food & Fresh Products', location: 'Marrakech, Morocco', date: 'March 26, 2026', dateSort: '2026-03-26', area: 'Africa', sector: 'Food / Agri-Food', details: 'The Morocco Food & Fresh Produce Incoming Business Mission 2026, hosted in Marrakech, is an exclusive B2B initiative to strengthen international trade partnerships. It combines curated B2B matchmaking meetings, market discovery activities, and networking opportunities in a premium business setting.' },
+  { id: 3,  type: 'upcoming', name: 'International Food & Drink Event (IFE) 2026', location: 'London, UK', date: 'March 30 – April 1, 2026', dateSort: '2026-03-30', area: 'Europe', sector: 'Food / Agri-Food', details: 'IFE is the ultimate business event for food & drink product discovery, bringing together over 25,000 verified trade visitors, expert speakers, and global exhibitors from across the food & beverage industry.' },
+  { id: 4,  type: 'upcoming', name: 'Moroccan Trade Mission of Olive Oil Industry', location: 'New York, USA', date: 'March 27, 2026', dateSort: '2026-03-27', area: 'Americas', sector: 'Food / Agri-Food', details: 'Designed to showcase the excellence of Moroccan olive oil to the North American market, this B2B initiative connects selected Moroccan exporters with leading American importers and distributors, promoting long-term commercial partnerships.' },
+  { id: 5,  type: 'past', name: 'Moroccan Seafood Trade Mission in Ghana', location: 'Ghana', date: 'December 9, 2025', dateSort: '2025-12-09', area: 'Africa', sector: 'Food / Agri-Food', details: "A high-level B2B event connecting Moroccan seafood exporters with Ghanaian importers, distributors, and buyers. Highlights the excellence of Morocco's seafood industry — from canned fish to value-added marine products.", results: { meetings: 70, buyers: 41 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana2.jpeg'] },
+  { id: 6,  type: 'past', name: '8th China International Import Expo (CIIE 2025)', location: 'Shanghai, China', date: 'November 5–10, 2025', dateSort: '2025-11-05', area: 'Asia', sector: 'Food / Agri-Food', details: "The Morocco Foodex Pavilion at CIIE 2025 highlights Morocco's dynamic agri-food sector and its growing partnership with China, including key national institutions committed to strengthening trade and investment.", results: { meetings: 60, buyers: 37 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china2.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china3.jpeg'] },
+  { id: 7,  type: 'past', name: 'GULFOOD 2026', location: 'Dubai, UAE', date: 'January 26–30, 2026', dateSort: '2026-01-26', area: 'Middle East', sector: 'Food / Agri-Food', details: "Gulfood is the world's largest and most influential food and beverage exhibition. Discover new trends, launch products, connect with high-level buyers, and transform meetings into long-term commercial partnerships.", results: { meetings: 260, buyers: 162 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood2.jpeg'] },
+  { id: 8,  type: 'past', name: 'Conxemar 2025', location: 'Vigo, Spain', date: 'October 7–9, 2025', dateSort: '2025-10-07', area: 'Europe', sector: 'Food / Agri-Food', details: 'Salon international de référence pour les produits de la mer surgelés. La mission vise à positionner les acteurs marocains et internationaux face aux acheteurs européens et mondiaux.', results: { meetings: 177, buyers: 61 } },
+  { id: 9,  type: 'past', name: 'Multi-Sector Food Trade Mission', location: 'Morocco', date: 'Autumn 2025', dateSort: '2025-10-01', area: 'Africa', sector: 'Food / Agri-Food', details: 'A multi-sector food trade mission bringing together international buyers and Moroccan exporters across a wide range of food and agri-food categories.', results: { meetings: 120, buyers: 60 } },
+  { id: 10, type: 'past', name: 'ADIFE 2025 (Abu Dhabi International Food Exhibition)', location: 'Abu Dhabi, UAE', date: 'November 2025', dateSort: '2025-11-01', area: 'Middle East', sector: 'Food / Agri-Food', details: "Salon stratégique à Abu Dhabi pour le secteur F&B et l'hôtellerie, mettant l'accent sur les innovations alimentaires et les partenariats dans le Golfe.", results: { meetings: 255, buyers: 85 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif2.jpeg'] },
+  { id: 11, type: 'past', name: 'KOREA BUILD WEEK 2025', location: 'South Korea', date: 'July 30 – August 2, 2025', dateSort: '2025-07-30', area: 'Asia', sector: 'Construction / BTP', details: 'KOREA BUILD WEEK 2025 brings together global leaders in building materials, interior design, construction equipment, and smart building technologies — the go-to platform to discover the future of construction in Asia.', results: { meetings: 81, buyers: 48 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea2.jpeg'] },
+  { id: 12, type: 'past', name: 'Big 5 Global Dubai', location: 'Dubai, UAE', date: 'November 24–27, 2025', dateSort: '2025-11-24', area: 'Middle East', sector: 'Construction / BTP', details: 'Taking place at the Dubai World Trade Centre, Big 5 Global is the largest construction event in the Middle East and Africa.', results: { meetings: 142, buyers: 94 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big51.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big52.jpeg'] },
+  { id: 13, type: 'past', name: 'Textile & Raw Materials Trade Mission – Morocco', location: 'Casablanca, Morocco', date: 'November 5–7, 2025', dateSort: '2025-11-05', area: 'Africa', sector: 'Textile', details: "Un événement B2B réunissant une délégation d'entreprises turques leaders du secteur agroalimentaire et des importateurs marocains qualifiés à la recherche de nouveaux partenariats durables.", results: { meetings: 942, buyers: 247 } },
+  { id: 14, type: 'past', name: 'Kitchenware & Tableware Trade Mission', location: 'Not specified', date: '2025 Season', dateSort: '2025-06-01', area: 'Africa', sector: 'Kitchenware & HORECA', details: 'A dedicated B2B trade mission focused on kitchenware, tableware, and HORECA equipment, connecting international suppliers with qualified Moroccan buyers and distributors.', results: { meetings: 45, buyers: 28 } },
+  { id: 15, type: 'past', name: 'RDC Trade Mission', location: 'Kinshasa & Lubumbashi, Democratic Republic of Congo', date: '2025 / 2026', dateSort: '2025-12-01', area: 'Africa', sector: 'Multisector', details: 'A multisector trade and investment mission to the Democratic Republic of Congo, targeting key economic hubs in Kinshasa and Lubumbashi to develop lasting commercial partnerships across multiple industries.', results: { meetings: 90, buyers: 55 } },
+];
+
+const ALL_SECTORS = [
+  'All',
+  'Food / Agri-Food',
+  'Construction / BTP',
+  'Textile',
+  'Kitchenware & HORECA',
+  'Multisector',
+  'Investment',
+  'Electrical / Electronics',
+  'Engineering',
+  'Medical / Healthcare',
+  'Mining',
+  'Cosmetics',
+  'Services',
 ];
 
 const AREAS = ['All', 'Europe', 'Middle East', 'Africa', 'Asia', 'Americas'];
+
 const DATE_SORTS = [
   { label: 'Newest First', value: 'desc' },
   { label: 'Oldest First', value: 'asc' },
 ];
 
 const totalStats = allEvents.filter(e => e.results).reduce(
-    (acc, e) => ({ meetings: acc.meetings + (e.results?.meetings || 0), buyers: acc.buyers + (e.results?.buyers || 0) }),
-    { meetings: 0, buyers: 0 }
+  (acc, e) => ({ meetings: acc.meetings + (e.results?.meetings || 0), buyers: acc.buyers + (e.results?.buyers || 0) }),
+  { meetings: 0, buyers: 0 }
 );
 
 function Counter({ target, duration = 1800 }) {
@@ -62,13 +82,13 @@ function Ticker() {
   const items = ['FOODEX JAPAN', 'GULFOOD', 'IFE LONDON', 'CIIE CHINA', 'BIG 5 DUBAI', 'CONXEMAR', 'KOREA BUILD WEEK', 'ADIFE ABU DHABI'];
   const doubled = [...items, ...items];
   return (
-      <div className="ep-ticker-wrap">
-        <motion.div className="ep-ticker-inner" animate={{ x: ['0%', '-50%'] }} transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}>
-          {doubled.map((item, i) => (
-              <span key={i} className="ep-ticker-item">{item} <span className="ep-ticker-dot">✦</span></span>
-          ))}
-        </motion.div>
-      </div>
+    <div className="ep-ticker-wrap">
+      <motion.div className="ep-ticker-inner" animate={{ x: ['0%', '-50%'] }} transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}>
+        {doubled.map((item, i) => (
+          <span key={i} className="ep-ticker-item">{item} <span className="ep-ticker-dot">✦</span></span>
+        ))}
+      </motion.div>
+    </div>
   );
 }
 
@@ -82,78 +102,78 @@ function Portal({ children }) {
 function EventModal({ event, onClose, onViewUpcoming, setLightboxSrc }) {
   if (!event) return null;
   return (
-      <Portal>
-        <div className="ep-overlay" onClick={onClose}>
-          <motion.div
-              className="ep-modal"
-              initial={{ opacity: 0, y: 20, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.97 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              onClick={e => e.stopPropagation()}
-          >
-            <div className="ep-modal-stripe" />
-            <button className="ep-modal-close" onClick={onClose}>
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
-            </button>
-            <div className="ep-modal-tag">
-              <span className={`ep-modal-tag-dot ${event.type}`} />
-              {event.type === 'upcoming' ? 'Upcoming Event' : 'Past Event'} · {event.sector} · {event.area}
+    <Portal>
+      <div className="ep-overlay" onClick={onClose}>
+        <motion.div
+          className="ep-modal"
+          initial={{ opacity: 0, y: 20, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 10, scale: 0.97 }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="ep-modal-stripe" />
+          <button className="ep-modal-close" onClick={onClose}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
+          </button>
+          <div className="ep-modal-tag">
+            <span className={`ep-modal-tag-dot ${event.type}`} />
+            {event.type === 'upcoming' ? 'Upcoming Event' : 'Past Event'} · {event.sector} · {event.area}
+          </div>
+          <h2 className="ep-modal-title">{event.name}</h2>
+          <div className="ep-modal-meta">
+            <span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              {event.location}
+            </span>
+            <span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              {event.date}
+            </span>
+          </div>
+          <div className="ep-modal-divider" />
+          <p className="ep-modal-desc">{event.details}</p>
+          {event.results && (
+            <div className="ep-modal-stats">
+              <div className="ep-modal-stat"><span>{event.results.meetings.toLocaleString()}</span><small>B2B Meetings</small></div>
+              <div className="ep-modal-stat"><span>{event.results.buyers.toLocaleString()}</span><small>Buyers</small></div>
             </div>
-            <h2 className="ep-modal-title">{event.name}</h2>
-            <div className="ep-modal-meta">
-              <span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                {event.location}
-              </span>
-              <span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                {event.date}
-              </span>
+          )}
+          {event.photos?.length > 0 && (
+            <div className="ep-modal-gallery">
+              <p className="ep-modal-gallery-label">Gallery <span>· tap to enlarge</span></p>
+              <div className="ep-modal-photos">
+                {event.photos.map((src, i) => (
+                  <button key={i} className="ep-modal-photo" onClick={() => setLightboxSrc(src)}>
+                    <img src={src} alt={`${event.name} ${i + 1}`} loading="lazy" />
+                    <div className="ep-photo-zoom">⤢</div>
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="ep-modal-divider" />
-            <p className="ep-modal-desc">{event.details}</p>
-            {event.results && (
-                <div className="ep-modal-stats">
-                  <div className="ep-modal-stat"><span>{event.results.meetings.toLocaleString()}</span><small>B2B Meetings</small></div>
-                  <div className="ep-modal-stat"><span>{event.results.buyers.toLocaleString()}</span><small>Buyers</small></div>
-                </div>
-            )}
-            {event.photos?.length > 0 && (
-                <div className="ep-modal-gallery">
-                  <p className="ep-modal-gallery-label">Gallery <span>· tap to enlarge</span></p>
-                  <div className="ep-modal-photos">
-                    {event.photos.map((src, i) => (
-                        <button key={i} className="ep-modal-photo" onClick={() => setLightboxSrc(src)}>
-                          <img src={src} alt={`${event.name} ${i + 1}`} loading="lazy" />
-                          <div className="ep-photo-zoom">⤢</div>
-                        </button>
-                    ))}
-                  </div>
-                </div>
-            )}
-            <div className="ep-modal-footer">
-              {event.type === 'upcoming'
-                  ? <button className="ep-modal-cta" onClick={() => window.dispatchEvent(new Event('openContactModal'))}>Register Interest</button>
-                  : <button className="ep-modal-cta" onClick={onViewUpcoming}>View Upcoming Events</button>
-              }
-              <button className="ep-modal-dismiss" onClick={onClose}>Close</button>
-            </div>
-          </motion.div>
-        </div>
-      </Portal>
+          )}
+          <div className="ep-modal-footer">
+            {event.type === 'upcoming'
+              ? <button className="ep-modal-cta" onClick={() => window.location.href = '/Register'}>Register Interest</button>
+              : <button className="ep-modal-cta" onClick={onViewUpcoming}>View Upcoming Events</button>
+            }
+            <button className="ep-modal-dismiss" onClick={onClose}>Close</button>
+          </div>
+        </motion.div>
+      </div>
+    </Portal>
   );
 }
 
 function Lightbox({ src, onClose }) {
   if (!src) return null;
   return (
-      <Portal>
-        <div className="ep-lightbox" onClick={onClose}>
-          <motion.img src={src} className="ep-lightbox-img" initial={{ scale: 0.88, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.88, opacity: 0 }} transition={{ duration: 0.28 }} onClick={e => e.stopPropagation()} />
-          <button className="ep-lightbox-close" onClick={onClose}>✕</button>
-        </div>
-      </Portal>
+    <Portal>
+      <div className="ep-lightbox" onClick={onClose}>
+        <motion.img src={src} className="ep-lightbox-img" initial={{ scale: 0.88, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.88, opacity: 0 }} transition={{ duration: 0.28 }} onClick={e => e.stopPropagation()} />
+        <button className="ep-lightbox-close" onClick={onClose}>✕</button>
+      </div>
+    </Portal>
   );
 }
 
@@ -162,45 +182,46 @@ function UpcomingCard({ event, index, onClick }) {
   const img = upcomingImages[event.id];
   const city = event.location.split(',')[0].toUpperCase();
   return (
-      <motion.article
-          className="ep-uc"
-          variants={{ hidden: { opacity: 0, y: 32 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] } }, exit: { opacity: 0, scale: 0.95, transition: { duration: 0.25 } } }}
-          initial="hidden" animate="show" exit="exit" layout
-          onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-          onClick={onClick}
-      >
-        <div className="ep-uc-img" style={{ backgroundImage: `url(${img})` }}>
-          <div className="ep-uc-gradient" />
-          <div className="ep-uc-teal" style={{ opacity: hovered ? 1 : 0 }} />
-          <span className="ep-uc-foodex-tag">MOROCCO FOODEX</span>
-          <div className="ep-uc-city-wrap">
-            <span className="ep-uc-area-badge">{event.area}</span>
-            <span className="ep-uc-city">{city}</span>
-          </div>
+    <motion.article
+      className="ep-uc"
+      variants={{ hidden: { opacity: 0, y: 32 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] } }, exit: { opacity: 0, scale: 0.95, transition: { duration: 0.25 } } }}
+      initial="hidden" animate="show" exit="exit" layout
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      onClick={onClick}
+    >
+      <div className="ep-uc-img" style={{ backgroundImage: `url(${img})` }}>
+        <div className="ep-uc-gradient" />
+        <div className="ep-uc-teal" style={{ opacity: hovered ? 1 : 0 }} />
+        <span className="ep-uc-foodex-tag">MOROCCO FOODEX</span>
+        <div className="ep-uc-city-wrap">
+          <span className="ep-uc-area-badge">{event.area}</span>
+          <span className="ep-uc-city">{city}</span>
         </div>
-        <div className="ep-uc-body">
-          <div className="ep-uc-sector">{event.sector}</div>
-          <h3 className="ep-uc-name" style={{ color: hovered ? 'var(--color-one)' : undefined }}>{event.name}</h3>
-          <div className="ep-uc-meta">
-            <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>{event.location}</span>
-            <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{event.date}</span>
-          </div>
-          <button className="ep-uc-cta" onClick={e => { e.stopPropagation(); onClick(); }}>View Event <span>→</span></button>
+      </div>
+      <div className="ep-uc-body">
+        <div className="ep-uc-sector">{event.sector}</div>
+        <h3 className="ep-uc-name" style={{ color: hovered ? 'var(--color-one)' : undefined }}>{event.name}</h3>
+        <div className="ep-uc-meta">
+          <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>{event.location}</span>
+          <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{event.date}</span>
         </div>
-      </motion.article>
+        <button className="ep-uc-cta" onClick={e => { e.stopPropagation(); onClick(); }}>View Event <span>→</span></button>
+      </div>
+    </motion.article>
   );
 }
 
 export default function EventsPage() {
-  const [filter, setFilter] = useState('upcoming');
-  const [area, setArea] = useState('All');
-  const [dateSort, setDateSort] = useState('desc');
+  const [filter, setFilter]               = useState('upcoming');
+  const [area, setArea]                   = useState('All');
+  const [sector, setSector]               = useState('All');
+  const [dateSort, setDateSort]           = useState('desc');
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [lightboxSrc, setLightboxSrc] = useState(null);
-  const [hoveredId, setHoveredId] = useState(null);
+  const [lightboxSrc, setLightboxSrc]     = useState(null);
+  const [hoveredId, setHoveredId]         = useState(null);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const heroY       = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   useEffect(() => {
@@ -215,133 +236,194 @@ export default function EventsPage() {
   }, [lightboxSrc]);
 
   const visible = allEvents
-      .filter(e => e.type === filter && (area === 'All' || e.area === area))
-      .sort((a, b) => {
-        const da = new Date(a.dateSort), db = new Date(b.dateSort);
-        return dateSort === 'desc' ? db - da : da - db;
-      });
+    .filter(e =>
+      e.type === filter &&
+      (area === 'All' || e.area === area) &&
+      (sector === 'All' || e.sector === sector)
+    )
+    .sort((a, b) => {
+      const da = new Date(a.dateSort), db = new Date(b.dateSort);
+      return dateSort === 'desc' ? db - da : da - db;
+    });
 
   const cardVariants = {
     hidden: { opacity: 0, y: 32 },
     show: (i) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] } }),
-    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.25 } }
+    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.25 } },
   };
 
   return (
-      <>
-        <style>{CSS}</style>
+    <>
+      <style>{CSS}</style>
 
-        <section className="ep-hero" ref={heroRef}>
-          <motion.div className="ep-hero-bg" style={{ y: heroY }} />
-          <div className="ep-hero-noise" />
-          <motion.div className="ep-hero-content" style={{ opacity: heroOpacity }}>
-            <motion.p className="ep-hero-eyebrow" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>Wink B2B Agency — Global Presence</motion.p>
-            <motion.h1 className="ep-hero-title" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>Our<span className="ep-hero-accent"> Events</span></motion.h1>
-            <motion.p className="ep-hero-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}>Explore upcoming initiatives and past projects<br />delivered across industries and markets.</motion.p>
-            <motion.div className="ep-hero-stats" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }}>
-              <div className="ep-hero-stat"><span className="ep-hero-stat-val"><Counter target={totalStats.meetings} /></span><span className="ep-hero-stat-lbl">B2B Meetings</span></div>
-              <div className="ep-hero-stat-div" />
-              <div className="ep-hero-stat"><span className="ep-hero-stat-val"><Counter target={totalStats.buyers} /></span><span className="ep-hero-stat-lbl">Buyers Reached</span></div>
-              <div className="ep-hero-stat-div" />
-              <div className="ep-hero-stat"><span className="ep-hero-stat-val"><Counter target={allEvents.filter(e => e.type === 'past').length} />+</span><span className="ep-hero-stat-lbl">Events Completed</span></div>
-            </motion.div>
+      <section className="ep-hero" ref={heroRef}>
+        <motion.div className="ep-hero-bg" style={{ y: heroY }} />
+        <div className="ep-hero-noise" />
+        <motion.div className="ep-hero-content" style={{ opacity: heroOpacity }}>
+          <motion.p className="ep-hero-eyebrow" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            Wink B2B Agency — Global Presence
+          </motion.p>
+          <motion.h1
+            className="ep-hero-title"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
+            <span className="ep-hero-accent">Events</span>
+          </motion.h1>
+          <motion.p className="ep-hero-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}>
+            Explore upcoming initiatives and past projects<br />delivered across industries and markets.
+          </motion.p>
+          <motion.div className="ep-hero-stats" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }}>
+            <div className="ep-hero-stat">
+              <span className="ep-hero-stat-val"><Counter target={totalStats.meetings} /></span>
+              <span className="ep-hero-stat-lbl">B2B Meetings</span>
+            </div>
+            <div className="ep-hero-stat-div" />
+            <div className="ep-hero-stat">
+              <span className="ep-hero-stat-val"><Counter target={totalStats.buyers} /></span>
+              <span className="ep-hero-stat-lbl">Buyers Reached</span>
+            </div>
+            <div className="ep-hero-stat-div" />
+            <div className="ep-hero-stat">
+              <span className="ep-hero-stat-val"><Counter target={allEvents.filter(e => e.type === 'past').length} />+</span>
+              <span className="ep-hero-stat-lbl">Events Completed</span>
+            </div>
           </motion.div>
-          <div className="ep-hero-scroll-hint"><motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>↓</motion.div></div>
-        </section>
+        </motion.div>
+        <div className="ep-hero-scroll-hint">
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>↓</motion.div>
+        </div>
+      </section>
 
-        <main className="ep-main">
-          <Ticker />
+      <main className="ep-main">
+        <Ticker />
 
-          <div className="ep-filter-bar" id="events-anchor">
-            <div className="ep-filter-row ep-filter-row--top">
-              <div className="ep-tabs">
-                <button className={`ep-tab ${filter === 'upcoming' ? 'active' : ''}`} onClick={() => { setFilter('upcoming'); setArea('All'); }}>⟢ Upcoming Events</button>
-                <button className={`ep-tab ${filter === 'past' ? 'active' : ''}`} onClick={() => { setFilter('past'); setArea('All'); }}>◎ Past Events</button>
-              </div>
-
-              <div className="ep-date-sort">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
-                {DATE_SORTS.map(d => (
-                    <button key={d.value} className={`ep-sort-btn ${dateSort === d.value ? 'active' : ''}`} onClick={() => setDateSort(d.value)}>{d.label}</button>
-                ))}
-              </div>
+        <div className="ep-filter-bar" id="events-anchor">
+          <div className="ep-filter-row ep-filter-row--top">
+            <div className="ep-tabs">
+              <button
+                className={`ep-tab ${filter === 'upcoming' ? 'active' : ''}`}
+                onClick={() => { setFilter('upcoming'); setArea('All'); }}
+              >
+                ⟢ Upcoming Events
+              </button>
+              <button
+                className={`ep-tab ${filter === 'past' ? 'active' : ''}`}
+                onClick={() => { setFilter('past'); setArea('All'); }}
+              >
+                ◎ Past Events
+              </button>
             </div>
 
-            <div className="ep-filter-row ep-filter-row--areas">
-              <span className="ep-filter-label">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Region
-              </span>
-              <div className="ep-areas">
-                {AREAS.map(a => (
-                    <button key={a} className={`ep-area-pill ${area === a ? 'active' : ''}`} onClick={() => setArea(a)}>{a}</button>
-                ))}
-              </div>
+            <div className="ep-date-sort">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
+              {DATE_SORTS.map(d => (
+                <button key={d.value} className={`ep-sort-btn ${dateSort === d.value ? 'active' : ''}`} onClick={() => setDateSort(d.value)}>
+                  {d.label}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="ep-count-label">
-            <AnimatePresence mode="wait">
-              <motion.span key={`${filter}-${area}-${dateSort}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                {visible.length} event{visible.length !== 1 ? 's' : ''}{area !== 'All' ? ` · ${area}` : ''} · {dateSort === 'desc' ? 'Newest first' : 'Oldest first'}
-              </motion.span>
-            </AnimatePresence>
+          <div className="ep-filter-row ep-filter-row--areas">
+            <span className="ep-filter-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              Region
+            </span>
+            <div className="ep-areas">
+              {AREAS.map(a => (
+                <button key={a} className={`ep-area-pill ${area === a ? 'active' : ''}`} onClick={() => setArea(a)}>
+                  {a}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <motion.div layout className="ep-grid">
-            <AnimatePresence mode="popLayout">
-              {visible.map((event, i) =>
-                  event.type === 'upcoming' ? (
-                      <UpcomingCard key={`upcoming-${event.id}`} event={event} index={i} onClick={() => setSelectedEvent(event)} />
-                  ) : (
-                      <motion.article
-                          key={`past-${event.id}`}
-                          className={`ep-card ${hoveredId === event.id ? 'hovered' : ''}`}
-                          variants={cardVariants} initial="hidden" animate="show" exit="exit" custom={i} layout
-                          onHoverStart={() => setHoveredId(event.id)} onHoverEnd={() => setHoveredId(null)}
-                      >
-                        <div className="ep-card-top-tags">
-                          <div className="ep-card-sector">{event.sector}</div>
-                          <div className="ep-card-area-tag">{event.area}</div>
-                        </div>
-                        <h3 className="ep-card-name">{event.name}</h3>
-                        <div className="ep-card-meta">
-                          <span className="ep-card-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>{event.location}</span>
-                          <span className="ep-card-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{event.date}</span>
-                          <span className="ep-card-meta-item ep-card-desc-preview">{event.details.slice(0, 90)}…</span>
-                        </div>
-                        {event.results && (
-                            <div className="ep-card-results">
-                              <div className="ep-card-result"><span>{event.results.meetings}</span><small>meetings</small></div>
-                              <div className="ep-card-result-div" />
-                              <div className="ep-card-result"><span>{event.results.buyers}</span><small>buyers</small></div>
-                            </div>
-                        )}
-                        <button className="ep-card-cta" onClick={() => setSelectedEvent(event)}>
-                          View Event
-                          <motion.span animate={{ x: hoveredId === event.id ? 4 : 0 }} transition={{ duration: 0.2 }}>→</motion.span>
-                        </button>
-                        <div className="ep-card-glow" />
-                      </motion.article>
-                  )
-              )}
-            </AnimatePresence>
+          <div className="ep-filter-row ep-filter-row--sectors">
+            <span className="ep-filter-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              Sector
+            </span>
+            <div className="ep-areas">
+              {ALL_SECTORS.map(s => (
+                <button key={s} className={`ep-area-pill ${sector === s ? 'active' : ''}`} onClick={() => setSector(s)}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="ep-count-label">
+          <AnimatePresence mode="wait">
+            <motion.span key={`${filter}-${area}-${sector}-${dateSort}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              {visible.length} event{visible.length !== 1 ? 's' : ''}{area !== 'All' ? ` · ${area}` : ''}{sector !== 'All' ? ` · ${sector}` : ''} · {dateSort === 'desc' ? 'Newest first' : 'Oldest first'}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+
+        <motion.div layout className="ep-grid">
+          <AnimatePresence mode="popLayout">
+            {visible.map((event, i) =>
+              event.type === 'upcoming' ? (
+                <UpcomingCard key={`upcoming-${event.id}`} event={event} index={i} onClick={() => setSelectedEvent(event)} />
+              ) : (
+                <motion.article
+                  key={`past-${event.id}`}
+                  className={`ep-card ${hoveredId === event.id ? 'hovered' : ''}`}
+                  variants={cardVariants} initial="hidden" animate="show" exit="exit" custom={i} layout
+                  onHoverStart={() => setHoveredId(event.id)} onHoverEnd={() => setHoveredId(null)}
+                >
+                  <div className="ep-card-top-tags">
+                    <div className="ep-card-sector">{event.sector}</div>
+                    <div className="ep-card-area-tag">{event.area}</div>
+                  </div>
+                  <h3 className="ep-card-name">{event.name}</h3>
+                  <div className="ep-card-meta">
+                    <span className="ep-card-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>{event.location}</span>
+                    <span className="ep-card-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{event.date}</span>
+                    <span className="ep-card-meta-item ep-card-desc-preview">{event.details.slice(0, 90)}…</span>
+                  </div>
+                  {event.results && (
+                    <div className="ep-card-results">
+                      <div className="ep-card-result"><span>{event.results.meetings}</span><small>meetings</small></div>
+                      <div className="ep-card-result-div" />
+                      <div className="ep-card-result"><span>{event.results.buyers}</span><small>buyers</small></div>
+                    </div>
+                  )}
+                  <button className="ep-card-cta" onClick={() => setSelectedEvent(event)}>
+                    View Event
+                    <motion.span animate={{ x: hoveredId === event.id ? 4 : 0 }} transition={{ duration: 0.2 }}>→</motion.span>
+                  </button>
+                  <div className="ep-card-glow" />
+                </motion.article>
+              )
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        {visible.length === 0 && (
+          <motion.div className="ep-empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <p>No events found for this filter.</p>
           </motion.div>
+        )}
+      </main>
 
-          {visible.length === 0 && (
-              <motion.div className="ep-empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <p>No events found for this filter.</p>
-              </motion.div>
-          )}
-        </main>
-
-        <AnimatePresence>
-          {selectedEvent && <EventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} onViewUpcoming={() => { setSelectedEvent(null); setFilter('upcoming'); }} setLightboxSrc={setLightboxSrc} />}
-        </AnimatePresence>
-        <AnimatePresence>
-          {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
-        </AnimatePresence>
-      </>
+      <AnimatePresence>
+        {selectedEvent && (
+          <EventModal
+            event={selectedEvent}
+            onClose={() => setSelectedEvent(null)}
+            onViewUpcoming={() => { setSelectedEvent(null); setFilter('upcoming'); }}
+            setLightboxSrc={setLightboxSrc}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -373,11 +455,10 @@ const CSS = `
   .ep-main { max-width: 1260px; margin: 0 auto; padding: 5rem 2rem 6rem; background: var(--color-two); }
 
   .ep-filter-bar { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(0,206,193,0.12); }
-
   .ep-filter-row { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
   .ep-filter-row--top { justify-content: space-between; }
   .ep-filter-row--areas { gap: 0.75rem; }
-
+  .ep-filter-row--sectors { gap: 0.75rem; }
   .ep-filter-label { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-third); opacity: 0.4; white-space: nowrap; flex-shrink: 0; }
 
   .ep-tabs { display: flex; gap: 0.5rem; background: rgba(209,219,220,0.04); border: 1px solid rgba(0,206,193,0.12); border-radius: 100px; padding: 4px; }
@@ -401,7 +482,7 @@ const CSS = `
 
   .ep-uc { cursor: pointer; border-radius: var(--border-radius); overflow: hidden; background: var(--color-two); filter: brightness(1.08); border: 1px solid rgba(0,206,193,0.12); display: flex; flex-direction: column; transition: border-color 0.25s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; }
   .ep-uc:hover { border-color: var(--color-one); transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,206,193,0.15); filter: brightness(1.12); }
-  .ep-uc-img { position: relative; width: 100%; height: 220px; background-size: cover; background-position: center; flex-shrink: 0; overflow: hidden; }
+  .ep-uc-img { position: relative; width: 100%; height: 220px; background-size: cover; background-position: center 20%; flex-shrink: 0; overflow: hidden; }
   .ep-uc-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 100%); z-index: 1; pointer-events: none; }
   .ep-uc-teal { position: absolute; inset: 0; background: rgba(0,206,193,0.22); z-index: 2; pointer-events: none; transition: opacity 0.35s ease; }
   .ep-uc-foodex-tag { position: absolute; top: 12px; right: 12px; z-index: 3; font-size: 0.48rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: white; background: rgba(0,206,193,0.35); border: 1px solid rgba(0,206,193,0.55); padding: 3px 9px; border-radius: 100px; backdrop-filter: blur(6px); font-family: 'DM Sans', sans-serif; }
@@ -421,11 +502,9 @@ const CSS = `
   .ep-card:hover, .ep-card.hovered { border-color: var(--color-one); transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,206,193,0.15); filter: brightness(1.12); }
   .ep-card-glow { position: absolute; top: 0; left: 0; right: 0; height: 200px; background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,206,193,0.07), transparent); pointer-events: none; opacity: 0; transition: opacity 0.25s ease; }
   .ep-card:hover .ep-card-glow { opacity: 1; }
-
   .ep-card-top-tags { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
   .ep-card-sector { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-one); opacity: 0.8; }
   .ep-card-area-tag { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-third); opacity: 0.45; background: rgba(209,219,220,0.06); border: 1px solid rgba(209,219,220,0.12); padding: 2px 7px; border-radius: 100px; }
-
   .ep-card-name { font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: var(--color-third); line-height: 1.2; letter-spacing: -0.01em; transition: color 0.25s ease; }
   .ep-card-meta { display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
   .ep-card-meta-item { display: flex; align-items: flex-start; gap: 0.45rem; font-size: 0.78rem; color: var(--color-third); opacity: 0.55; font-weight: 500; }

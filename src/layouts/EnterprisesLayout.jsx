@@ -3,6 +3,7 @@ import { useScroll } from 'framer-motion';
 import Header from '../components/Header.jsx';
 import Footer from '../components/footer.jsx';
 import EnterprisesPage from '../components/EnterprisesPage.jsx';
+import CallToAction from '../components/CallToAction.jsx';
 
 const EnterprisesLayout = ({ activeSection = '' }) => {
     const [theme, setTheme] = useState(() => {
@@ -28,6 +29,13 @@ const EnterprisesLayout = ({ activeSection = '' }) => {
                 setTheme={setTheme}
             />
             <EnterprisesPage />
+            <CallToAction
+                    image="/3.png"
+                    headline="Accelerate Your International Business Development"
+                    subheadline="Access qualified buyers, structured meetings, and measurable growth opportunities."
+                    ctaLabel="Apply for a Program"
+                    href="/Register"
+                  />
             <Footer />
         </>
     );

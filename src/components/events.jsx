@@ -162,6 +162,13 @@ const Events = () => {
     }
   ];
 
+  const upcomingImages = {
+    1: '/tokyo.jpeg',
+    2: '/marakkesh.jpeg',
+    3: '/london.jpeg',
+    4: '/newyork.jpeg',
+  };
+
   const filteredEvents = allEvents.filter((e) => e.type === filter);
   const total = filteredEvents.length;
   const VISIBLE = 3;
@@ -220,6 +227,14 @@ const Events = () => {
                   transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
                   className="event-card"
                 >
+                  {/* Image header — only for upcoming events with an image */}
+                  {event.type === 'upcoming' && upcomingImages[event.id] && (
+                    <div className="event-card-img" style={{ backgroundImage: `url(${upcomingImages[event.id]})` }}>
+                      <div className="event-card-img-gradient" />
+                      <span className="event-card-city">{event.location.split(',')[0].toUpperCase()}</span>
+                    </div>
+                  )}
+
                   <div className="event-info">
                     <span className="event-type-tag">{event.type === 'upcoming' ? 'Upcoming' : 'Past'}</span>
                     <h3 className="event-name">{event.name}</h3>
@@ -250,17 +265,6 @@ const Events = () => {
               <path d="M7 4l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
-        </div>
-
-        <div className="carousel-dots">
-          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-            <button
-              key={i}
-              className={`dot ${i === currentIndex ? 'active' : ''}`}
-              onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); }}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
         </div>
 
         <div className="events-footer">
@@ -381,7 +385,7 @@ const Events = () => {
         .events-section {
           background-color: var(--color-bg);
           padding: var(--space-xl) var(--space-lg);
-          min-height: 80vh;
+          min-height: 100vh;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -487,6 +491,55 @@ const Events = () => {
           transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.3s ease;
           position: relative;
           overflow: hidden;
+          height: auto;
+        }
+
+        .event-card {
+          display: flex;
+          flex-direction: column;
+          padding: 0;
+          overflow: hidden;
+        }
+
+        .event-card .event-info {
+          padding: 1.2rem 1.5rem 0;
+          overflow: visible;  flex: 1;
+
+
+        }
+
+
+        .event-card .view-event-cta {
+          margin: 1.2rem 1.5rem 1.5rem;
+        }
+
+        .event-card-img {
+          position: relative;
+          width: 100%;
+          height: 180px;
+          flex-shrink: 0;
+            background-size: cover;
+            background-position: center 20%;
+            position: relative;
+        }
+
+        .event-card-img-gradient {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 100%);
+        }
+
+        .event-card-city {
+          position: absolute;
+          bottom: 12px;
+          left: 14px;
+          color: white;
+          font-size: 1.3rem;
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: -0.03em;
+          text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+          line-height: 1;
         }
 
         .event-card::before {
@@ -621,7 +674,7 @@ const Events = () => {
           text-decoration: none;
           color: var(--color-text-primary);
           border: 2px solid rgba(255,255,255,0.2);
-          padding: 0.85rem 2.2rem;
+          padding: 0.55rem 2.2rem;
           font-size: 0.68rem;
           font-weight: 800;
           text-transform: uppercase;
@@ -662,7 +715,6 @@ const Events = () => {
 
         .view-all-events-btn:hover svg { transform: translateX(4px); }
 
-        /* Modal */
         .modal-backdrop {
           position: fixed;
           inset: 0;
