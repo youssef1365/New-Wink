@@ -412,6 +412,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
             border: none;
             background: none;
             transition: opacity var(--transition);
+            white-space: nowrap;
           }
 
           .nav-link:hover,
@@ -564,6 +565,21 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
 
           .hamburger-menu.is-active .line:nth-child(1) { transform: translateY(4px) rotate(45deg); }
           .hamburger-menu.is-active .line:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
+
+          @media (max-width: 1366px) {
+            .nav-link-text {
+              letter-spacing: 0.15em; /* Slightly reduced from 0.22em */
+              font-size: 0.75rem;     /* Slightly reduced from 0.82rem */
+            }
+
+            .nav-links {
+              gap: 1.2rem; /* Tighten space between items */
+            }
+
+            .nav-logo {
+              min-width: 180px; /* Give the nav links more breathing room */
+            }
+          }
 
           @media (max-width: 1024px) {
             .desktop-only { display: none !important; }

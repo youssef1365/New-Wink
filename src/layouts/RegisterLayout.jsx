@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useScroll } from 'framer-motion';
 import Header from '../components/Header.jsx';
 import Footer from '../components/footer.jsx';
-import RegisterForm from '../components/RegisterForm.jsx';
+import RegisterForm from '../components/Registerform.jsx';
 
 const RegisterLayout = ({ activeSection = '' }) => {
   const [theme, setTheme] = useState(() => {
