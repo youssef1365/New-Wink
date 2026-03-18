@@ -15,156 +15,135 @@ const STATS = [
     { value: null, label: null, title: 'Strategic Programs', desc: 'Connecting Buyers & Suppliers Across Markets', style: 'geo' },
 ];
 
-const CONTINENT_MARKERS = [
-    { name: 'Americas', cx: 0.155, cy: 0.42 },
-    { name: 'Europe', cx: 0.47, cy: 0.26 },
-    { name: 'Middle East', cx: 0.565, cy: 0.40 },
-    { name: 'Africa', cx: 0.495, cy: 0.57 },
-    { name: 'Asia', cx: 0.72, cy: 0.32 },
+const CONTINENTS = [
+    { name: 'Americas', cx: 180, cy: 140, path: 'M120,80 Q140,60 160,70 Q180,50 200,65 Q220,80 210,100 Q230,120 220,150 Q200,180 170,190 Q140,200 120,180 Q100,160 110,130 Q100,100 120,80 Z M130,200 Q150,210 160,230 Q150,250 130,240 Q110,230 120,210 Q125,200 130,200 Z' },
+    { name: 'Europe', cx: 380, cy: 90, path: 'M340,60 Q360,50 380,55 Q400,50 420,60 Q440,70 430,90 Q440,110 420,120 Q400,130 380,125 Q360,130 340,120 Q320,110 330,90 Q320,70 340,60 Z' },
+    { name: 'Africa', cx: 380, cy: 170, path: 'M350,130 Q370,125 390,130 Q410,125 420,140 Q430,160 425,180 Q420,200 410,220 Q400,240 380,245 Q360,240 350,220 Q340,200 345,180 Q340,160 350,140 Q345,130 350,130 Z' },
+    { name: 'Asia', cx: 520, cy: 110, path: 'M440,60 Q470,50 500,55 Q540,45 580,55 Q620,60 640,80 Q660,100 650,130 Q660,160 640,180 Q620,200 590,195 Q560,200 530,190 Q500,180 480,160 Q460,140 450,110 Q440,80 440,60 Z' },
+    { name: 'Middle East', cx: 460, cy: 140, path: 'M440,120 Q460,115 480,120 Q490,135 485,150 Q480,165 465,170 Q450,165 445,150 Q440,135 440,120 Z' },
 ];
-
-const LAND = [
-    [6,8,14],[7,7,16],[8,7,17],[9,7,18],[10,6,19],[11,6,19],[12,7,18],[13,8,17],
-    [14,9,17],[15,10,16],[16,10,15],[17,11,15],[18,12,15],[19,13,15],[20,14,15],
-    [3,14,18],[4,13,19],[5,13,19],[6,14,18],
-    [21,13,16],[22,12,17],[23,12,17],[24,12,17],[25,12,16],[26,12,16],
-    [27,13,16],[28,13,15],[29,13,15],[30,14,15],[31,14,14],[32,14,14],
-    [7,34,42],[8,33,44],[9,33,44],[10,33,44],[11,34,43],[12,35,42],
-    [13,35,41],[14,36,40],[15,37,40],
-    [5,37,41],[6,36,42],[7,36,41],
-    [8,32,34],[9,31,34],
-    [13,37,44],[14,36,45],[15,36,46],[16,36,46],[17,36,46],[18,37,45],
-    [19,37,45],[20,37,45],[21,37,45],[22,37,44],[23,38,44],[24,38,43],
-    [25,38,43],[26,39,43],[27,39,43],[28,39,42],[29,40,42],[30,40,42],
-    [12,45,52],[13,44,53],[14,44,54],[15,44,54],[16,44,53],[17,45,52],[18,45,51],
-    [5,42,65],[6,40,66],[7,40,67],[8,39,67],[9,39,68],[10,39,67],[11,40,66],
-    [12,40,65],[13,40,63],[14,40,62],
-    [15,52,60],[16,51,62],[17,51,62],[18,52,61],[19,53,60],[20,54,60],[21,54,59],[22,54,58],
-    [16,60,68],[17,59,68],[18,58,67],[19,58,66],[20,59,65],[21,60,65],[22,60,65],[23,61,65],[24,62,65],
-    [8,55,68],[9,54,69],[10,54,70],[11,54,70],[12,53,69],[13,52,68],[14,52,68],[15,52,65],[16,53,64],
-    [10,68,71],[11,67,71],[12,67,70],
-    [24,65,72],[25,64,72],[26,63,72],[27,64,71],[28,65,71],[29,65,70],[30,66,70],
-];
-
-const DPR = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 2;
-const W = 520, H = 300, COLS = 72, ROWS = 38;
-const DX = W / COLS, DY = H / ROWS;
-const DOT_R = 2.8;
-
-function isLand(col, row) {
-    for (const [r, c0, c1] of LAND) {
-        if (row === r && col >= c0 && col <= c1) return true;
-    }
-    return false;
-}
-function hexX(col, row) { return col * DX + (row % 2 === 0 ? 0 : DX * 0.5) + DX * 0.5; }
-function hexY(row) { return row * DY * 0.82 + DY * 0.5; }
 
 const WorldMap = () => {
-    const canvasRef = useRef(null);
-    const hoveredRef = useRef(null);
-    const animRef = useRef(null);
-    const pulseRef = useRef(0);
-    const [tooltip, setTooltip] = useState({ visible: false, name: '', x: 0, y: 0 });
-
-    const draw = () => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        pulseRef.current += 0.04;
-        ctx.clearRect(0, 0, W * DPR, H * DPR);
-        for (let r = 0; r < ROWS; r++) {
-            for (let c = 0; c < COLS; c++) {
-                if (!isLand(c, r)) continue;
-                ctx.beginPath();
-                ctx.arc(hexX(c, r) * DPR, hexY(r) * DPR, DOT_R * DPR, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(0,206,193,0.35)';
-                ctx.fill();
-            }
-        }
-        CONTINENT_MARKERS.forEach((pt, i) => {
-            const px = pt.cx * W * DPR;
-            const py = pt.cy * H * DPR;
-            const isHovered = hoveredRef.current === pt.name;
-            const pulseMod = Math.sin(pulseRef.current + i * 1.2) * 0.5 + 0.5;
-            ctx.beginPath();
-            ctx.arc(px, py, (11 + pulseMod * 5) * DPR, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255,255,255,${0.04 + pulseMod * 0.06})`;
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(px, py, (isHovered ? 9 : 7) * DPR, 0, Math.PI * 2);
-            ctx.fillStyle = isHovered ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.16)';
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(px, py, (isHovered ? 4.5 : 3.5) * DPR, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffffff';
-            ctx.fill();
-        });
-        animRef.current = requestAnimationFrame(draw);
-    };
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        canvas.width = W * DPR;
-        canvas.height = H * DPR;
-        canvas.style.width = '100%';
-        canvas.style.height = 'auto';
-        animRef.current = requestAnimationFrame(draw);
-        return () => cancelAnimationFrame(animRef.current);
-    }, []);
-
-    const handleMouseMove = (e) => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const rect = canvas.getBoundingClientRect();
-        const mx = (e.clientX - rect.left) * (W / rect.width);
-        const my = (e.clientY - rect.top) * (H / rect.height);
-        let found = null;
-        for (const pt of CONTINENT_MARKERS) {
-            const dx = mx - pt.cx * W;
-            const dy = my - pt.cy * H;
-            if (Math.sqrt(dx * dx + dy * dy) < 16) { found = pt; break; }
-        }
-        hoveredRef.current = found ? found.name : null;
-        if (found) {
-            setTooltip({ visible: true, name: found.name, x: found.cx * rect.width, y: found.cy * rect.height });
-            canvas.style.cursor = 'pointer';
-        } else {
-            setTooltip(t => ({ ...t, visible: false }));
-            canvas.style.cursor = 'default';
-        }
-    };
-
-    const handleMouseLeave = () => {
-        hoveredRef.current = null;
-        setTooltip(t => ({ ...t, visible: false }));
-    };
+    const dots = [
+        { cx: 260, cy: 210, label: "Americas", id: "americas" },
+        { cx: 520, cy: 170, label: "Europe", id: "europe" },
+        { cx: 710, cy: 210, label: "Asia", id: "asia" },
+        { cx: 550, cy: 270, label: "Africa", id: "africa" },
+        { cx: 620, cy: 215, label: "Middle East", id: "me" },
+    ];
 
     return (
         <>
             <div className="wmap-wrap">
                 <div className="wmap-canvas-wrap">
-                    <canvas ref={canvasRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} style={{ display: 'block', borderRadius: '8px', background: 'rgba(2,13,20,0.7)' }} />
-                    {tooltip.visible && <div className="wmap-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>{tooltip.name}</div>}
+                    <svg viewBox="150 80 700 350" className="wmap-svg">
+                        <rect width="100%" height="100%" fill="#cfcfcf" />
+
+                        <image
+                            href="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
+                            x="0"
+                            y="0"
+                            width="1000"
+                            height="500"
+                            preserveAspectRatio="xMidYMid meet"
+                            style={{ filter: "brightness(0) invert(15%) sepia(30%) saturate(600%) hue-rotate(150deg)" }}
+                        />
+
+                        {dots.map((dot) => (
+                            <circle
+                                key={dot.id}
+                                cx={dot.cx}
+                                cy={dot.cy}
+                                r="7"
+                                className={`dot dot-${dot.id}`}
+                            />
+                        ))}
+                    </svg>
                 </div>
-                <div className="wmap-legend">
-                    {CONTINENT_MARKERS.map((c, i) => (
-                        <motion.span key={c.name} className="wmap-legend-item" initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.07 }} onMouseEnter={() => { hoveredRef.current = c.name; }} onMouseLeave={() => { hoveredRef.current = null; }}>
-                            <span className="wmap-legend-dot" />{c.name}
-                        </motion.span>
+
+                <div className="wmap-tags">
+                    {dots.map((d) => (
+                        <span key={d.id} className={`tag tag-${d.id}`}>
+                            {d.label}
+                        </span>
                     ))}
                 </div>
             </div>
+
             <style>{`
-                .wmap-wrap { width: 420px; flex-shrink: 0; display: flex; flex-direction: column; gap: 1rem; }
-                .wmap-canvas-wrap { position: relative; width: 100%; }
-                .wmap-tooltip { position: absolute; background: rgba(2,13,20,0.92); border: 1px solid rgba(0,206,193,0.3); color: #00CEC1; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; pointer-events: none; white-space: nowrap; transform: translate(-50%,-140%); font-family: 'Montserrat', sans-serif; }
-                .wmap-legend { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-                .wmap-legend-item { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(0,206,193,0.42); padding: 0.2rem 0.55rem; border: 1px solid rgba(0,206,193,0.13); border-radius: 4px; background: rgba(0,206,193,0.03); cursor: pointer; transition: all 0.25s ease; }
-                .wmap-legend-item:hover { color: var(--color-third); border-color: rgba(0,206,193,0.3); background: rgba(0,206,193,0.07); }
-                .wmap-legend-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(0,206,193,0.7); flex-shrink: 0; }
-                .wmap-legend-item:hover .wmap-legend-dot { background: #00CEC1; box-shadow: 0 0 5px rgba(0,206,193,0.5); }
+                .wmap-wrap {
+                    flex-shrink: 0;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                    width: 520px;
+                }
+
+                .wmap-canvas-wrap {
+                    position: relative;
+                    width: 100%;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    background: #cfcfcf;
+                }
+
+                .wmap-svg {
+                    display: block;
+                    width: 100%;
+                    height: auto;
+                }
+
+                .dot {
+                    fill: #0b4a5a;
+                    stroke: #ffffff;
+                    stroke-width: 2;
+                    opacity: 0.9;
+                    transition: all 0.25s ease;
+                }
+
+                .dot:hover {
+                    fill: #00c2d1;
+                    stroke-width: 3;
+                    r: 9;
+                    opacity: 1;
+                }
+
+                .tag-americas:hover ~ * .dot-americas,
+                .tag-europe:hover ~ * .dot-europe,
+                .tag-asia:hover ~ * .dot-asia,
+                .tag-africa:hover ~ * .dot-africa,
+                .tag-me:hover ~ * .dot-me {
+                    fill: #00c2d1;
+                    stroke-width: 3;
+                    r: 9;
+                    opacity: 1;
+                }
+
+                .wmap-tags {
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                }
+
+                .tag {
+                    font-size: 0.75rem;
+                    letter-spacing: 1px;
+                    color: #ffffffaa;
+                    border-bottom: 1px solid #ffffff33;
+                    padding-bottom: 2px;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                }
+
+                .tag:hover {
+                    color: #ffffff;
+                    border-color: #00c2d1;
+                }
+
+                @media (max-width: 860px) {
+                    .wmap-wrap { width: 100%; }
+                }
             `}</style>
         </>
     );
@@ -316,8 +295,8 @@ const GlanceSection = () => (
             .glance-card-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; flex: 1; padding: 2.2rem 1.75rem 1.6rem; }
             .glance-top { display: flex; flex-direction: column; gap: 0.5rem; }
             .glance-stat-row { display: flex; align-items: baseline; gap: 0.5rem; }
-            ..glance-value { font-size: 1rem; font-weight: 800; letter-spacing: 0.04em; color: #0073a9; line-height: 1; font-family: 'Montserrat', sans-serif; }
-             .glance-value-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(#00CEC1); opacity: 0.6; font-family: 'Montserrat', sans-serif; }
+            .glance-value { font-size: 1rem; font-weight: 800; letter-spacing: 0.04em; color: #0073a9; line-height: 1; font-family: 'Montserrat', sans-serif; }
+            .glance-value-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(#00CEC1); opacity: 0.6; font-family: 'Montserrat', sans-serif; }
             .glance-desc { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); line-height: 1.6; margin: 0.3rem 0 0; max-width: 160px; font-family: 'Montserrat', sans-serif; }
             .glance-bottom { display: flex; align-items: center; margin-top: 1.5rem; }
             .glance-arrow { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.65); transition: all 0.25s ease; flex-shrink: 0; }
