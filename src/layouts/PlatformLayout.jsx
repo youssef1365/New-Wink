@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useScroll } from 'framer-motion';
 import Header from '../components/Header.jsx';
 import Footer from '../components/footer.jsx';
-import PackagesLayout from '../components/PackagesLayout.jsx';
+import PlatformPage from '../components/PlatformPage.jsx';
 import CallToAction from '../components/CallToAction.jsx';
 
-const PackagesPage = ({ activeSection = '' }) => {
+const PlatformLayout = ({ activeSection = '' }) => {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('theme') || 'dark';
@@ -28,16 +28,16 @@ const PackagesPage = ({ activeSection = '' }) => {
         theme={theme}
         setTheme={setTheme}
       />
-      <PackagesLayout />
+      <PlatformPage />
       <CallToAction
         image="/enterprise-bg.jpg"
-        headline="Scale Your Business Internationally"
-        subheadline="Wink connects you with the right markets and partners."
-        ctaLabel="Get Started"
+        headline="Power Your Next B2B Event"
+        subheadline="Integrate the WINK platform into your next trade mission or international program."
+        ctaLabel="Request a Demo"
       />
       <Footer />
     </>
   );
 };
 
-export default PackagesPage;
+export default PlatformLayout;

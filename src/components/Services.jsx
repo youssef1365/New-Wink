@@ -163,14 +163,14 @@ export default function ExpertisePage() {
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
                 <span className="ep-eyebrow">Our Expertises</span>
-                <h1 className="ep-headline"> What We <em>Deliver</em></h1>
+                <h1 className="ep-headline">What We <em>Deliver</em></h1>
             </motion.div>
 
             <div className="ep-track">
                 {expertises.map((item, i) => (
                     <motion.div
                         key={item.id}
-                        className={`ep-pill ${i === 0 ? 'ep-pill--featured' : ''}`}
+                        className="ep-pill"
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.55, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
@@ -247,7 +247,7 @@ export default function ExpertisePage() {
           padding: 4rem 2rem 3rem;
         }
         .ep-eyebrow {
-          display: block; font-size: 0.62rem; font-weight: 700;
+          display: block; font-size: 1.5rem; font-weight: 700;
           text-transform: uppercase; letter-spacing: 0.32em;
           color: var(--ep-text-muted);
           margin-bottom: 0.9rem;
@@ -293,26 +293,6 @@ export default function ExpertisePage() {
           transform: translateY(-6px);
           box-shadow: 0 24px 60px rgba(0,206,193,0.12);
         }
-        .ep-pill--featured {
-          background: var(--color-one, #00cec1);
-          border-color: var(--color-one, #00cec1);
-          box-shadow: 0 20px 60px rgba(0,206,193,0.3);
-        }
-        .ep-pill--featured:hover {
-          background: #00ede0;
-          transform: translateY(-6px);
-          box-shadow: 0 28px 70px rgba(0,206,193,0.4);
-        }
-        .ep-pill--featured .ep-pill-label,
-        .ep-pill--featured .ep-pill-title,
-        .ep-pill--featured .ep-pill-arrow {
-          color: #020d14 !important;
-          opacity: 1 !important;
-        }
-        .ep-pill--featured .ep-pill-icon {
-          color: rgba(2,13,20,0.75) !important;
-          opacity: 1 !important;
-        }
 
         .ep-pill-icon {
           width: 44px; height: 44px;
@@ -325,21 +305,21 @@ export default function ExpertisePage() {
 
         .ep-pill-body { text-align: center; flex: 1; padding: 1.2rem 0 0.6rem; }
         .ep-pill-label {
-          display: block; font-size: 0.55rem; font-weight: 700;
+          display: block; font-size: 0.80rem; font-weight: 700;
           letter-spacing: 0.2em; text-transform: uppercase;
           color: var(--ep-text-muted);
           margin-bottom: 0.5rem;
         }
         .ep-pill-title {
-          font-size: 0.78rem; font-weight: 700;
-          color: var(--ep-text); line-height: 1.35;
+          font-size: 1rem; font-weight: 700;
+          color: var( --color-third); line-height: 1.35;
           margin: 0;
         }
 
         .ep-pill-arrow {
           display: block; text-align: center;
           font-size: 1rem;
-          color: var(--ep-text-muted);
+          color: var( --color-third);
           transition: color 0.2s, transform 0.2s;
         }
         .ep-pill:hover .ep-pill-arrow {

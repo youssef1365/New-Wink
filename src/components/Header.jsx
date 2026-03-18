@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import ContactModal from './ContactModal';
+import ContactModal from './ContactModal.jsx';
 
 const MoonIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -29,6 +29,13 @@ const InsightIcon = () => (
     </svg>
 );
 
+
+const PROGRAMME_ITEMS = [
+  { label: 'Enterprises',              href: '/Entreprises'          },
+  { label: 'Government & Associations',href: '/Government'},
+  { label: 'Event Organizers',         href: '/Organizers'      },
+];
+
 const PortalContactModal = () => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
@@ -43,6 +50,9 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
   const [progressWidth, setProgressWidth] = useState(0);
   const [hidden, setHidden] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [programsOpen, setProgramsOpen] = useState(false);
+  const programsRef = useRef(null);
+  const leaveTimer = useRef(null);
   const lastY = React.useRef(0);
 
   const theme = themeProp !== undefined ? themeProp : internalTheme;
@@ -98,6 +108,15 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
     window.dispatchEvent(new Event('openInsightModal'));
   };
 
+  // Hover helpers with a small delay so the dropdown doesn't vanish on micro-gaps
+  const handleProgramsEnter = () => {
+    clearTimeout(leaveTimer.current);
+    setProgramsOpen(true);
+  };
+  const handleProgramsLeave = () => {
+    leaveTimer.current = setTimeout(() => setProgramsOpen(false), 120);
+  };
+
   return (
       <>
         <motion.header
@@ -128,26 +147,63 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
                     <span className="nav-link-text">Expertise</span>
                   </a>
                 </li>
-                <li>
+
+                {/* ── Programs with dropdown ── */}
+                <li
+                  className="programs-parent"
+                  ref={programsRef}
+                  onMouseEnter={handleProgramsEnter}
+                  onMouseLeave={handleProgramsLeave}
+                >
                   <a href="/Packages" className={`nav-link ${activeSection === 'packages' ? 'active' : ''}`}>
-                    <span className="nav-link-text">Programes</span>
+                    <span className="nav-link-text">Programs</span>
+                    <svg
+                      className={`chevron ${programsOpen ? 'open' : ''}`}
+                      width="10" height="10" viewBox="0 0 10 10"
+                      fill="none" stroke="currentColor" strokeWidth="2"
+                      strokeLinecap="round" strokeLinejoin="round"
+                    >
+                      <polyline points="2 3.5 5 6.5 8 3.5" />
+                    </svg>
                   </a>
+
+                  <AnimatePresence>
+                    {programsOpen && (
+                      <motion.ul
+                        className="programs-dropdown"
+                        style={{ width: programsRef.current ? programsRef.current.offsetWidth + 'px' : 'max-content' }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.15, ease: 'easeOut' }}
+                      >
+                        {PROGRAMME_ITEMS.map((item) => (
+                          <li key={item.href}>
+                            <a href={item.href} className="dropdown-item">
+                              {item.label}
+                            </a>
+                          </li>
+                        ))}
+                      </motion.ul>
+                    )}
+                  </AnimatePresence>
                 </li>
+
                 <li>
                   <a href="/Event" className={`nav-link ${activeSection === 'events' ? 'active' : ''}`}>
                     <span className="nav-link-text">Events</span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="/Platform" className={`nav-link ${activeSection === 'platform' ? 'active' : ''}`}>
+                    <span className="nav-link-text">B2B Platform</span>
                   </a>
                 </li>
                 <li>
                   <a href="/AboutUs" className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}>
                     <span className="nav-link-text">WINK</span>
                   </a>
-                </li>
-                <li>
-                  <button className="engage-btn nav-link" onClick={handleEngageClick} aria-label="Engage Insight">
-                    <span className="nav-link-text">Engage</span>
-                    <span className="engage-tag">insight</span>
-                  </button>
                 </li>
               </ul>
 
@@ -186,7 +242,19 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
                   <ul className="mobile-links">
                     <li><a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
                     <li><a href="/#services" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
-                    <li><a href="/Packages" onClick={() => setMobileMenuOpen(false)}>Packages</a></li>
+
+                    {/* Mobile Programs accordion-style */}
+                    <li className="mobile-programs-group">
+                      <a href="/Programs" onClick={() => setMobileMenuOpen(false)}>Programs</a>
+                      <ul className="mobile-sub-links">
+                        {PROGRAMME_ITEMS.map((item) => (
+                          <li key={item.href}>
+                            <a href={item.href} onClick={() => setMobileMenuOpen(false)}>{item.label}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+
                     <li><a href="/Event" onClick={() => setMobileMenuOpen(false)}>Events</a></li>
                     <li><a href="/AboutUs" onClick={() => setMobileMenuOpen(false)}>Wink</a></li>
 
@@ -327,6 +395,87 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
             color: var(--color-one);
           }
 
+          /* ── chevron ── */
+          .chevron {
+            opacity: 0.6;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            flex-shrink: 0;
+          }
+          .chevron.open {
+            transform: rotate(180deg);
+            opacity: 1;
+          }
+
+          /* ── Programs parent ── */
+          .programs-parent {
+            position: relative;
+          }
+
+           .programs-dropdown::before{
+             content:"";
+             position:absolute;
+             top:0;
+             left:0;
+             right:0;
+             height:1px;
+             background:rgba(255,255,255,0.08);
+           }
+          .programs-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 260px;
+            margin: 0;
+            list-style: none;
+            padding: 0.3rem 0;
+
+            background: rgba(8, 28, 32, 0.35);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+
+            border: 1px solid rgba(255,255,255,0.06);
+            border-top: none;
+
+            border-radius: 0 0 8px 8px;
+
+            z-index: 1010;
+            overflow: hidden;
+          }
+
+          .programs-dropdown li {
+            margin: 0;
+            padding: 0;
+          }
+
+          .dropdown-item {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-weight: 700;
+            color: var(--color-third);
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            padding: 0.65rem 1.4rem;
+            opacity: 0.75;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: opacity var(--transition), color var(--transition),
+                        background var(--transition);
+            white-space: nowrap;
+            box-sizing: border-box;
+            text-align: center;
+          }
+
+          .dropdown-item:hover {
+            opacity: 1;
+            color: var(--color-one);
+            background: rgba(255, 255, 255, 0.05);
+          }
+
           .nav-cta {
             display: flex;
             align-items: center;
@@ -447,6 +596,23 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
               letter-spacing: 0.1em;
             }
 
+            /* mobile sub-links under Packages */
+            .mobile-programs-group { margin-bottom: 0 !important; }
+
+            .mobile-sub-links {
+              list-style: none;
+              padding: 0;
+              margin: 0.6rem 0 0;
+            }
+
+            .mobile-sub-links li { margin: 0.6rem 0 !important; }
+
+            .mobile-sub-links a {
+              font-size: 1rem !important;
+              opacity: 0.65;
+              letter-spacing: 0.18em !important;
+            }
+
             .mobile-engage-wrapper { margin-top: 0.5rem !important; }
 
             .mobile-engage {
@@ -471,8 +637,6 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
           }
         `}</style>
         </motion.header>
-
-
       </>
   );
 };

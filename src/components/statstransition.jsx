@@ -29,9 +29,9 @@ const StatsTransition = () => {
     { label: "Years Experience", value: "15", suffix: "+" },
     { label: "Events Managed",   value: "150", suffix: "+" },
     { label: "Countries Reached", value: "35", suffix: "+" },
-    { label: "Meetings Organized" , value: "50k", suffix: "+"},
-    { label: "Efficiency Ratings", value: "75%", suffix: "+"},
-    { label: "Customer Satisfaction", value: "90%", suffix:"+"}
+    { label: "Meetings Organized" , value: "50", suffix: "k"},
+    { label: "Efficiency Ratings", value: "75", suffix: "%"},
+    { label: "Customer Satisfaction", value: "90", suffix:"%"}
   ];
 
   return (
@@ -74,8 +74,10 @@ const StatsTransition = () => {
                 <Counter value={stat.value} />
                 <span className="stat-suffix">{stat.suffix}</span>
               </div>
-              <div className="stat-divider" />
+
               <div className="stat-label">{stat.label}</div>
+
+              <div className="stat-divider" />
             </motion.div>
           ))}
         </div>
@@ -146,7 +148,7 @@ const StatsTransition = () => {
           font-size: clamp(3.5rem, 7vw, 6rem);
           font-weight: 800;
           color: var(--color-third);
-          line-height: 1;
+          line-height: 1.5;
           letter-spacing: -0.03em;
           display: flex;
           align-items: flex-start;
@@ -164,7 +166,7 @@ const StatsTransition = () => {
           width: 24px;
           height: 1.5px;
           background: var(--color-1, rgba(255,255,255,0.3));
-          margin: 1rem 0 0.9rem 0;
+          margin: 2rem 0 0.9rem 0;
           opacity: 0.6;
         }
 

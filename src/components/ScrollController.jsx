@@ -9,6 +9,8 @@ import Packages from "./packages.jsx";
 import StatsTransition from "./statstransition.jsx";
 import Events from "./events.jsx";
 import Footer from "./footer.jsx";
+import FinalCTA from "./LastSec.jsx";
+
 
 export default function ScrollController() {
   const [activeSection, setActiveSection] = useState("home");
@@ -153,6 +155,10 @@ export default function ScrollController() {
 
       <div id="engage" />
       <div id="insights" />
+
+      <div id="cta" data-section-id="cta" ref={reg("cta")}>
+        <FinalCTA isActive={activeSection === "cta"} />
+      </div>
 
       <Footer />
     </>

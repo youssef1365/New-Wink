@@ -6,20 +6,23 @@ const Packages = () => {
     {
       id: "01",
       title: "Enterprises",
-      tag: "Package",
-      items: ["Market Entry Roadshows", "Virtual Market Access", "Trade Show Deal Accelerator"],
+      tag: "Program",
+      items: ["Market Access Starter","International Growth Sprint", "Multi-Market Expansion Program","Annual International Booking","Partnership"],
+      href: "/enterprises", // ← YOUR PAGE REFERENCE
     },
     {
       id: "02",
       title: "Government & Associations",
-      tag: "Package",
-      items: ["Trade Missions", "Trade Shows", "Investment Tours"],
+      tag: "Program",
+      items: ["International Hosted Buyers Program (HBP)", "Premium Structured B2B Access Programs"],
+      href: "/government-associations", // ← YOUR PAGE REFERENCE
     },
     {
       id: "03",
       title: "Event Organizers",
-      tag: "Package",
-      items: ["Hosted Buyers Programs", "B2B Meetings Organization", "Meetings Management Tool"],
+      tag: "Program",
+      items: ["Export Trade Missions", "Trade Show Delegation Support", "Investment Promotion Tours"],
+      href: "/event-organizers", // ← YOUR PAGE REFERENCE
     }
   ];
 
@@ -55,7 +58,7 @@ const Packages = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          Our Packages
+          Our Programs
         </motion.h2>
 
         <motion.p
@@ -108,15 +111,28 @@ const Packages = () => {
                 ))}
               </ul>
 
-              <div className="card-arrow">
+              <a href={pkg.href} className="card-arrow">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                   <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </div>
+              </a>
             </motion.div>
           ))}
         </motion.div>
 
+        <motion.a
+          href="/Packages"
+          className="view-all-btn"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+        >
+          <span>View Enterprise Packages</span>
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+            <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </motion.a>
 
       </section>
 
@@ -282,11 +298,64 @@ const Packages = () => {
           opacity: 0.2;
           display: flex;
           align-items: center;
+          text-decoration: none;
+          width: fit-content;
           transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
         }
         .pkg-card:hover .card-arrow {
           opacity: 0.7;
           transform: translateX(5px);
+        }
+
+        .view-all-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          text-decoration: none;
+          color: var(--color-bg-third);
+          border: 2px solid var(--color-bg-third);
+          padding: 0.85rem 2.2rem;
+          font-size: 0.68rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.18em;
+          border-radius: 100px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          transition: color 0.35s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease;
+        }
+
+        .view-all-btn::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--color-bg-third);
+          transform: translateX(-105%);
+          transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+          z-index: 0;
+        }
+
+        .view-all-btn:hover::before { transform: translateX(0); }
+
+        .view-all-btn:hover {
+          color: var(--color-bg);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+        }
+
+        .view-all-btn span,
+        .view-all-btn svg {
+          position: relative;
+          z-index: 1;
+        }
+
+        .view-all-btn svg {
+          transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+
+        .view-all-btn:hover svg {
+          transform: translateX(4px);
         }
 
         .pkg-footer {

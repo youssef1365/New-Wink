@@ -233,61 +233,61 @@ export default function GovernmentPage() {
         }
 
         .gov-hero {
-          max-width: 900px;
-          margin: 0 auto;
-          padding: clamp(4rem, 8vw, 7rem) 4vw clamp(2rem, 4vw, 3rem);
-          text-align: center;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .gov-eyebrow {
-          font-size: 0.65rem;
-          font-weight: 800;
-          letter-spacing: 0.28em;
-          text-transform: uppercase;
-          color: var(--color-one);
-          margin-bottom: 1.2rem;
-        }
-        .gov-hero-headline {
-          font-size: clamp(2.4rem, 5.5vw, 4rem);
-          font-weight: 800;
-          line-height: 1.1;
-          letter-spacing: -0.025em;
-          color: var(--color-third);
-          margin-bottom: 1.2rem;
-        }
-        .gov-hero-sub {
-          font-size: clamp(0.88rem, 1.5vw, 1.02rem);
-          color: var(--color-third);
-          opacity: 0.55;
-          line-height: 1.75;
-          max-width: 580px;
-          margin-bottom: 2.2rem;
-        }
-        .gov-hero-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.6rem;
-          border: 1px solid var(--color-one);
-          color: var(--color-one);
-          background: none;
-          padding: 0.85rem 2rem;
-          border-radius: 100px;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.72rem;
-          font-weight: 800;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-        .gov-hero-cta:hover {
-          background: var(--color-one);
-          color: var(--color-two);
-          transform: translateY(-2px);
-          box-shadow: 0 10px 28px rgba(0, 206, 193, 0.25);
-        }
+                    max-width: 1000px;
+                    margin: 0 auto;
+                    padding: clamp(4.5rem, 9vw, 7.5rem) 4vw clamp(5rem, 9vw, 8rem);
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                .gov-eyebrow {
+                    font-size: 0.8rem;
+                    font-weight: 800;
+                    letter-spacing: 0.28em;
+                    text-transform: uppercase;
+                    color: var(--color-one);
+                    margin-bottom: 1.4rem;
+                }
+                .gov-hero-headline {
+                    font-size: clamp(3rem, 7vw, 5.2rem);
+                    font-weight: 800;
+                    line-height: 1.08;
+                    letter-spacing: -0.03em;
+                    color: var(--color-third);
+                    margin-bottom: 1.6rem;
+                }
+                .gov-hero-sub {
+                   font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+                   color: var(--color-third);
+                   opacity: 0.55;
+                   line-height: 1.75;
+                   max-width: 640px;
+                   margin-bottom: 2.8rem;
+                }
+                .gov-hero-cta {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.6rem;
+                    border: 1px solid var(--color-one);
+                    color: var(--color-one);
+                    background: none;
+                    padding: 1rem 2.4rem;
+                    border-radius: 100px;
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: 0.8rem;
+                    font-weight: 800;
+                    letter-spacing: 0.16em;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                .gov-hero-cta:hover {
+                   background: var(--color-one);
+                   color: var(--color-two);
+                   transform: translateY(-2px);
+                   box-shadow: 0 10px 28px rgba(0, 206, 193, 0.25);
+                }
 
         .gov-section-label {
           font-size: 0.6rem;

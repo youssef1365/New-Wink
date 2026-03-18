@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const packages = [
     {
@@ -45,7 +45,7 @@ const packages = [
         number: '02',
         label: 'Premium Structured B2B Access Program',
         tag: 'Package 2',
-        positioning: 'A white-label, revenue-share B2B performance layer operated under the organizer\'s brand, designed primarily for local and regional buyers, with optional international extension.',
+        positioning: 'Zero-Investment Curated Strategic Buyer Engagement Program, A white-label, revenue-share B2B performance layer operated under the organizer\'s brand, designed primarily for local and regional buyers, with optional international extension.',
         investmentModel: [
             'Zero financial investment from organizer',
             'Exhibitors pay participation fee',
@@ -118,7 +118,104 @@ const fadeUp = {
     }),
 };
 
+function PackageModal({ pkg, onClose }) {
+    return (
+        <AnimatePresence>
+            {pkg && (
+                <>
+                    <motion.div
+                        className="modal-backdrop"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        onClick={onClose}
+                    />
+
+                    {/* Panel */}
+                    <motion.div
+                        className="modal-panel"
+                        initial={{ opacity: 0, scale: 0.97 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.97 }}
+                        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                        style={{ position: 'fixed', top: '50%', left: '50%', x: '-50%', y: '-50%' }}
+                    >
+                        {/* Header */}
+                        <div className="modal-header">
+                            <div className="modal-header-left">
+                                <span className="modal-pkg-num">{pkg.number}</span>
+                                <div>
+                                    <p className="modal-pkg-tag">{pkg.tag}</p>
+                                    <h3 className="modal-pkg-title">{pkg.label}</h3>
+                                </div>
+                            </div>
+                            <button className="modal-close" onClick={onClose} aria-label="Close">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                    <path d="M2 2l14 14M16 2L2 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Scrollable body */}
+                        <div className="modal-body">
+                            <div className="modal-grid">
+                                {/* Left col */}
+                                <div className="modal-col">
+                                    {pkg.investmentModel && (
+                                        <div className="modal-section">
+                                            <p className="modal-section-title">Investment Model</p>
+                                            <ul className="modal-list">
+                                                {pkg.investmentModel.map((b, i) => <li key={i}>{b}</li>)}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    <div className="modal-section">
+                                        <p className="modal-section-title">Governance & Operational Model</p>
+                                        <ul className="modal-list">
+                                            {pkg.governance.map((b, i) => <li key={i}>{b}</li>)}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div className="modal-col">
+                                    {pkg.organizerResponsibilities && (
+                                        <div className="modal-section">
+                                            <p className="modal-section-title modal-section-title--accent">Organizer Responsibilities</p>
+                                            <ul className="modal-list">
+                                                {pkg.organizerResponsibilities.map((r, i) => <li key={i}>{r}</li>)}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {pkg.revenueFramework && (
+                                        <div className="modal-section">
+                                            <p className="modal-section-title">Revenue & Control Framework</p>
+                                            <ul className="modal-list">
+                                                {pkg.revenueFramework.map((r, i) => <li key={i}>{r}</li>)}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    <div className="modal-section">
+                                        <p className="modal-section-title modal-section-title--kpi">Key Performance Indicators</p>
+                                        <ul className="modal-list modal-list--kpi">
+                                            {pkg.kpis.map((k, i) => <li key={i}>{k}</li>)}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </>
+            )}
+        </AnimatePresence>
+    );
+}
+
 export default function OrganizersPage() {
+    const [modalPkg, setModalPkg] = useState(null);
+    const pkg1 = packages[0];
+    const pkg2 = packages[1];
+
     return (
         <>
             <div className="org-page">
@@ -201,100 +298,114 @@ export default function OrganizersPage() {
                         </motion.p>
                     </div>
 
-                    {packages.map((pkg, pi) => (
-                        <motion.div
-                            key={pkg.id}
-                            className="org-pkg-block"
-                            initial={{ opacity: 0, y: 32 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: pi * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                            <div className="org-pkg-header">
-                                <span className="org-pkg-num">{pkg.number}</span>
-                                <div>
-                                    <p className="org-pkg-tag">{pkg.tag}</p>
-                                    <h3 className="org-pkg-title">{pkg.label}</h3>
+                    {/* ── PACKAGE 1 — full layout (unchanged) ── */}
+                    <motion.div
+                        className="org-pkg-block"
+                        initial={{ opacity: 0, y: 32 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        <div className="org-pkg-header">
+                            <span className="org-pkg-num">{pkg1.number}</span>
+                            <div>
+                                <p className="org-pkg-tag">{pkg1.tag}</p>
+                                <h3 className="org-pkg-title">{pkg1.label}</h3>
+                            </div>
+                        </div>
+                        <div className="org-pkg-body">
+                            <div className="org-pkg-col">
+                                <div className="org-pkg-section">
+                                    <p className="org-pkg-section-title">Positioning</p>
+                                    <p className="org-pkg-text">{pkg1.positioning}</p>
+                                </div>
+                                <div className="org-pkg-section">
+                                    <p className="org-pkg-section-title">Target Buyers</p>
+                                    <ul className="org-pkg-list">
+                                        {pkg1.targetBuyers.map((b, i) => <li key={i}>{b}</li>)}
+                                    </ul>
+                                </div>
+                                <div className="org-pkg-section">
+                                    <p className="org-pkg-section-title">Governance & Operational Model</p>
+                                    <ul className="org-pkg-list">
+                                        {pkg1.governance.map((b, i) => <li key={i}>{b}</li>)}
+                                    </ul>
+                                </div>
+                                {pkg1.organizerNote && (
+                                    <div className="org-pkg-note">
+                                        <p>{pkg1.organizerNote}</p>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="org-pkg-col">
+                                <div className="org-pkg-section">
+                                    <p className="org-pkg-section-title org-pkg-section-title--accent">Wink Consulting is responsible for</p>
+                                    <ul className="org-pkg-list">
+                                        {pkg1.winkResponsibilities.map((r, i) => <li key={i}>{r}</li>)}
+                                    </ul>
+                                </div>
+                                <div className="org-pkg-section">
+                                    <p className="org-pkg-section-title org-pkg-section-title--kpi">Key Performance Indicators (KPIs)</p>
+                                    <ul className="org-pkg-list org-pkg-list--kpi">
+                                        {pkg1.kpis.map((k, i) => <li key={i}>{k}</li>)}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* ── PACKAGE 2 — condensed card, click to open modal ── */}
+                    <motion.div
+                        className="org-pkg-block org-pkg-block--condensed"
+                        initial={{ opacity: 0, y: 32 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                        onClick={() => setModalPkg(pkg2)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={e => e.key === 'Enter' && setModalPkg(pkg2)}
+                        aria-label="View full details for Package 2"
+                    >
+                        <div className="org-pkg-header">
+                            <span className="org-pkg-num">{pkg2.number}</span>
+                            <div style={{ flex: 1 }}>
+                                <p className="org-pkg-tag">{pkg2.tag}</p>
+                                <h3 className="org-pkg-title">{pkg2.label}</h3>
+                            </div>
+                            <span className="pkg2-explore-pill">
+                                Explore
+                                <svg width="12" height="12" viewBox="0 0 18 18" fill="none">
+                                    <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </span>
+                        </div>
+
+                        <div className="org-pkg-body org-pkg-body--condensed">
+                            <div className="org-pkg-col">
+                                <div className="org-pkg-section">
+                                    <p className="org-pkg-section-title">Positioning</p>
+                                    <p className="org-pkg-text">{pkg2.positioning}</p>
                                 </div>
                             </div>
 
-                            <div className="org-pkg-body">
-                                <div className="org-pkg-col">
-                                    <div className="org-pkg-section">
-                                        <p className="org-pkg-section-title">Positioning</p>
-                                        <p className="org-pkg-text">{pkg.positioning}</p>
-                                    </div>
-
-                                    {pkg.targetBuyers && (
-                                        <div className="org-pkg-section">
-                                            <p className="org-pkg-section-title">Target Buyers</p>
-                                            <ul className="org-pkg-list">
-                                                {pkg.targetBuyers.map((b, i) => <li key={i}>{b}</li>)}
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    {pkg.investmentModel && (
-                                        <div className="org-pkg-section">
-                                            <p className="org-pkg-section-title">Investment Model</p>
-                                            <ul className="org-pkg-list">
-                                                {pkg.investmentModel.map((b, i) => <li key={i}>{b}</li>)}
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    <div className="org-pkg-section">
-                                        <p className="org-pkg-section-title">Governance & Operational Model</p>
-                                        <ul className="org-pkg-list">
-                                            {pkg.governance.map((b, i) => <li key={i}>{b}</li>)}
-                                        </ul>
-                                    </div>
-
-                                    {pkg.organizerNote && (
-                                        <div className="org-pkg-note">
-                                            <p>{pkg.organizerNote}</p>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="org-pkg-col">
-                                    {pkg.organizerResponsibilities && (
-                                        <div className="org-pkg-section">
-                                            <p className="org-pkg-section-title org-pkg-section-title--accent">Organizer Responsibilities</p>
-                                            <ul className="org-pkg-list">
-                                                {pkg.organizerResponsibilities.map((r, i) => <li key={i}>{r}</li>)}
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    <div className="org-pkg-section">
-                                        <p className="org-pkg-section-title org-pkg-section-title--accent">
-                                            {pkg.organizerResponsibilities ? 'Wink Responsibilities' : 'Wink Consulting is responsible for'}
-                                        </p>
-                                        <ul className="org-pkg-list">
-                                            {pkg.winkResponsibilities.map((r, i) => <li key={i}>{r}</li>)}
-                                        </ul>
-                                    </div>
-
-                                    {pkg.revenueFramework && (
-                                        <div className="org-pkg-section">
-                                            <p className="org-pkg-section-title">Revenue & Control Framework</p>
-                                            <ul className="org-pkg-list">
-                                                {pkg.revenueFramework.map((r, i) => <li key={i}>{r}</li>)}
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    <div className="org-pkg-section">
-                                        <p className="org-pkg-section-title org-pkg-section-title--kpi">Key Performance Indicators (KPIs)</p>
-                                        <ul className="org-pkg-list org-pkg-list--kpi">
-                                            {pkg.kpis.map((k, i) => <li key={i}>{k}</li>)}
-                                        </ul>
-                                    </div>
+                            <div className="org-pkg-col">
+                                <div className="org-pkg-section">
+                                    <ul className="org-pkg-list">
+                                        {pkg2.winkResponsibilities.map((r, i) => <li key={i}>{r}</li>)}
+                                    </ul>
                                 </div>
                             </div>
-                        </motion.div>
-                    ))}
+                        </div>
+
+                        <div className="pkg2-hint-bar">
+                            <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+                                <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.5"/>
+                                <path d="M9 8v5M9 6h.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                            </svg>
+                            Click to explore the full program details — governance, revenue framework &amp; KPIs
+                        </div>
+                    </motion.div>
                 </section>
 
                 <section className="org-final-cta">
@@ -311,71 +422,73 @@ export default function OrganizersPage() {
                 </section>
             </div>
 
+            <PackageModal pkg={modalPkg} onClose={() => setModalPkg(null)} />
+
             <style>{`
         .org-page {
           background-color: var(--color-two);
           color: var(--color-third);
           font-family: 'Montserrat', sans-serif;
           min-height: 100vh;
-          padding-top: 80px;
+          padding-top: 100px;
           transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .org-hero {
-          max-width: 900px;
-          margin: 0 auto;
-          padding: clamp(4rem, 8vw, 7rem) 4vw clamp(2rem, 4vw, 3rem);
-          text-align: center;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: clamp(4.5rem, 9vw, 5rem) 4vw clamp(5rem, 9vw, 8rem);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .org-eyebrow {
-          font-size: 0.65rem;
-          font-weight: 800;
-          letter-spacing: 0.28em;
-          text-transform: uppercase;
-          color: var(--color-one);
-          margin-bottom: 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--color-one);
+            margin-bottom: 1.4rem;
         }
         .org-hero-headline {
-          font-size: clamp(2.4rem, 5.5vw, 4rem);
-          font-weight: 800;
-          line-height: 1.1;
-          letter-spacing: -0.025em;
-          color: var(--color-third);
-          margin-bottom: 1.2rem;
+            font-size: clamp(3rem, 7vw, 4.8rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            color: var(--color-third);
+            margin-bottom: 1.6rem;
         }
         .org-hero-sub {
-          font-size: clamp(0.88rem, 1.5vw, 1.02rem);
-          color: var(--color-third);
-          opacity: 0.55;
-          line-height: 1.75;
-          max-width: 580px;
-          margin-bottom: 2.2rem;
+           font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+           color: var(--color-third);
+           opacity: 0.55;
+           line-height: 1.75;
+           max-width: 640px;
+           margin-bottom: 2.8rem;
         }
         .org-hero-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.6rem;
-          border: 1px solid var(--color-one);
-          color: var(--color-one);
-          background: none;
-          padding: 0.85rem 2rem;
-          border-radius: 100px;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.72rem;
-          font-weight: 800;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 1px solid var(--color-one);
+            color: var(--color-one);
+            background: none;
+            padding: 1rem 2.4rem;
+            border-radius: 100px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         .org-hero-cta:hover {
-          background: var(--color-one);
-          color: var(--color-two);
-          transform: translateY(-2px);
-          box-shadow: 0 10px 28px rgba(0, 206, 193, 0.25);
+           background: var(--color-one);
+           color: var(--color-two);
+           transform: translateY(-2px);
+           box-shadow: 0 10px 28px rgba(0, 206, 193, 0.25);
         }
 
         .org-section-label {
@@ -409,10 +522,7 @@ export default function OrganizersPage() {
           opacity: 0.65;
           margin-bottom: 1rem;
         }
-        .org-pos-highlight {
-          opacity: 0.85;
-          font-weight: 600;
-        }
+        .org-pos-highlight { opacity: 0.85; font-weight: 600; }
         .org-not-list {
           list-style: none;
           display: flex;
@@ -453,9 +563,7 @@ export default function OrganizersPage() {
           letter-spacing: 0.04em;
         }
 
-        .org-tech-section {
-          border-bottom: 1px solid rgba(209, 219, 220, 0.08);
-        }
+        .org-tech-section { border-bottom: 1px solid rgba(209, 219, 220, 0.08); }
         :root[data-theme="light"] .org-tech-section { border-color: rgba(0, 63, 92, 0.1); }
         .org-tech-inner {
           max-width: 1100px;
@@ -487,21 +595,9 @@ export default function OrganizersPage() {
           background: rgba(209, 219, 220, 0.03);
           transition: border-color 0.3s ease, background 0.3s ease;
         }
-        :root[data-theme="light"] .org-tech-card {
-          border-color: rgba(0, 63, 92, 0.1);
-          background: rgba(0, 63, 92, 0.02);
-        }
-        .org-tech-card:hover {
-          border-color: rgba(0, 206, 193, 0.3);
-          background: rgba(0, 206, 193, 0.05);
-        }
-        .org-tech-dot {
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: var(--color-one);
-          flex-shrink: 0;
-        }
+        :root[data-theme="light"] .org-tech-card { border-color: rgba(0, 63, 92, 0.1); background: rgba(0, 63, 92, 0.02); }
+        .org-tech-card:hover { border-color: rgba(0, 206, 193, 0.3); background: rgba(0, 206, 193, 0.05); }
+        .org-tech-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--color-one); flex-shrink: 0; }
         .org-tech-label {
           font-size: 0.7rem;
           font-weight: 700;
@@ -549,14 +645,23 @@ export default function OrganizersPage() {
           background: rgba(209, 219, 220, 0.03);
           transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        :root[data-theme="light"] .org-pkg-block {
-          background: rgba(0, 63, 92, 0.02);
-          border-color: rgba(0, 63, 92, 0.1);
+        :root[data-theme="light"] .org-pkg-block { background: rgba(0, 63, 92, 0.02); border-color: rgba(0, 63, 92, 0.1); }
+        .org-pkg-block:hover { border-color: rgba(0, 206, 193, 0.2); box-shadow: 0 16px 48px rgba(0, 206, 193, 0.06); }
+
+        .org-pkg-block--condensed {
+          cursor: pointer;
+          transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
         }
-        .org-pkg-block:hover {
-          border-color: rgba(0, 206, 193, 0.2);
-          box-shadow: 0 16px 48px rgba(0, 206, 193, 0.06);
+        .org-pkg-block--condensed:hover {
+          border-color: rgba(0, 206, 193, 0.35);
+          box-shadow: 0 20px 56px rgba(0, 206, 193, 0.1);
+          transform: translateY(-2px);
         }
+        .org-pkg-block--condensed:focus-visible {
+          outline: 2px solid var(--color-one);
+          outline-offset: 3px;
+        }
+
         .org-pkg-header {
           display: flex;
           align-items: flex-start;
@@ -565,10 +670,7 @@ export default function OrganizersPage() {
           border-bottom: 1px solid rgba(209, 219, 220, 0.08);
           background: rgba(0, 206, 193, 0.03);
         }
-        :root[data-theme="light"] .org-pkg-header {
-          background: rgba(0, 63, 92, 0.03);
-          border-bottom-color: rgba(0, 63, 92, 0.08);
-        }
+        :root[data-theme="light"] .org-pkg-header { background: rgba(0, 63, 92, 0.03); border-bottom-color: rgba(0, 63, 92, 0.08); }
         .org-pkg-num {
           font-size: 0.6rem;
           font-weight: 800;
@@ -595,29 +697,46 @@ export default function OrganizersPage() {
           line-height: 1.25;
         }
 
+        /* Explore pill on pkg2 header */
+        .pkg2-explore-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.45rem 1rem;
+          border-radius: 100px;
+          border: 1px solid rgba(0, 206, 193, 0.35);
+          color: var(--color-one);
+          font-size: 0.65rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          white-space: nowrap;
+          margin-top: 0.25rem;
+          flex-shrink: 0;
+          transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .org-pkg-block--condensed:hover .pkg2-explore-pill {
+          background: rgba(0, 206, 193, 0.1);
+          border-color: var(--color-one);
+        }
+
         .org-pkg-body {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 0;
         }
+        .org-pkg-body--condensed { /* same grid, no special override needed */ }
+
         .org-pkg-col {
           padding: 2rem;
           display: flex;
           flex-direction: column;
           gap: 1.75rem;
         }
-        .org-pkg-col:first-child {
-          border-right: 1px solid rgba(209, 219, 220, 0.08);
-        }
-        :root[data-theme="light"] .org-pkg-col:first-child {
-          border-right-color: rgba(0, 63, 92, 0.08);
-        }
+        .org-pkg-col:first-child { border-right: 1px solid rgba(209, 219, 220, 0.08); }
+        :root[data-theme="light"] .org-pkg-col:first-child { border-right-color: rgba(0, 63, 92, 0.08); }
 
-        .org-pkg-section {
-          display: flex;
-          flex-direction: column;
-          gap: 0.65rem;
-        }
+        .org-pkg-section { display: flex; flex-direction: column; gap: 0.65rem; }
         .org-pkg-section-title {
           font-size: 0.68rem;
           font-weight: 800;
@@ -626,26 +745,10 @@ export default function OrganizersPage() {
           color: var(--color-third);
           opacity: 0.5;
         }
-        .org-pkg-section-title--accent {
-          color: var(--color-one);
-          opacity: 0.85;
-        }
-        .org-pkg-section-title--kpi {
-          color: var(--color-one);
-          opacity: 0.7;
-        }
-        .org-pkg-text {
-          font-size: 0.82rem;
-          color: var(--color-third);
-          opacity: 0.65;
-          line-height: 1.75;
-        }
-        .org-pkg-list {
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-        }
+        .org-pkg-section-title--accent { color: var(--color-one); opacity: 0.85; }
+        .org-pkg-section-title--kpi { color: var(--color-one); opacity: 0.7; }
+        .org-pkg-text { font-size: 0.82rem; color: var(--color-third); opacity: 0.65; line-height: 1.75; }
+        .org-pkg-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
         .org-pkg-list li {
           display: flex;
           align-items: flex-start;
@@ -663,52 +766,38 @@ export default function OrganizersPage() {
           line-height: 1.3;
           flex-shrink: 0;
         }
-        .org-pkg-list--kpi li {
-          opacity: 0.85;
-          font-weight: 600;
-        }
+        .org-pkg-list--kpi li { opacity: 0.85; font-weight: 600; }
         .org-pkg-note {
           background: rgba(0, 206, 193, 0.05);
           border: 1px solid rgba(0, 206, 193, 0.12);
           border-radius: 8px;
           padding: 1rem 1.2rem;
         }
-        .org-pkg-note p {
-          font-size: 0.78rem;
-          color: var(--color-third);
-          opacity: 0.6;
-          line-height: 1.65;
-          font-style: italic;
-        }
+        .org-pkg-note p { font-size: 0.78rem; color: var(--color-third); opacity: 0.6; line-height: 1.65; font-style: italic; }
 
-        .org-final-cta {
-          border-top: 1px solid rgba(209, 219, 220, 0.08);
-          padding: clamp(3.5rem, 7vw, 6rem) 4vw;
-        }
-        :root[data-theme="light"] .org-final-cta { border-top-color: rgba(0, 63, 92, 0.1); }
-        .org-final-inner {
-          max-width: 600px;
-          margin: 0 auto;
+        /* Hint bar at bottom of pkg2 */
+        .pkg2-hint-bar {
           display: flex;
-          flex-direction: column;
           align-items: center;
-          gap: 1rem;
-          text-align: center;
+          gap: 0.6rem;
+          padding: 0.85rem 2rem;
+          border-top: 1px solid rgba(0, 206, 193, 0.08);
+          background: rgba(0, 206, 193, 0.03);
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          color: var(--color-one);
+          opacity: 0.6;
+          text-transform: uppercase;
+          transition: opacity 0.2s ease;
         }
-        .org-final-headline {
-          font-size: clamp(1.5rem, 3vw, 2.2rem);
-          font-weight: 800;
-          color: var(--color-third);
-          letter-spacing: -0.02em;
-          line-height: 1.2;
-        }
-        .org-final-sub {
-          font-size: 0.88rem;
-          color: var(--color-third);
-          opacity: 0.5;
-          line-height: 1.7;
-          margin-bottom: 0.75rem;
-        }
+        .org-pkg-block--condensed:hover .pkg2-hint-bar { opacity: 1; }
+
+        .org-final-cta { border-top: 1px solid rgba(209, 219, 220, 0.08); padding: clamp(3.5rem, 7vw, 6rem) 4vw; }
+        :root[data-theme="light"] .org-final-cta { border-top-color: rgba(0, 63, 92, 0.1); }
+        .org-final-inner { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+        .org-final-headline { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; color: var(--color-third); letter-spacing: -0.02em; line-height: 1.2; }
+        .org-final-sub { font-size: 0.88rem; color: var(--color-third); opacity: 0.5; line-height: 1.7; margin-bottom: 0.75rem; }
         .org-final-btn {
           display: inline-flex;
           align-items: center;
@@ -726,26 +815,115 @@ export default function OrganizersPage() {
           cursor: pointer;
           transition: all 0.3s ease;
         }
-        .org-final-btn:hover {
-          background: var(--color-fourth);
-          transform: translateY(-2px);
-          box-shadow: 0 12px 32px rgba(0, 206, 193, 0.3);
-        }
+        .org-final-btn:hover { background: var(--color-fourth); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0, 206, 193, 0.3); }
 
-        @media (max-width: 1100px) {
-          .org-tech-grid { grid-template-columns: repeat(3, 1fr); }
+        .modal-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
+          z-index: 2000;
         }
+        .modal-panel {
+          width: min(92vw, 980px);
+          max-height: 88vh;
+          background: var(--color-two);
+          border: 1px solid rgba(209, 219, 220, 0.1);
+          border-radius: 16px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          z-index: 2001;
+          box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+        }
+        :root[data-theme="light"] .modal-panel { border-color: rgba(0, 63, 92, 0.12); box-shadow: 0 32px 80px rgba(0, 0, 0, 0.15); }
+
+        .modal-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 1.5rem;
+          padding: 1.75rem 2rem;
+          border-bottom: 1px solid rgba(209, 219, 220, 0.08);
+          background: rgba(0, 206, 193, 0.03);
+          flex-shrink: 0;
+        }
+        :root[data-theme="light"] .modal-header { background: rgba(0, 63, 92, 0.03); border-bottom-color: rgba(0, 63, 92, 0.08); }
+
+        .modal-header-left { display: flex; align-items: flex-start; gap: 1.25rem; }
+        .modal-pkg-num { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.28em; color: var(--color-one); opacity: 0.7; margin-top: 0.35rem; flex-shrink: 0; }
+        .modal-pkg-tag { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-one); opacity: 0.8; margin-bottom: 0.3rem; }
+        .modal-pkg-title { font-size: clamp(1rem, 1.8vw, 1.3rem); font-weight: 800; color: var(--color-third); letter-spacing: -0.015em; line-height: 1.25; }
+
+        .modal-close {
+          background: rgba(209, 219, 220, 0.06);
+          border: 1px solid rgba(209, 219, 220, 0.1);
+          border-radius: 8px;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--color-third);
+          cursor: pointer;
+          flex-shrink: 0;
+          opacity: 0.6;
+          transition: opacity 0.2s ease, background 0.2s ease;
+        }
+        .modal-close:hover { opacity: 1; background: rgba(209, 219, 220, 0.12); }
+
+        .modal-body {
+          overflow-y: auto;
+          padding: 2rem;
+          flex: 1;
+        }
+        .modal-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+        }
+        .modal-col { display: flex; flex-direction: column; gap: 1.75rem; }
+        .modal-section { display: flex; flex-direction: column; gap: 0.65rem; }
+        .modal-section-title {
+          font-size: 0.68rem;
+          font-weight: 800;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--color-third);
+          opacity: 0.5;
+        }
+        .modal-section-title--accent { color: var(--color-one); opacity: 0.85; }
+        .modal-section-title--kpi { color: var(--color-one); opacity: 0.7; }
+        .modal-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+        .modal-list li {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.65rem;
+          font-size: 0.8rem;
+          color: var(--color-third);
+          opacity: 0.7;
+          line-height: 1.55;
+        }
+        .modal-list li::before {
+          content: '·';
+          color: var(--color-one);
+          font-weight: 900;
+          font-size: 1rem;
+          line-height: 1.3;
+          flex-shrink: 0;
+        }
+        .modal-list--kpi li { opacity: 0.85; font-weight: 600; }
+
+        @media (max-width: 1100px) { .org-tech-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 900px) {
           .org-positioning-inner { grid-template-columns: 1fr; gap: 2.5rem; }
           .org-pkg-body { grid-template-columns: 1fr; }
           .org-pkg-col:first-child { border-right: none; border-bottom: 1px solid rgba(209, 219, 220, 0.08); }
+          .modal-grid { grid-template-columns: 1fr; }
         }
-        @media (max-width: 700px) {
-          .org-tech-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 450px) {
-          .org-tech-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 700px) { .org-tech-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 450px) { .org-tech-grid { grid-template-columns: 1fr; } }
       `}</style>
         </>
     );

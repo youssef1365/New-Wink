@@ -106,8 +106,9 @@ export default function EnterprisesPage() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
+                        <p className="ent-overview-title">Executive Introduction</p>
                         <p className="ent-overview-statement">
-                            Wink Consulting supports companies in accelerating international growth through structured buyer sourcing, qualified B2B meetings, and end-to-end coordination.
+Wink Consulting designs and operates structured international programs that generate measurable economic outcomes through curated B2B meetings, strategic buyer sourcing, and intelligent matchmaking systems.
                         </p>
                         <p className="ent-overview-body">
                             Our 2026 Programs are designed with a progressive structure — from market testing to fully dedicated international booking partnerships — allowing companies to scale their international expansion in a controlled and measurable manner.
@@ -251,14 +252,14 @@ export default function EnterprisesPage() {
         .ent-hero {
           max-width: 900px;
           margin: 0 auto;
-          padding: clamp(4rem, 8vw, 7rem) 4vw clamp(2.5rem, 4vw, 3.5rem);
+          padding: clamp(4.5rem, 9vw, 7.5rem) 4vw clamp(5rem, 9vw, 8rem);
           text-align: center;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
         .ent-eyebrow {
-          font-size: 0.65rem;
+          font-size: 0.8rem;
           font-weight: 800;
           letter-spacing: 0.28em;
           text-transform: uppercase;
@@ -266,19 +267,20 @@ export default function EnterprisesPage() {
           margin-bottom: 1.2rem;
         }
         .ent-headline {
-          font-size: clamp(2.4rem, 5.5vw, 4rem);
+          font-size: clamp(3rem, 7vw, 5.2rem);
           font-weight: 800;
-          line-height: 1.1;
-          letter-spacing: -0.025em;
+          line-height: 1.08;
+          letter-spacing: -0.03em;
           color: var(--color-third);
-          margin-bottom: 1.2rem;
+          margin-bottom: 1.6rem;
         }
         .ent-hero-sub {
-          font-size: clamp(0.88rem, 1.5vw, 1.02rem);
+          font-size: clamp(1.05rem, 1.8vw, 1.25rem);
           color: var(--color-third);
           opacity: 0.55;
           line-height: 1.75;
-          max-width: 560px;
+          max-width: 640px;
+          margin-bottom: 2.8rem;
         }
 
         .ent-overview {

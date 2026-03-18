@@ -36,7 +36,7 @@ const Footer = ({ setShowModal }) => {
         }
 
         .footer-container {
-          max-width: 1440px;
+          max-width: 1800px;
           margin: 0 auto;
           padding: 6rem 2rem 4rem 2rem;
         }
