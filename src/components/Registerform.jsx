@@ -340,9 +340,6 @@ const CSS = `
 
   .rf-submit-row { display: flex; flex-direction: column; align-items: center; gap: 1rem; padding-top: 1rem; }
   .rf-submit { display: inline-flex; align-items: center; gap: 0.6rem; background: var(--color-one); color: var(--color-two); border: none; padding: 1rem 2.8rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; border-radius: 100px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.25s ease; position: relative; overflow: hidden; }
-  .rf-submit::before { content: ''; position: absolute; inset: 0; background: var(--color-fourth); transform: translateX(-105%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); z-index: 0; }
-  .rf-submit:hover::before { transform: translateX(0); }
-  .rf-submit:hover { box-shadow: 0 8px 32px rgba(0,206,193,0.35); transform: translateY(-2px); }
   .rf-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
   .rf-submit span, .rf-submit .rf-arrow { position: relative; z-index: 1; }
   .rf-arrow { transition: transform 0.25s ease; }
