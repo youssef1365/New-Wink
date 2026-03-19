@@ -286,7 +286,7 @@ const Packages = () => {
           width: 4px;
           height: 4px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.3);
+          background: #0eb2ae;
         }
 
         .card-arrow {

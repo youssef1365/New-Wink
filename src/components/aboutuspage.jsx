@@ -426,7 +426,7 @@ const AboutUsSection = () => {
                         What We Do / About the Company
                     </motion.span>
                     <motion.h2 className="abt-header__h" initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.08 }}>
-                        Our<br /><em>Story</em>
+                        Our <em>Story</em>
                     </motion.h2>
                 </div>
 

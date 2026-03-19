@@ -7,7 +7,14 @@ const Events = () => {
   const [lightboxSrc, setLightboxSrc] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth <= 600 : false);
   const carouselRef = useRef(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 600);
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   useEffect(() => {
     setCurrentIndex(0);
@@ -15,11 +22,28 @@ const Events = () => {
 
   useEffect(() => {
     if (selectedEvent) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
     } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
+      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.overflow = '';
+    };
   }, [selectedEvent]);
 
   useEffect(() => {
@@ -38,140 +62,28 @@ const Events = () => {
   }, [lightboxSrc, selectedEvent, currentIndex, filter]);
 
   const allEvents = [
-    {
-      id: 1, type: 'upcoming',
-      name: 'FOODEX JAPAN 2026',
-      location: 'Japan',
-      date: 'March 10 (Tue.) - 13 (Fri.), 2026',
-      details: 'Morocco will showcase the richness and diversity of its agri-food sector at FOODEX Japan 2026, one of Asia\'s leading international food and beverage exhibitions. Renowned for its Mediterranean and North African culinary heritage, Morocco offers a wide range of high-quality, export-ready food products, combining tradition, natural resources, and modern production standards.'
-    },
-    {
-      id: 2, type: 'upcoming',
-      name: 'Moroccan Business Mission for Agri-food & Fresh Products',
-      location: 'Jaal Hotel Marrakech, Marrakech',
-      date: 'March 26, 2026',
-      details: 'The Morocco Food & Fresh Produce Incoming Business Mission 2026, hosted in Marrakech, is an exclusive B2B initiative organized by Morocco Foodex to strengthen international trade partnerships and promote Moroccan agri-food and fresh produce exports.'
-    },
-    {
-      id: 3, type: 'upcoming',
-      name: 'International Food & Drink Event (IFE) 2026',
-      location: 'ExCeL London, United Kingdom',
-      date: '30 March – 01 April 2026',
-      details: 'IFE is the ultimate business event for food & drink product discovery, bringing together over 25,000 verified trade visitors, expert speakers, and global exhibitors from across the food & beverage industry.'
-    },
-    {
-      id: 4, type: 'upcoming',
-      name: 'Moroccan Trade Mission of Olive Oil Industry in New York',
-      location: 'New York City',
-      date: 'March 27th, 2026',
-      details: 'Taking place in the heart of New York City, the Moroccan Trade Mission – Olive Oil Industry, organized by Morocco Foodex, builds on previous successful editions in the United States.'
-    },
-    {
-      id: 5, type: 'past',
-      name: 'The Moroccan Seafood Trade Mission in Ghana',
-      location: 'Ghana',
-      date: 'Mardi 9 Décembre 2025',
-      details: 'The Moroccan Seafood Trade Mission in Ghana is a high-level B2B event designed to connect Moroccan seafood exporters with Ghanaian importers, distributors, and buyers.',
-      results: { meetings: 70, buyers: 41 },
-      photos: ['/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana2.jpeg']
-    },
-    {
-      id: 6, type: 'past',
-      name: '8th China International Import Expo (CIIE 2025)',
-      location: 'China',
-      date: '5 au 10 novembre 2025',
-      details: 'The Morocco Foodex Pavilion at the China International Import Expo (CIIE 2025) highlights Morocco\'s dynamic agri-food sector and its growing partnership with China.',
-      results: { meetings: 60, buyers: 37 },
-      photos: ['/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china2.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china3.jpeg']
-    },
-    {
-      id: 7, type: 'past',
-      name: 'KOREA BUILD WEEK 2025',
-      location: 'Korea',
-      date: '30 juillet au 2 août 2025',
-      details: 'KOREA BUILD WEEK 2025 brings together global leaders in building materials, interior design, construction equipment, and smart building technologies.',
-      results: { meetings: 81, buyers: 48 },
-      photos: ['/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea2.jpeg']
-    },
-    {
-      id: 8, type: 'past',
-      name: 'Mission commerciale du textile et des matières premières au Maroc',
-      location: 'Casablanca, Morocco',
-      date: '5 au 7 Novembre 2025',
-      details: 'La Mission commerciale du textile et des matières premières – Maroc, organisée par İTHİB en collaboration avec le Ministère turc du Commerce, vise à renforcer les relations économiques et commerciales entre la Turquie et le Maroc.',
-      results: { meetings: 942, buyers: 247 },
-    },
-    {
-      id: 9, type: 'past',
-      name: 'GULFOOD 2026',
-      location: 'Dubai Exhibition Centre',
-      date: '26 au 30 Janvier 2026',
-      details: 'Taking place at the Dubai Exhibition Centre at Expo City Dubai, Gulfood is the world\'s largest and most influential food and beverage exhibition.',
-      results: { meetings: 260, buyers: 162 },
-      photos: ['/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood2.jpeg']
-    },
-    {
-      id: 10, type: 'past',
-      name: 'Conxemar 2025',
-      location: 'Vigo, Espagne',
-      date: '7 au 9 octobre 2025',
-      details: 'Salon international de référence pour les produits de la mer surgelés.',
-      results: { meetings: 177, buyers: 61 },
-    },
-    {
-      id: 11, type: 'past',
-      name: 'Multi-Sector Food Trade Mission',
-      location: 'Variable',
-      date: 'Automne 2025',
-      details: 'Dans le cadre du renforcement des échanges commerciaux entre la Turquie et le Maroc, cet événement B2B réunit une délégation d\'entreprises turques leaders du secteur agroalimentaire.',
-      results: { meetings: 128, buyers: 29 },
-    },
-    {
-      id: 12, type: 'past',
-      name: 'Big 5 Global Dubai',
-      location: 'Dubai World Trade Centre',
-      date: '24 au 27 novembre 2025',
-      details: 'Taking place from November 24 – 27, 2025 at the Dubai World Trade Centre, Big 5 Global is the largest construction event in the Middle East and Africa.',
-      results: { meetings: 142, buyers: 94 },
-      photos: ['/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big51.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big52.jpeg']
-    },
-    {
-      id: 13, type: 'past',
-      name: 'ADIFE 2025',
-      location: 'Abu Dhabi',
-      date: 'Novembre 2025',
-      details: 'Salon stratégique à Abu Dhabi pour le secteur F&B et l\'hôtellerie.',
-      results: { meetings: 255, buyers: 85 },
-      photos: ['/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif2.jpeg']
-    },
-    {
-      id: 14, type: 'past',
-      name: 'Kitchenware & Tableware Trade Mission',
-      location: 'To be confirmed',
-      date: 'Saison 2025',
-      details: 'Une mission de prospection ciblée permettant aux fabricants turcs d\'articles de cuisine et de table de rencontrer des acheteurs stratégiques.',
-      results: { meetings: 250, buyers: 44 },
-    },
-    {
-      id: 15, type: 'past',
-      name: 'Mission Commerciale en République Démocratique du Congo',
-      location: 'Kinshasa et Lubumbashi',
-      date: 'Courant 2025/2026',
-      details: 'Mission de prospection à Kinshasa et Lubumbashi pour explorer les opportunités dans les infrastructures, l\'énergie et l\'agro-industrie.',
-      results: { meetings: 159, buyers: 71 },
-    }
+    { id: 1, type: 'upcoming', name: 'FOODEX JAPAN 2026', location: 'Japan', date: 'March 10 (Tue.) - 13 (Fri.), 2026', details: 'Morocco will showcase the richness and diversity of its agri-food sector at FOODEX Japan 2026, one of Asia\'s leading international food and beverage exhibitions.' },
+    { id: 2, type: 'upcoming', name: 'Moroccan Business Mission for Agri-food & Fresh Products', location: 'Jaal Hotel Marrakech, Marrakech', date: 'March 26, 2026', details: 'The Morocco Food & Fresh Produce Incoming Business Mission 2026, hosted in Marrakech, is an exclusive B2B initiative organized by Morocco Foodex.' },
+    { id: 3, type: 'upcoming', name: 'International Food & Drink Event (IFE) 2026', location: 'ExCeL London, United Kingdom', date: '30 March – 01 April 2026', details: 'IFE is the ultimate business event for food & drink product discovery, bringing together over 25,000 verified trade visitors, expert speakers, and global exhibitors.' },
+    { id: 4, type: 'upcoming', name: 'Moroccan Trade Mission of Olive Oil Industry in New York', location: 'New York City', date: 'March 27th, 2026', details: 'Taking place in the heart of New York City, the Moroccan Trade Mission – Olive Oil Industry, organized by Morocco Foodex.' },
+    { id: 5, type: 'past', name: 'The Moroccan Seafood Trade Mission in Ghana', location: 'Ghana', date: 'Mardi 9 Décembre 2025', details: 'The Moroccan Seafood Trade Mission in Ghana is a high-level B2B event designed to connect Moroccan seafood exporters with Ghanaian importers, distributors, and buyers.', results: { meetings: 70, buyers: 41 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana2.jpeg'] },
+    { id: 6, type: 'past', name: '8th China International Import Expo (CIIE 2025)', location: 'China', date: '5 au 10 novembre 2025', details: 'The Morocco Foodex Pavilion at the China International Import Expo (CIIE 2025) highlights Morocco\'s dynamic agri-food sector.', results: { meetings: 60, buyers: 37 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china2.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china3.jpeg'] },
+    { id: 7, type: 'past', name: 'KOREA BUILD WEEK 2025', location: 'Korea', date: '30 juillet au 2 août 2025', details: 'KOREA BUILD WEEK 2025 brings together global leaders in building materials, interior design, construction equipment, and smart building technologies.', results: { meetings: 81, buyers: 48 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea2.jpeg'] },
+    { id: 8, type: 'past', name: 'Mission commerciale du textile et des matières premières au Maroc', location: 'Casablanca, Morocco', date: '5 au 7 Novembre 2025', details: 'La Mission commerciale du textile et des matières premières – Maroc, organisée par İTHİB en collaboration avec le Ministère turc du Commerce.', results: { meetings: 942, buyers: 247 } },
+    { id: 9, type: 'past', name: 'GULFOOD 2026', location: 'Dubai Exhibition Centre', date: '26 au 30 Janvier 2026', details: 'Taking place at the Dubai Exhibition Centre at Expo City Dubai, Gulfood is the world\'s largest and most influential food and beverage exhibition.', results: { meetings: 260, buyers: 162 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood2.jpeg'] },
+    { id: 10, type: 'past', name: 'Conxemar 2025', location: 'Vigo, Espagne', date: '7 au 9 octobre 2025', details: 'Salon international de référence pour les produits de la mer surgelés.', results: { meetings: 177, buyers: 61 } },
+    { id: 11, type: 'past', name: 'Multi-Sector Food Trade Mission', location: 'Variable', date: 'Automne 2025', details: 'Dans le cadre du renforcement des échanges commerciaux entre la Turquie et le Maroc, cet événement B2B réunit une délégation d\'entreprises turques leaders du secteur agroalimentaire.', results: { meetings: 128, buyers: 29 } },
+    { id: 12, type: 'past', name: 'Big 5 Global Dubai', location: 'Dubai World Trade Centre', date: '24 au 27 novembre 2025', details: 'Taking place from November 24 – 27, 2025 at the Dubai World Trade Centre, Big 5 Global is the largest construction event in the Middle East and Africa.', results: { meetings: 142, buyers: 94 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big51.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big52.jpeg'] },
+    { id: 13, type: 'past', name: 'ADIFE 2025', location: 'Abu Dhabi', date: 'Novembre 2025', details: 'Salon stratégique à Abu Dhabi pour le secteur F&B et l\'hôtellerie.', results: { meetings: 255, buyers: 85 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif2.jpeg'] },
+    { id: 14, type: 'past', name: 'Kitchenware & Tableware Trade Mission', location: 'To be confirmed', date: 'Saison 2025', details: 'Une mission de prospection ciblée permettant aux fabricants turcs d\'articles de cuisine et de table de rencontrer des acheteurs stratégiques.', results: { meetings: 250, buyers: 44 } },
+    { id: 15, type: 'past', name: 'Mission Commerciale en République Démocratique du Congo', location: 'Kinshasa et Lubumbashi', date: 'Courant 2025/2026', details: 'Mission de prospection à Kinshasa et Lubumbashi pour explorer les opportunités dans les infrastructures, l\'énergie et l\'agro-industrie.', results: { meetings: 159, buyers: 71 } },
   ];
 
-  const upcomingImages = {
-    1: '/tokyo.jpeg',
-    2: '/marakkesh.jpeg',
-    3: '/london.jpeg',
-    4: '/newyork.jpeg',
-  };
+  const upcomingImages = { 1: '/tokyo.jpeg', 2: '/marakkesh.jpeg', 3: '/london.jpeg', 4: '/newyork.jpeg' };
 
   const filteredEvents = allEvents.filter((e) => e.type === filter);
   const total = filteredEvents.length;
-  const VISIBLE = 3;
+  const VISIBLE = isMobile ? 1 : 3;
   const maxIndex = Math.max(0, total - VISIBLE);
 
   const handleNext = () => {
@@ -194,21 +106,32 @@ const Events = () => {
 
   const visibleEvents = filteredEvents.slice(currentIndex, currentIndex + VISIBLE);
 
+  const touchStartX = useRef(null);
+
+  const handleTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) handleNext();
+      else handlePrev();
+    }
+    touchStartX.current = null;
+  };
+
   return (
     <>
       <section className="events-section" id="events-anchor">
         <div className="events-header">
           <h2 className="events-title">Our Events</h2>
-          <p className="events-subtitle">
-            Explore upcoming initiatives and past projects delivered across industries and markets.
-          </p>
+          <p className="events-subtitle">Explore upcoming initiatives and past projects delivered across industries and markets.</p>
           <div className="filter-tabs">
             <button className={`tab-btn ${filter === 'upcoming' ? 'active' : ''}`} onClick={() => setFilter('upcoming')}>Upcoming Events</button>
             <button className={`tab-btn ${filter === 'past' ? 'active' : ''}`} onClick={() => setFilter('past')}>Past Events</button>
           </div>
         </div>
 
-        <div className="carousel-wrapper" ref={carouselRef}>
+        <div className="carousel-wrapper" ref={carouselRef} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <button className="carousel-nav prev" onClick={handlePrev} disabled={currentIndex === 0} aria-label="Previous">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
               <path d="M11 4L6 9l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -227,14 +150,12 @@ const Events = () => {
                   transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
                   className="event-card"
                 >
-                  {/* Image header — only for upcoming events with an image */}
                   {event.type === 'upcoming' && upcomingImages[event.id] && (
                     <div className="event-card-img" style={{ backgroundImage: `url(${upcomingImages[event.id]})` }}>
                       <div className="event-card-img-gradient" />
                       <span className="event-card-city">{event.location.split(',')[0].toUpperCase()}</span>
                     </div>
                   )}
-
                   <div className="event-info">
                     <span className="event-type-tag">{event.type === 'upcoming' ? 'Upcoming' : 'Past'}</span>
                     <h3 className="event-name">{event.name}</h3>
@@ -267,6 +188,17 @@ const Events = () => {
           </button>
         </div>
 
+        <div className="carousel-dots">
+          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+            <button
+              key={i}
+              className={`dot ${i === currentIndex ? 'active' : ''}`}
+              onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); }}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+
         <div className="events-footer">
           <a href="/Event" className="view-all-events-btn">
             <span>View All Events</span>
@@ -289,9 +221,9 @@ const Events = () => {
             />
             <motion.div
               className="modal-panel"
-              initial={{ opacity: 0, x: '-50%', y: '-45%' }}
-              animate={{ opacity: 1, x: '-50%', y: '-50%' }}
-              exit={{ opacity: 0, x: '-50%', y: '-45%' }}
+              initial={{ opacity: 0, y: '4%' }}
+              animate={{ opacity: 1, y: '0%' }}
+              exit={{ opacity: 0, y: '4%' }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             >
               <button className="modal-close" onClick={() => setSelectedEvent(null)}>
@@ -399,7 +331,7 @@ const Events = () => {
         }
 
         .events-title {
-          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-size: clamp(2rem, 5vw, 4rem);
           color: var(--color-text-primary);
           font-weight: 800;
           margin-bottom: var(--space-sm);
@@ -417,6 +349,7 @@ const Events = () => {
           gap: 1rem;
           justify-content: center;
           margin-top: 2rem;
+          flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -428,6 +361,7 @@ const Events = () => {
           cursor: pointer;
           font-weight: 600;
           transition: all 0.3s ease;
+          font-size: clamp(0.8rem, 2.5vw, 1rem);
         }
 
         .tab-btn.active {
@@ -448,7 +382,6 @@ const Events = () => {
         .carousel-nav {
           flex-shrink: 0;
           width: 44px;
-          height: auto;
           min-height: 44px;
           background: rgba(255,255,255,0.04);
           border: 1px solid rgba(255,255,255,0.1);
@@ -467,10 +400,7 @@ const Events = () => {
           transform: scale(1.05);
         }
 
-        .carousel-nav:disabled {
-          opacity: 0.2;
-          cursor: default;
-        }
+        .carousel-nav:disabled { opacity: 0.2; cursor: default; }
 
         .carousel-track {
           flex: 1;
@@ -483,44 +413,37 @@ const Events = () => {
         .event-card {
           background: var(--color-bg);
           border-radius: 8px;
-          padding: 1.8rem 1.5rem;
           border: 1px solid rgba(255,255,255,0.07);
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-          transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.3s ease;
+          overflow: hidden;
           position: relative;
-          overflow: hidden;
-          height: auto;
+          transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.3s ease;
         }
 
-        .event-card {
-          display: flex;
-          flex-direction: column;
-          padding: 0;
-          overflow: hidden;
+        .event-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 2px;
+          background: var(--color-primary);
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.35s ease;
+          z-index: 1;
         }
 
-        .event-card .event-info {
-          padding: 1.2rem 1.5rem 0;
-          overflow: visible;  flex: 1;
-
-
-        }
-
-
-        .event-card .view-event-cta {
-          margin: 1.2rem 1.5rem 1.5rem;
-        }
+        .event-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.12); }
+        .event-card:hover::before { transform: scaleX(1); }
+        .event-card:hover .event-name { color: var(--color-primary); }
 
         .event-card-img {
-          position: relative;
           width: 100%;
           height: 180px;
           flex-shrink: 0;
-            background-size: cover;
-            background-position: center 20%;
-            position: relative;
+          background-size: cover;
+          background-position: center 20%;
+          position: relative;
         }
 
         .event-card-img-gradient {
@@ -542,20 +465,10 @@ const Events = () => {
           line-height: 1;
         }
 
-        .event-card::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0;
-          width: 100%; height: 2px;
-          background: var(--color-primary);
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: transform 0.35s ease;
+        .event-info {
+          padding: 1.2rem 1.5rem 0;
+          flex: 1;
         }
-
-        .event-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.12); }
-        .event-card:hover::before { transform: scaleX(1); }
-        .event-card:hover .event-name { color: var(--color-primary); }
 
         .event-type-tag {
           display: inline-block;
@@ -598,18 +511,11 @@ const Events = () => {
           border-top: 1px solid rgba(255,255,255,0.06);
         }
 
-        .event-results-inline span {
-          font-size: 0.72rem;
-          color: var(--color-text-secondary);
-        }
-
-        .event-results-inline strong {
-          color: var(--color-text-primary);
-          font-weight: 700;
-        }
+        .event-results-inline span { font-size: 0.72rem; color: var(--color-text-secondary); }
+        .event-results-inline strong { color: var(--color-text-primary); font-weight: 700; }
 
         .view-event-cta {
-          margin-top: 1.2rem;
+          margin: 1.2rem 1.5rem 1.5rem;
           background: none;
           border: 1px solid rgba(255,255,255,0.15);
           color: var(--color-text-primary);
@@ -626,16 +532,8 @@ const Events = () => {
           letter-spacing: 0.04em;
         }
 
-        .view-event-cta:hover {
-          background: var(--color-text);
-          color: var(--color-bg);
-          border-color: var(--color-text);
-        }
-
-        .view-event-cta svg {
-          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-        }
-
+        .view-event-cta:hover { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+        .view-event-cta svg { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
         .view-event-cta:hover svg { transform: translateX(3px); }
 
         .carousel-dots {
@@ -643,6 +541,7 @@ const Events = () => {
           gap: 0.5rem;
           justify-content: center;
           margin-top: 1.8rem;
+          flex-wrap: wrap;
         }
 
         .dot {
@@ -652,7 +551,7 @@ const Events = () => {
           border: none;
           cursor: pointer;
           padding: 0;
-          transition: background 0.25s ease, transform 0.25s ease, width 0.25s ease;
+          transition: background 0.25s ease, width 0.25s ease;
         }
 
         .dot.active {
@@ -674,7 +573,7 @@ const Events = () => {
           text-decoration: none;
           color: var(--color-text-primary);
           border: 2px solid rgba(255,255,255,0.2);
-          padding: 0.55rem 2.2rem;
+          padding: 0.75rem 2.2rem;
           font-size: 0.68rem;
           font-weight: 800;
           text-transform: uppercase;
@@ -696,23 +595,9 @@ const Events = () => {
         }
 
         .view-all-events-btn:hover::before { transform: translateX(0); }
-        .view-all-events-btn:hover {
-          color: var(--color-bg);
-          border-color: var(--color-text-primary);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 28px rgba(255,255,255,0.1);
-        }
-
-        .view-all-events-btn span,
-        .view-all-events-btn svg {
-          position: relative;
-          z-index: 1;
-        }
-
-        .view-all-events-btn svg {
-          transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
-        }
-
+        .view-all-events-btn:hover { color: var(--color-bg); border-color: var(--color-text-primary); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,255,255,0.1); }
+        .view-all-events-btn span, .view-all-events-btn svg { position: relative; z-index: 1; }
+        .view-all-events-btn svg { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
         .view-all-events-btn:hover svg { transform: translateX(4px); }
 
         .modal-backdrop {
@@ -727,6 +612,7 @@ const Events = () => {
         .modal-panel {
           position: fixed;
           top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
           z-index: 1200;
           background: var(--color-bg);
           border: 1px solid rgba(255,255,255,0.09);
@@ -771,17 +657,18 @@ const Events = () => {
         }
 
         .modal-title {
-          font-size: clamp(1.6rem, 3vw, 2.2rem);
+          font-size: clamp(1.2rem, 3vw, 2.2rem);
           font-weight: 800;
           color: var(--color-text-primary);
           margin: 0 0 1.2rem 0;
           line-height: 1.15;
           letter-spacing: -0.02em;
+          padding-right: 2rem;
         }
 
         .modal-meta {
           display: flex;
-          gap: 1.5rem;
+          gap: 1rem;
           flex-wrap: wrap;
           margin-bottom: 1.4rem;
         }
@@ -832,20 +719,8 @@ const Events = () => {
         }
 
         .result-item { text-align: center; display: flex; flex-direction: column; }
-
-        .result-value {
-          font-size: 1.8rem;
-          font-weight: 800;
-          color: var(--color-text-primary);
-        }
-
-        .result-label {
-          font-size: 0.7rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          opacity: 0.6;
-          color: var(--color-text-secondary);
-        }
+        .result-value { font-size: 1.8rem; font-weight: 800; color: var(--color-text-primary); }
+        .result-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; color: var(--color-text-secondary); }
 
         .modal-footer {
           display: flex;
@@ -854,6 +729,7 @@ const Events = () => {
           margin-top: 2rem;
           padding-top: 1.5rem;
           border-top: 1px solid rgba(255,255,255,0.06);
+          flex-wrap: wrap;
         }
 
         .modal-cta {
@@ -894,12 +770,7 @@ const Events = () => {
           gap: 0.6rem;
         }
 
-        .photos-hint {
-          font-size: 0.65rem;
-          opacity: 0.4;
-          text-transform: none;
-          letter-spacing: 0;
-        }
+        .photos-hint { font-size: 0.65rem; opacity: 0.4; text-transform: none; letter-spacing: 0; }
 
         .modal-photos-grid {
           display: grid;
@@ -987,10 +858,61 @@ const Events = () => {
         }
 
         @media (max-width: 600px) {
-          .carousel-track { grid-template-columns: 1fr; }
-          .modal-results-grid { grid-template-columns: 1fr; }
-          .modal-panel { padding: 2rem 1.25rem 1.5rem; }
+          .events-section { padding: 4rem 1rem 3rem; }
+
+          .carousel-wrapper { gap: 0.5rem; }
+
+          .carousel-nav {
+            width: 36px;
+            min-width: 36px;
+            border-radius: 8px;
+          }
+
+          .carousel-track {
+            grid-template-columns: 1fr;
+            gap: 0;
+            min-height: unset;
+          }
+
+          .event-card {
+            border-radius: 12px;
+            width: 100%;
+          }
+
+          .event-card-img { height: 200px; }
+
+          .event-info { padding: 1rem 1.2rem 0; }
+
+          .view-event-cta {
+            margin: 1rem 1.2rem 1.2rem;
+            width: calc(100% - 2.4rem);
+            justify-content: center;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+          }
+
+          .event-name { font-size: 1.05rem; }
+
+          .modal-panel {
+            position: fixed;
+            top: auto;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: none;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 16px 16px 0 0;
+            padding: 1.8rem 1.25rem 2rem;
+          }
+
           .modal-photos-grid { grid-template-columns: repeat(2, 1fr); }
+
+          .modal-results-grid { grid-template-columns: 1fr 1fr; }
+
+          .modal-footer { flex-direction: column; align-items: stretch; }
+          .modal-cta { justify-content: center; width: 100%; }
+          .modal-dismiss { text-align: center; }
         }
       `}</style>
     </>

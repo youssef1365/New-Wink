@@ -92,10 +92,11 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
   const [progressWidth, setProgressWidth] = useState(0);
   const [hidden, setHidden]               = useState(false);
   const [mounted, setMounted]             = useState(false);
+  const [isMobile, setIsMobile]           = useState(() => typeof window !== 'undefined' ? window.innerWidth <= 1024 : false);
   const [programsOpen, setProgramsOpen]   = useState(false);
   const programsRef = useRef(null);
   const leaveTimer  = useRef(null);
-  const lastY       = React.useRef(0);
+  const lastY       = useRef(0);
 
   const theme = themeProp !== undefined ? themeProp : internalTheme;
   const setTheme = (val) => {
@@ -111,17 +112,23 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
   }, []);
 
   useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 1024);
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       const currentY = window.scrollY;
       setIsScrolled(currentY > 50);
-      if (!mobileMenuOpen) {
+      if (!mobileMenuOpen && !isMobile) {
         setHidden(currentY > lastY.current && currentY > 300 && (scrollVelocity || 0) > 1.5);
       }
       lastY.current = currentY;
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [scrollVelocity, mobileMenuOpen]);
+  }, [scrollVelocity, mobileMenuOpen, isMobile]);
 
   useEffect(() => {
     if (!scrollProgress) return;
@@ -130,8 +137,31 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
   }, [scrollProgress]);
 
   useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    if (mobileMenuOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.overflow = 'hidden';
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.overflow = '';
+    };
   }, [mobileMenuOpen]);
 
   const toggleTheme = () => {
@@ -155,6 +185,8 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
     leaveTimer.current = setTimeout(() => setProgramsOpen(false), 120);
   };
 
+  const shouldHide = mounted && hidden && !mobileMenuOpen && !isMobile;
+
   return (
     <>
       <PortalContactModal />
@@ -166,7 +198,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
       />
       <motion.header
         className={`header ${isScrolled ? 'scrolled' : ''} ${mobileMenuOpen ? 'mobile-active' : ''}`}
-        animate={{ y: mounted && hidden && !mobileMenuOpen ? '-100%' : '0%' }}
+        animate={{ y: shouldHide ? '-100%' : '0%' }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="progress-bar">
@@ -265,20 +297,25 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
                   <a href="/#services" onClick={() => setMobileMenuOpen(false)}>Expertise</a>
                 </motion.li>
                 <motion.li className="mobile-programs-group" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }}>
-                  <button
-                    className="mobile-programs-toggle"
-                    onClick={() => setMobileProgramsOpen(!mobileProgramsOpen)}
-                  >
-                    <span>Programs</span>
-                    <svg
-                      className={`mobile-chevron ${mobileProgramsOpen ? 'open' : ''}`}
-                      width="14" height="14" viewBox="0 0 10 10"
-                      fill="none" stroke="currentColor" strokeWidth="2"
-                      strokeLinecap="round" strokeLinejoin="round"
+                  <div className="mobile-programs-row">
+                    <a href="/Packages" className="mobile-programs-link" onClick={() => setMobileMenuOpen(false)}>
+                      Programs
+                    </a>
+                    <button
+                      className="mobile-programs-arrow"
+                      onClick={() => setMobileProgramsOpen(!mobileProgramsOpen)}
+                      aria-label="Toggle programs submenu"
                     >
-                      <polyline points="2 3.5 5 6.5 8 3.5" />
-                    </svg>
-                  </button>
+                      <svg
+                        className={`mobile-chevron ${mobileProgramsOpen ? 'open' : ''}`}
+                        width="18" height="18" viewBox="0 0 10 10"
+                        fill="none" stroke="currentColor" strokeWidth="2"
+                        strokeLinecap="round" strokeLinejoin="round"
+                      >
+                        <polyline points="2 3.5 5 6.5 8 3.5" />
+                      </svg>
+                    </button>
+                  </div>
                   <AnimatePresence>
                     {mobileProgramsOpen && (
                       <motion.ul
@@ -342,6 +379,9 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
             -webkit-backdrop-filter: none !important;
             border-bottom: none !important;
             background: transparent !important;
+            position: fixed !important;
+            top: 0 !important;
+            transform: none !important;
           }
 
           .progress-bar {
@@ -565,7 +605,10 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
 
             .mobile-overlay {
               position: fixed;
-              inset: 0;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
               background: var(--color-two);
               display: flex;
               flex-direction: column;
@@ -574,6 +617,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
               z-index: 1001;
               overflow-y: auto;
               padding: 6rem 2rem 3rem;
+              -webkit-overflow-scrolling: touch;
             }
 
             .mobile-links {
@@ -601,25 +645,45 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
 
             .mobile-links > li > a:hover { color: var(--color-one); }
 
-            .mobile-programs-toggle {
-              background: none;
-              border: none;
-              cursor: pointer;
+            .mobile-programs-row {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.6rem;
+            }
+
+            .mobile-programs-link {
               color: var(--color-third);
               font-size: 1.6rem;
               text-transform: uppercase;
               font-weight: 800;
+              text-decoration: none;
               letter-spacing: 0.1em;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 0.5rem;
-              width: 100%;
               padding: 0.3rem 0;
               transition: color 0.2s ease;
             }
 
-            .mobile-programs-toggle:hover { color: var(--color-one); }
+            .mobile-programs-link:hover { color: var(--color-one); }
+
+            .mobile-programs-arrow {
+              background: rgba(0, 206, 193, 0.08);
+              border: 1px solid rgba(0, 206, 193, 0.2);
+              border-radius: 50%;
+              width: 36px;
+              height: 36px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              color: var(--color-third);
+              flex-shrink: 0;
+              transition: background 0.2s ease, border-color 0.2s ease;
+            }
+
+            .mobile-programs-arrow:hover {
+              background: rgba(0, 206, 193, 0.18);
+              border-color: rgba(0, 206, 193, 0.5);
+            }
 
             .mobile-chevron {
               transition: transform 0.25s ease;
