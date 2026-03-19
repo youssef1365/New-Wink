@@ -843,31 +843,18 @@ const Events = () => {
           .dot.active { width: 18px; }
           .events-footer { margin-top: 2rem; }
           .view-all-events-btn { width: 100%; justify-content: center; padding: 0.9rem 1.5rem; font-size: 0.72rem; }
-        }
 
-        @media (max-width: 768px) {
           .ev-modal-overlay {
-            align-items: flex-end;
-            padding: 0;
+            align-items: center;
+            padding: 1.25rem;
           }
 
           .ev-modal-panel {
             width: 100%;
-            max-height: 92vh;
-            border-radius: 20px 20px 0 0;
+            max-width: 94vw;
+            max-height: 88vh;
+            border-radius: 12px;
             padding: 2rem 1.25rem 1.5rem;
-          }
-
-          .ev-modal-stripe { border-radius: 20px 20px 0 0; }
-
-          .ev-modal-panel::before {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 4px;
-            background: rgba(0,206,193,0.25);
-            border-radius: 2px;
-            margin: -0.5rem auto 1.5rem;
           }
 
           .ev-modal-title { font-size: 1.2rem; }
