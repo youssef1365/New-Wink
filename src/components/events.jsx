@@ -584,20 +584,14 @@ const Events = () => {
         .ev-modal-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(2,13,20,0.75);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
+          background: rgba(0,0,0,0.65);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
           z-index: 1100;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 1.5rem;
-        }
-
-        [data-theme="light"] .ev-modal-overlay {
-          background: rgba(180,195,196,0.72);
-          backdrop-filter: blur(28px);
-          -webkit-backdrop-filter: blur(28px);
         }
 
         .ev-modal-panel {
@@ -861,7 +855,7 @@ const Events = () => {
             width: 100%;
             max-height: 92vh;
             border-radius: 20px 20px 0 0;
-            padding: 2rem 1.25rem 2.5rem;
+            padding: 2rem 1.25rem 1.5rem;
           }
 
           .ev-modal-stripe { border-radius: 20px 20px 0 0; }
