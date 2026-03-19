@@ -151,9 +151,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
       document.body.style.left = '';
       document.body.style.right = '';
       document.body.style.overflow = '';
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      }
+      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
     return () => {
       document.body.style.position = '';
@@ -187,6 +185,15 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
 
   const shouldHide = mounted && hidden && !mobileMenuOpen && !isMobile;
 
+  const openMobileMenu = () => {
+    setHidden(false);
+    setMobileMenuOpen(true);
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <>
       <PortalContactModal />
@@ -199,7 +206,10 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
       <motion.header
         className={`header ${isScrolled ? 'scrolled' : ''} ${mobileMenuOpen ? 'mobile-active' : ''}`}
         animate={{ y: shouldHide ? '-100%' : '0%' }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        transition={{
+          duration: mobileMenuOpen ? 0 : 0.4,
+          ease: [0.22, 1, 0.36, 1]
+        }}
       >
         <div className="progress-bar">
           <motion.div className="progress-fill" style={{ width: `${progressWidth}%` }} />
@@ -270,7 +280,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
               </button>
               <button
                 className={`hamburger-menu ${mobileMenuOpen ? 'is-active' : ''}`}
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                onClick={() => mobileMenuOpen ? closeMobileMenu() : openMobileMenu()}
                 aria-label="Toggle menu"
               >
                 <span className="line" />
@@ -291,14 +301,14 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
             >
               <ul className="mobile-links">
                 <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.02 }}>
-                  <a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a>
+                  <a href="/" onClick={closeMobileMenu}>Home</a>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.04 }}>
-                  <a href="/#services" onClick={() => setMobileMenuOpen(false)}>Expertise</a>
+                  <a href="/#services" onClick={closeMobileMenu}>Expertise</a>
                 </motion.li>
                 <motion.li className="mobile-programs-group" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }}>
                   <div className="mobile-programs-row">
-                    <a href="/Packages" className="mobile-programs-link" onClick={() => setMobileMenuOpen(false)}>
+                    <a href="/Packages" className="mobile-programs-link" onClick={closeMobileMenu}>
                       Programs
                     </a>
                     <button
@@ -327,7 +337,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
                       >
                         {PROGRAMME_ITEMS.map((item) => (
                           <li key={item.href}>
-                            <a href={item.href} onClick={() => setMobileMenuOpen(false)}>{item.label}</a>
+                            <a href={item.href} onClick={closeMobileMenu}>{item.label}</a>
                           </li>
                         ))}
                       </motion.ul>
@@ -335,13 +345,13 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
                   </AnimatePresence>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }}>
-                  <a href="/Event" onClick={() => setMobileMenuOpen(false)}>Events</a>
+                  <a href="/Event" onClick={closeMobileMenu}>Events</a>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                  <a href="/Platform" onClick={() => setMobileMenuOpen(false)}>B2B Platform</a>
+                  <a href="/Platform" onClick={closeMobileMenu}>B2B Platform</a>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 }}>
-                  <a href="/AboutUs" onClick={() => setMobileMenuOpen(false)}>WINK</a>
+                  <a href="/AboutUs" onClick={closeMobileMenu}>WINK</a>
                 </motion.li>
                 <motion.li className="mobile-cta-wrapper" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14 }}>
                   <button className="cta-button-high-end mobile-cta" onClick={handleMobileCta}>
