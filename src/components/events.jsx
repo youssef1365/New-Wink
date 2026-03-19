@@ -221,9 +221,9 @@ const Events = () => {
             />
             <motion.div
               className="modal-panel"
-              initial={{ opacity: 0, y: '4%' }}
+              initial={{ opacity: 0, y: '100%' }}
               animate={{ opacity: 1, y: '0%' }}
-              exit={{ opacity: 0, y: '4%' }}
+              exit={{ opacity: 0, y: '100%' }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             >
               <button className="modal-close" onClick={() => setSelectedEvent(null)}>
@@ -858,14 +858,23 @@ const Events = () => {
         }
 
         @media (max-width: 600px) {
-          .events-section { padding: 4rem 1rem 3rem; }
+          .events-section { padding: 4rem 0.75rem 3rem; }
 
-          .carousel-wrapper { gap: 0.5rem; }
+          .events-title { font-size: 2rem; }
+          .events-subtitle { font-size: 0.88rem; }
+
+          .filter-tabs { gap: 0.5rem; }
+          .tab-btn { padding: 0.65rem 1.1rem; font-size: 0.78rem; }
+
+          .carousel-wrapper { gap: 0.4rem; }
 
           .carousel-nav {
-            width: 36px;
-            min-width: 36px;
+            width: 32px;
+            min-width: 32px;
+            height: 32px;
             border-radius: 8px;
+            flex-shrink: 0;
+            align-self: center;
           }
 
           .carousel-track {
@@ -877,21 +886,86 @@ const Events = () => {
           .event-card {
             border-radius: 12px;
             width: 100%;
+            border: 1px solid rgba(0,206,193,0.12);
+            background: var(--color-bg);
           }
 
-          .event-card-img { height: 200px; }
+          .event-card::before {
+            background: var(--color-one, #00CEC1);
+          }
 
-          .event-info { padding: 1rem 1.2rem 0; }
+          .event-card-img {
+            height: 200px;
+            border-radius: 12px 12px 0 0;
+          }
+
+          .event-info { padding: 1.1rem 1.2rem 0; }
+
+          .event-type-tag {
+            font-size: 0.52rem;
+            letter-spacing: 0.2em;
+            color: var(--color-one, #00CEC1);
+            border-color: rgba(0,206,193,0.2);
+            opacity: 1;
+          }
+
+          .event-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+          }
+
+          .event-meta {
+            font-size: 0.78rem;
+            gap: 0.3rem;
+          }
+
+          .event-results-inline {
+            background: rgba(0,206,193,0.05);
+            border: 1px solid rgba(0,206,193,0.1);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            gap: 1.2rem;
+          }
+
+          .event-results-inline strong {
+            color: var(--color-one, #00CEC1);
+            font-size: 1rem;
+          }
 
           .view-event-cta {
             margin: 1rem 1.2rem 1.2rem;
             width: calc(100% - 2.4rem);
             justify-content: center;
-            padding: 0.75rem 1rem;
+            padding: 0.85rem 1rem;
             font-size: 0.8rem;
+            font-weight: 800;
+            border-color: rgba(0,206,193,0.2);
+            border-radius: 10px;
+            letter-spacing: 0.06em;
           }
 
-          .event-name { font-size: 1.05rem; }
+          .view-event-cta:hover {
+            background: var(--color-one, #00CEC1);
+            color: var(--color-bg);
+            border-color: var(--color-one, #00CEC1);
+          }
+
+          .carousel-dots { margin-top: 1.2rem; }
+
+          .dot { width: 5px; height: 5px; }
+          .dot.active { width: 18px; }
+
+          .events-footer { margin-top: 2rem; }
+
+          .view-all-events-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 0.9rem 1.5rem;
+            font-size: 0.72rem;
+          }
+
+          .modal-backdrop { background: rgba(0,0,0,0.7); }
 
           .modal-panel {
             position: fixed;
@@ -901,18 +975,64 @@ const Events = () => {
             right: 0;
             transform: none;
             width: 100%;
-            max-height: 90vh;
-            border-radius: 16px 16px 0 0;
-            padding: 1.8rem 1.25rem 2rem;
+            max-height: 92vh;
+            border-radius: 20px 20px 0 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
           }
 
+          .modal-panel::before {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 2px;
+            margin: 1rem auto 0;
+            flex-shrink: 0;
+          }
+
+          .modal-close {
+            top: 1rem;
+            right: 1rem;
+          }
+
+          .modal-tag { margin: 1.2rem 1.25rem 0; }
+          .modal-title { font-size: 1.25rem; padding: 0 1.25rem; margin: 0.5rem 0 1rem; }
+          .modal-meta { padding: 0 1.25rem; }
+          .modal-divider { margin: 1rem 1.25rem; width: calc(100% - 2.5rem); }
+          .modal-section { padding: 0 1.25rem; }
+          .modal-results-grid { margin: 1rem 1.25rem; width: calc(100% - 2.5rem); }
+          .modal-photos-section { padding: 0 1.25rem; }
           .modal-photos-grid { grid-template-columns: repeat(2, 1fr); }
 
-          .modal-results-grid { grid-template-columns: 1fr 1fr; }
+          .modal-footer {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 1rem 1.25rem 2rem;
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            background: var(--color-bg);
+            position: sticky;
+            bottom: 0;
+          }
 
-          .modal-footer { flex-direction: column; align-items: stretch; }
-          .modal-cta { justify-content: center; width: 100%; }
-          .modal-dismiss { text-align: center; }
+          .modal-cta {
+            justify-content: center;
+            width: 100%;
+            padding: 0.9rem 1.5rem;
+            font-size: 0.72rem;
+            background: var(--color-one, #00CEC1);
+            color: var(--color-bg);
+            border-radius: 10px;
+          }
+
+          .modal-dismiss { text-align: center; padding: 0.5rem; }
+
+          .modal-photos-grid { grid-template-columns: repeat(2, 1fr); }
+          .modal-results-grid { grid-template-columns: 1fr 1fr; }
         }
       `}</style>
     </>
