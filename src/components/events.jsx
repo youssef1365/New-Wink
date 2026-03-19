@@ -603,11 +603,11 @@ const Events = () => {
         .ev-modal-panel {
           position: relative;
           background: var(--color-two);
-          filter: brightness(1.08);
-          border: 1px solid rgba(0,206,193,0.15);
+          filter: brightness(1.1);
+          border: 1px solid rgba(0,206,193,0.12);
           border-radius: 12px;
           padding: 2.8rem;
-          width: min(680px, 92vw);
+          width: min(680px, 94vw);
           max-height: 88vh;
           overflow-y: auto;
           box-shadow: 0 32px 80px rgba(0,0,0,0.5);
@@ -849,7 +849,9 @@ const Events = () => {
           .dot.active { width: 18px; }
           .events-footer { margin-top: 2rem; }
           .view-all-events-btn { width: 100%; justify-content: center; padding: 0.9rem 1.5rem; font-size: 0.72rem; }
+        }
 
+        @media (max-width: 768px) {
           .ev-modal-overlay {
             align-items: flex-end;
             padding: 0;
@@ -859,7 +861,7 @@ const Events = () => {
             width: 100%;
             max-height: 92vh;
             border-radius: 20px 20px 0 0;
-            padding: 2.2rem 1.25rem 2rem;
+            padding: 2rem 1.25rem 2.5rem;
           }
 
           .ev-modal-stripe { border-radius: 20px 20px 0 0; }
@@ -867,20 +869,16 @@ const Events = () => {
           .ev-modal-panel::before {
             content: '';
             display: block;
-            width: 40px; height: 4px;
+            width: 40px;
+            height: 4px;
             background: rgba(0,206,193,0.25);
             border-radius: 2px;
-            margin: -1rem auto 1.5rem;
+            margin: -0.5rem auto 1.5rem;
           }
 
           .ev-modal-title { font-size: 1.2rem; }
           .ev-modal-photos { grid-template-columns: repeat(2, 1fr); }
-
-          .ev-modal-footer {
-            flex-direction: column;
-            align-items: stretch;
-          }
-
+          .ev-modal-footer { flex-direction: column; align-items: stretch; }
           .ev-modal-cta { justify-content: center; width: 100%; }
           .ev-modal-dismiss { text-align: center; }
         }
