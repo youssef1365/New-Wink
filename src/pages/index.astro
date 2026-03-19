@@ -30,6 +30,7 @@ import SEO from '../components/SEO.astro';
       <div class="blob blob-4"></div>
     </div>
     <div class="bg-grain" aria-hidden="true"></div>
+    <div class="watermark" aria-hidden="true">WINK</div>
 
     <ScrollController client:load />
   </body>
@@ -75,11 +76,25 @@ import SEO from '../components/SEO.astro';
     transition: opacity 0.5s ease;
   }
 
+  .watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(12rem, 30vw, 28rem);
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.025);
+    letter-spacing: -0.04em;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    white-space: nowrap;
+    font-family: 'Montserrat', sans-serif;
+  }
+
   .bg-base {
     background-color: #002e43;
   }
-
-
 
   .bg-grain {
     opacity: 0.04;
@@ -87,6 +102,10 @@ import SEO from '../components/SEO.astro';
 
   :root[data-theme="light"] .bg-base {
     background-color: var(--color-two);
+  }
+
+  :root[data-theme="light"] .watermark {
+    color: rgba(2, 13, 20, 0.04);
   }
 
   :root[data-theme="light"] .blob-1 {

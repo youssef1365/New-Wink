@@ -23,12 +23,6 @@ const SunIcon = () => (
   </svg>
 );
 
-const InsightIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-  </svg>
-);
-
 const PROGRAMME_ITEMS = [
   { label: 'Enterprises',               href: '/Entreprises' },
   { label: 'Government & Associations', href: '/Government'  },
@@ -49,11 +43,11 @@ const PortalDropdown = ({ anchorRef, open, onMouseEnter, onMouseLeave }) => {
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-   const update = () => {
-     if (!anchorRef.current) return;
-     const rect = anchorRef.current.getBoundingClientRect();
-     setPos({ top: rect.bottom + 8, left: rect.left + -90 });
-   };
+    const update = () => {
+      if (!anchorRef.current) return;
+      const rect = anchorRef.current.getBoundingClientRect();
+      setPos({ top: rect.bottom + 8, left: rect.left - 90 });
+    };
     requestAnimationFrame(update);
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
@@ -94,6 +88,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
   const [internalTheme, setInternalTheme] = useState('dark');
   const [isScrolled, setIsScrolled]       = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false);
   const [progressWidth, setProgressWidth] = useState(0);
   const [hidden, setHidden]               = useState(false);
   const [mounted, setMounted]             = useState(false);
@@ -151,10 +146,6 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
     setMobileMenuOpen(false);
   };
 
-  const handleEngageClick = () => {
-    window.dispatchEvent(new Event('openInsightModal'));
-  };
-
   const handleProgramsEnter = () => {
     clearTimeout(leaveTimer.current);
     setProgramsOpen(true);
@@ -201,7 +192,6 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
                   <span className="nav-link-text">Expertise</span>
                 </a>
               </li>
-
               <li
                 className="programs-parent"
                 onMouseEnter={handleProgramsEnter}
@@ -219,7 +209,6 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
                   </svg>
                 </a>
               </li>
-
               <li>
                 <a href="/Event" className={`nav-link ${activeSection === 'events' ? 'active' : ''}`}>
                   <span className="nav-link-text">Events</span>
@@ -262,42 +251,66 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
               className="mobile-overlay"
             >
               <ul className="mobile-links">
-                <li><a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
-                <li><a href="/#services" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
-                <li className="mobile-programs-group">
-                  <a href="/Programs" onClick={() => setMobileMenuOpen(false)}>Programs</a>
-                  <ul className="mobile-sub-links">
-                    {PROGRAMME_ITEMS.map((item) => (
-                      <li key={item.href}>
-                        <a href={item.href} onClick={() => setMobileMenuOpen(false)}>{item.label}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-                <li><a href="/Event" onClick={() => setMobileMenuOpen(false)}>Events</a></li>
-                <li><a href="/AboutUs" onClick={() => setMobileMenuOpen(false)}>Wink</a></li>
-                <li className="mobile-engage-wrapper">
+                <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.02 }}>
+                  <a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a>
+                </motion.li>
+                <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.04 }}>
+                  <a href="/#services" onClick={() => setMobileMenuOpen(false)}>Expertise</a>
+                </motion.li>
+                <motion.li className="mobile-programs-group" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }}>
                   <button
-                    className="engage-btn mobile-engage"
-                    onClick={() => { handleEngageClick(); setMobileMenuOpen(false); }}
+                    className="mobile-programs-toggle"
+                    onClick={() => setMobileProgramsOpen(!mobileProgramsOpen)}
                   >
-                    <InsightIcon />
-                    <span className="engage-label">Engage</span>
-                    <span className="engage-tag">Insight</span>
+                    <span>Programs</span>
+                    <svg
+                      className={`mobile-chevron ${mobileProgramsOpen ? 'open' : ''}`}
+                      width="14" height="14" viewBox="0 0 10 10"
+                      fill="none" stroke="currentColor" strokeWidth="2"
+                      strokeLinecap="round" strokeLinejoin="round"
+                    >
+                      <polyline points="2 3.5 5 6.5 8 3.5" />
+                    </svg>
                   </button>
-                </li>
-                <li className="mobile-cta-wrapper">
+                  <AnimatePresence>
+                    {mobileProgramsOpen && (
+                      <motion.ul
+                        className="mobile-sub-links"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                      >
+                        {PROGRAMME_ITEMS.map((item) => (
+                          <li key={item.href}>
+                            <a href={item.href} onClick={() => setMobileMenuOpen(false)}>{item.label}</a>
+                          </li>
+                        ))}
+                      </motion.ul>
+                    )}
+                  </AnimatePresence>
+                </motion.li>
+                <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }}>
+                  <a href="/Event" onClick={() => setMobileMenuOpen(false)}>Events</a>
+                </motion.li>
+                <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                  <a href="/Platform" onClick={() => setMobileMenuOpen(false)}>B2B Platform</a>
+                </motion.li>
+                <motion.li initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 }}>
+                  <a href="/AboutUs" onClick={() => setMobileMenuOpen(false)}>WINK</a>
+                </motion.li>
+                <motion.li className="mobile-cta-wrapper" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14 }}>
                   <button className="cta-button-high-end mobile-cta" onClick={handleMobileCta}>
                     Start a Project
                   </button>
-                </li>
+                </motion.li>
               </ul>
             </motion.div>
           )}
@@ -456,10 +469,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
             background: rgba(255,255,255,0.08);
           }
 
-          .programs-dropdown li {
-            margin: 0;
-            padding: 0;
-          }
+          .programs-dropdown li { margin: 0; padding: 0; }
 
           .dropdown-item {
             font-family: 'Montserrat', sans-serif;
@@ -493,31 +503,6 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
             align-items: center;
             gap: 0.5rem;
           }
-
-          .engage-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-          }
-
-          .engage-tag {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.55rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--color-one, #5ecfbe);
-            opacity: 0.7;
-            border: 1px solid currentColor;
-            padding: 0.1rem 0.3rem;
-            border-radius: 2px;
-            line-height: 1.4;
-            vertical-align: middle;
-            position: relative;
-            top: -1px;
-          }
-
-          .engage-btn:hover .engage-tag { opacity: 1; }
 
           .cta-button-high-end {
             background: var(--color-third);
@@ -567,18 +552,9 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
           .hamburger-menu.is-active .line:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
 
           @media (max-width: 1366px) {
-            .nav-link-text {
-              letter-spacing: 0.15em; /* Slightly reduced from 0.22em */
-              font-size: 0.75rem;     /* Slightly reduced from 0.82rem */
-            }
-
-            .nav-links {
-              gap: 1.2rem; /* Tighten space between items */
-            }
-
-            .nav-logo {
-              min-width: 180px; /* Give the nav links more breathing room */
-            }
+            .nav-link-text { letter-spacing: 0.15em; font-size: 0.75rem; }
+            .nav-links { gap: 1.2rem; }
+            .nav-logo { min-width: 180px; }
           }
 
           @media (max-width: 1024px) {
@@ -591,14 +567,13 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
               position: fixed;
               inset: 0;
               background: var(--color-two);
-              backdrop-filter: blur(20px);
-              -webkit-backdrop-filter: blur(20px);
               display: flex;
               flex-direction: column;
               align-items: center;
               justify-content: center;
               z-index: 1001;
-              overflow: hidden;
+              overflow-y: auto;
+              padding: 6rem 2rem 3rem;
             }
 
             .mobile-links {
@@ -606,53 +581,83 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
               text-align: center;
               padding: 0;
               margin: 0;
+              width: 100%;
+              max-width: 320px;
             }
 
-            .mobile-links li { margin: 1.5rem 0; }
+            .mobile-links > li { margin: 1.2rem 0; }
 
-            .mobile-links a {
+            .mobile-links > li > a {
               color: var(--color-third);
-              font-size: 1.5rem;
+              font-size: 1.6rem;
               text-transform: uppercase;
               font-weight: 800;
               text-decoration: none;
               letter-spacing: 0.1em;
+              display: block;
+              padding: 0.3rem 0;
+              transition: color 0.2s ease;
             }
 
-            .mobile-programs-group { margin-bottom: 0 !important; }
+            .mobile-links > li > a:hover { color: var(--color-one); }
+
+            .mobile-programs-toggle {
+              background: none;
+              border: none;
+              cursor: pointer;
+              color: var(--color-third);
+              font-size: 1.6rem;
+              text-transform: uppercase;
+              font-weight: 800;
+              letter-spacing: 0.1em;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.5rem;
+              width: 100%;
+              padding: 0.3rem 0;
+              transition: color 0.2s ease;
+            }
+
+            .mobile-programs-toggle:hover { color: var(--color-one); }
+
+            .mobile-chevron {
+              transition: transform 0.25s ease;
+              flex-shrink: 0;
+            }
+            .mobile-chevron.open { transform: rotate(180deg); }
 
             .mobile-sub-links {
               list-style: none;
               padding: 0;
-              margin: 0.6rem 0 0;
+              margin: 0.5rem 0 0;
+              overflow: hidden;
             }
 
-            .mobile-sub-links li { margin: 0.6rem 0 !important; }
+            .mobile-sub-links li { margin: 0.6rem 0; }
 
             .mobile-sub-links a {
-              font-size: 1rem !important;
-              opacity: 0.65;
-              letter-spacing: 0.18em !important;
-            }
-
-            .mobile-engage-wrapper { margin-top: 0.5rem !important; }
-
-            .mobile-engage {
-              font-size: 1.5rem;
-              opacity: 0.9;
               color: var(--color-third);
+              font-size: 1rem;
+              text-transform: uppercase;
+              font-weight: 600;
+              text-decoration: none;
+              letter-spacing: 0.15em;
+              opacity: 0.6;
+              display: block;
+              padding: 0.2rem 0;
+              transition: opacity 0.2s ease, color 0.2s ease;
             }
 
-            .mobile-engage .engage-tag {
-              font-size: 0.7rem;
-              padding: 0.15rem 0.5rem;
-            }
+            .mobile-sub-links a:hover { opacity: 1; color: var(--color-one); }
 
-            .mobile-cta-wrapper { margin-top: 1.5rem !important; }
+            .mobile-cta-wrapper { margin-top: 1rem !important; }
 
             .mobile-cta {
-              font-size: 1.1rem;
-              padding: 1.2rem 2.5rem;
+              font-size: 1rem;
+              padding: 1.1rem 2.8rem;
+              width: 100%;
+              max-width: 280px;
               color: var(--color-two);
               background: var(--color-third);
             }

@@ -154,8 +154,6 @@ export default function ExpertisePage() {
 
     return (
         <div className="ep-page">
-            <div className="ep-watermark" aria-hidden="true">WINK</div>
-
             <motion.div
                 className="ep-hero"
                 initial={{ opacity: 0, y: 24 }}
@@ -199,7 +197,6 @@ export default function ExpertisePage() {
           --ep-text-body: rgba(255,255,255,0.6);
           --ep-text-cap: rgba(255,255,255,0.7);
           --ep-pill-bg: rgba(255,255,255,0.03);
-          --ep-watermark: rgba(255,255,255,0.025);
           --ep-overlay-bg: rgba(2,13,20,0.88);
         }
 
@@ -211,7 +208,6 @@ export default function ExpertisePage() {
           --ep-text-body: rgba(2,13,20,0.65);
           --ep-text-cap: rgba(2,13,20,0.75);
           --ep-pill-bg: rgba(2,13,20,0.04);
-          --ep-watermark: rgba(2,13,20,0.04);
           --ep-overlay-bg: rgba(180,195,196,0.88);
         }
 
@@ -225,20 +221,6 @@ export default function ExpertisePage() {
           padding-bottom: 8rem;
           overflow: hidden;
           transition: background 0.3s ease, color 0.3s ease;
-        }
-
-        .ep-watermark {
-          position: fixed;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: clamp(12rem, 30vw, 28rem);
-          font-weight: 900;
-          color: var(--ep-watermark);
-          letter-spacing: -0.04em;
-          pointer-events: none;
-          user-select: none;
-          z-index: 0;
-          white-space: nowrap;
         }
 
         .ep-hero {
@@ -312,14 +294,14 @@ export default function ExpertisePage() {
         }
         .ep-pill-title {
           font-size: 1rem; font-weight: 700;
-          color: var( --color-third); line-height: 1.35;
+          color: var(--color-third); line-height: 1.35;
           margin: 0;
         }
 
         .ep-pill-arrow {
           display: block; text-align: center;
           font-size: 1rem;
-          color: var( --color-third);
+          color: var(--color-third);
           transition: color 0.2s, transform 0.2s;
         }
         .ep-pill:hover .ep-pill-arrow {
@@ -409,7 +391,6 @@ export default function ExpertisePage() {
           .ep-track { flex-wrap: wrap; justify-content: center; }
           .ep-pill { width: 140px; min-height: 220px; }
           .ep-modal { padding: 2rem; }
-          .ep-watermark { display: none; }
         }
       `}</style>
         </div>

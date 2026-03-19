@@ -125,7 +125,7 @@ const Packages = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
         >
-          <span>View Enterprise Packages</span>
+          <span>View Our Programs</span>
           <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
             <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>

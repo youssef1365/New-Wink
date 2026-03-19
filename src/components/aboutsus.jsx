@@ -1,10 +1,18 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useMotionValueEvent } from "framer-motion";
 
 export default function AboutUs({ isActive, scrollVelocity }) {
   const containerRef = useRef(null);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -18,15 +26,10 @@ export default function AboutUs({ isActive, scrollVelocity }) {
     restDelta: 0.001
   };
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
-
-  const scrollDistanceStart = isMobile ? 0 : 80;
-  const scrollDistanceEnd   = isMobile ? 0 : -25;
-
-  const y = isMobile ? 0 : useTransform(
+  const yDesktop = useTransform(
     scrollYProgress,
     [0, 0.12, 0.92, 1],
-    [`${scrollDistanceStart}vh`, "0vh", "0vh", `${scrollDistanceEnd}vh`]
+    ["80vh", "0vh", "0vh", "-25vh"]
   );
 
   const opacity = useTransform(
@@ -35,14 +38,10 @@ export default function AboutUs({ isActive, scrollVelocity }) {
     [0, 1, 1, 0]
   );
 
-  const contentOp = opacity;
-  const slideTrigger = useTransform(scrollYProgress, v => {
-    if (v < 0.55) return 0;
-    return 1;
-  });
+  const slideTrigger = useTransform(scrollYProgress, v => v < 0.55 ? 0 : 1);
 
   useMotionValueEvent(slideTrigger, "change", (v) => {
-    setSlideIndex(v);
+    if (!isMobile) setSlideIndex(v);
   });
 
   const vmSlides = [
@@ -55,6 +54,105 @@ export default function AboutUs({ isActive, scrollVelocity }) {
       text: 'To design and scale structured international B2B and capital connection programs — combining curated networks, strategic execution, and smart technology to generate measurable economic growth.',
     },
   ];
+
+  if (isMobile) {
+    return (
+      <>
+        <style>{`
+          .aus-card-mobile {
+            width: 92vw;
+            margin: 2rem auto;
+            border-radius: 16px;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+            overflow: hidden;
+            background: #F5F5F5;
+          }
+          .aus-left-mobile {
+            display: flex;
+            flex-direction: column;
+            padding: 1.8rem 1.5rem;
+            border-bottom: 1px solid rgba(0,62,86,0.1);
+          }
+          .aus-eyebrow {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: rgba(0,62,86,0.4);
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+          }
+          .aus-logo-mobile {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+            object-position: left;
+            margin-bottom: 1.4rem;
+            display: block;
+          }
+          .aus-narrative-text {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: rgba(0,62,86,0.72);
+            font-weight: 500;
+            margin-bottom: 1rem;
+          }
+          .aus-right-mobile {
+            background: linear-gradient(155deg, #0d4a62 0%, #071e2b 100%);
+            padding: 1.8rem 1.5rem 2.5rem;
+          }
+          .aus-vm-block { margin-bottom: 2rem; }
+          .aus-vm-block:last-child { margin-bottom: 0; }
+          .aus-vm-label-mobile {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05rem;
+            color: var(--extra-color-fourth, #17b8c8);
+            margin-bottom: 0.8rem;
+            font-weight: 800;
+            line-height: 1.0;
+          }
+          .aus-vm-text-mobile {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.88);
+            font-weight: 500;
+          }
+          .aus-vm-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            margin: 1.5rem 0;
+          }
+        `}</style>
+
+        <div className="aus-card-mobile">
+          <div className="aus-left-mobile">
+            <div className="aus-eyebrow">About Us</div>
+            <img
+              src="/winklogo.png"
+              alt="WINK B2B Matchmaking & Meetings Agency"
+              className="aus-logo-mobile"
+            />
+            <p className="aus-narrative-text">
+              Wink is building the next generation of international growth platforms — connecting high-growth markets through structured trade and investment ecosystems.
+            </p>
+            <p className="aus-narrative-text">
+              We design and operate international programs that bring together institutions, companies, investors, and decision-makers — transforming cross-border ambition into measurable economic impact.
+            </p>
+          </div>
+
+          <div className="aus-right-mobile">
+            {vmSlides.map((slide, i) => (
+              <div key={i} className="aus-vm-block">
+                {i > 0 && <div className="aus-vm-divider" />}
+                <div className="aus-vm-label-mobile">{slide.label}</div>
+                <div className="aus-vm-text-mobile">{slide.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -115,11 +213,6 @@ export default function AboutUs({ isActive, scrollVelocity }) {
           font-weight: 500;
           margin-bottom: 1.2rem;
         }
-        .text-highlight {
-          color: #17b8c8;
-          font-weight: 700;
-        }
-
         .aus-right {
           background: linear-gradient(155deg, #0d4a62 0%, #071e2b 100%);
           position: relative;
@@ -168,35 +261,22 @@ export default function AboutUs({ isActive, scrollVelocity }) {
           border-radius: 2px;
         }
         .aus-vm-dot.active { background: #17b8c8; width: 50px !important; }
-
-        @media (max-width: 1024px) {
-          .aus-grid { grid-template-columns: 1fr; grid-template-rows: 1.2fr 1fr; }
-          .aus-left { border-right: none; border-bottom: 1px solid rgba(0,62,86,0.1); padding: 1.5rem; }
-          .aus-card { height: 85vh; max-height: none; }
-          .aus-vm-label { font-size: 2.4rem; }
-          .aus-wrapper { min-height: auto; }
-          .aus-sticky { position: relative; height: auto; top: 0; }
-        }
       `}</style>
 
       <div ref={containerRef} className="aus-wrapper">
         <div className="aus-sticky">
-          <motion.div className="aus-card" style={{ y, opacity }}>
-            <motion.div className="aus-grid" style={{ opacity: contentOp }}>
-
+          <motion.div className="aus-card" style={{ y: yDesktop, opacity }}>
+            <div className="aus-grid">
               <div className="aus-left">
                 <div className="aus-eyebrow">About Us</div>
-
                 <img
                   src="/winklogo.png"
                   alt="WINK B2B Matchmaking & Meetings Agency"
                   className="aus-logo"
                 />
-
                 <p className="aus-narrative-text">
                   Wink is building the next generation of international growth platforms — connecting high-growth markets through structured trade and investment ecosystems.
                 </p>
-
                 <p className="aus-narrative-text">
                   We design and operate international programs that bring together institutions, companies, investors, and decision-makers — transforming cross-border ambition into measurable economic impact.
                 </p>
@@ -222,8 +302,7 @@ export default function AboutUs({ isActive, scrollVelocity }) {
                   ))}
                 </div>
               </div>
-
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>

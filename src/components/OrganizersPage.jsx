@@ -45,8 +45,7 @@ const packages = [
         number: '02',
         label: 'Premium Structured B2B Access Program',
         tag: 'Package 2',
-        positioning: 'Zero-Investment Curated Strategic Buyer Engagement Program, A white-label, revenue-share B2B performance layer operated under the organizer\'s brand, designed primarily for local and regional buyers, with optional international extension.',
-        investmentModel: [
+        positioning: 'Zero-Investment Curated Strategic Buyer Engagement Program.\n A white-label, revenue-share B2B performance layer operated under the organizer\'s brand, designed primarily for local and regional buyers, with optional international extension.',         investmentModel: [
             'Zero financial investment from organizer',
             'Exhibitors pay participation fee',
             'Revenue-share model (15–20%)',

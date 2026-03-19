@@ -251,10 +251,17 @@ const Footer = ({ setShowModal }) => {
             <div className="footer-section">
               <h4 className="footer-title">Explore</h4>
               <ul className="footer-list">
-                {['Home', 'About', 'Services', 'Packages'].map((item) => (
-                  <li key={item}>
-                    <motion.a href={`#${item.toLowerCase()}`} className="footer-link" whileHover={{ x: 5 }}>
-                      {item}
+                {[
+                  { label: 'Home',        href: '/' },
+                  { label: 'Expertise',   href: '#services' },
+                  { label: 'Programs',    href: '/Packages' },
+                  { label: 'Events',      href: '/Event' },
+                  { label: 'B2B Platform',href: '/Platform' },
+                  { label: 'WINK',        href: '/AboutUs' },
+                ].map((item) => (
+                  <li key={item.label}>
+                    <motion.a href={item.href} className="footer-link" whileHover={{ x: 5 }}>
+                      {item.label}
                     </motion.a>
                   </li>
                 ))}

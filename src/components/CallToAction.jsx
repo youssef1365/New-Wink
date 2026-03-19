@@ -24,15 +24,11 @@ const CallToAction = ({
       <section className="ctab-section">
 
         <div className="ctab-bg" style={{ backgroundImage: `url(${image})` }} aria-hidden="true" />
-
         <div className="ctab-overlay" aria-hidden="true" />
 
         <div className="ctab-w-wrap" aria-hidden="true">
           <span className="ctab-w-scaler">
-            <span
-              className="ctab-w-letter"
-              style={{ backgroundImage: `url(${image})` }}
-            >
+            <span className="ctab-w-letter" style={{ backgroundImage: `url(${image})` }}>
               {logoLetter}
             </span>
           </span>
@@ -80,15 +76,15 @@ const CallToAction = ({
       <style>{`
         .ctab-section {
           position: relative;
-          width: 85%;
-          height: clamp(120px, 17vw, 260px);
+          width: 90%;
           border-radius: 18px;
           overflow: hidden;
           display: flex;
           align-items: center;
           background-color: ${bgDark};
           box-sizing: border-box;
-          margin: 4rem auto 4rem;
+          margin: 3rem auto;
+          padding: clamp(2rem, 5vw, 3.5rem) 0;
         }
 
         .ctab-bg {
@@ -223,13 +219,32 @@ const CallToAction = ({
         .ctab-btn:hover svg { transform: translateX(3px); }
 
         @media (max-width: 768px) {
-          .ctab-w-wrap { width: 60%; right: -8%; }
-          .ctab-content { max-width: 58%; }
+          .ctab-section {
+            width: 92%;
+            border-radius: 14px;
+            padding: 2.2rem 0;
+          }
+          .ctab-w-wrap { width: 55%; right: -6%; }
+          .ctab-content { max-width: 70%; }
+          .ctab-headline { font-size: clamp(1.2rem, 5vw, 1.8rem); }
+          .ctab-sub { font-size: 0.82rem; margin-bottom: 1.3rem; }
+          .ctab-btn { padding: 0.85rem 1.5rem; font-size: 0.65rem; }
         }
 
         @media (max-width: 480px) {
+          .ctab-section {
+            width: 92%;
+            padding: 2rem 0;
+            border-radius: 12px;
+          }
           .ctab-w-wrap { display: none; }
-          .ctab-content { max-width: 100%; padding: 0 1.5rem; }
+          .ctab-content {
+            max-width: 100%;
+            padding: 0 1.5rem;
+          }
+          .ctab-headline { font-size: 1.4rem; }
+          .ctab-sub { font-size: 0.85rem; }
+          .ctab-btn { width: 100%; justify-content: center; font-size: 0.7rem; padding: 1rem 1.5rem; }
         }
       `}</style>
     </>

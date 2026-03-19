@@ -172,6 +172,10 @@ const Hero = ({ scrollVelocity = 0 }) => {
           .hero-buttons {
             flex-direction: column;
           }
+          .cta-button {
+            padding: 1.3rem 2.8rem;
+            font-size: 1.1rem;
+          }
         }
       `}</style>
     </section>

@@ -9,18 +9,10 @@ const TIMELINE_EVENTS = [
 ];
 
 const STATS = [
-    { value: null, label: null, title: '+15 Years of Experience', desc: 'International Business Development Experience', style: 'lines' },
-    { value: null, label: null, title: 'Global Network', desc: 'Across Europe, Africa, Asia, America & the Middle East', style: 'clean' },
-    { value: null, label: null, title: 'B2B Meetings', desc: 'Curated Meetings Organized Worldwide', style: 'image', bgImage: '/14.jpeg' },
-    { value: null, label: null, title: 'Strategic Programs', desc: 'Connecting Buyers & Suppliers Across Markets', style: 'geo' },
-];
-
-const CONTINENTS = [
-    { name: 'Americas', cx: 180, cy: 140, path: 'M120,80 Q140,60 160,70 Q180,50 200,65 Q220,80 210,100 Q230,120 220,150 Q200,180 170,190 Q140,200 120,180 Q100,160 110,130 Q100,100 120,80 Z M130,200 Q150,210 160,230 Q150,250 130,240 Q110,230 120,210 Q125,200 130,200 Z' },
-    { name: 'Europe', cx: 380, cy: 90, path: 'M340,60 Q360,50 380,55 Q400,50 420,60 Q440,70 430,90 Q440,110 420,120 Q400,130 380,125 Q360,130 340,120 Q320,110 330,90 Q320,70 340,60 Z' },
-    { name: 'Africa', cx: 380, cy: 170, path: 'M350,130 Q370,125 390,130 Q410,125 420,140 Q430,160 425,180 Q420,200 410,220 Q400,240 380,245 Q360,240 350,220 Q340,200 345,180 Q340,160 350,140 Q345,130 350,130 Z' },
-    { name: 'Asia', cx: 520, cy: 110, path: 'M440,60 Q470,50 500,55 Q540,45 580,55 Q620,60 640,80 Q660,100 650,130 Q660,160 640,180 Q620,200 590,195 Q560,200 530,190 Q500,180 480,160 Q460,140 450,110 Q440,80 440,60 Z' },
-    { name: 'Middle East', cx: 460, cy: 140, path: 'M440,120 Q460,115 480,120 Q490,135 485,150 Q480,165 465,170 Q450,165 445,150 Q440,135 440,120 Z' },
+    { title: '+15 Years of Experience', desc: 'International Business Development Experience', style: 'lines' },
+    { title: 'Global Network', desc: 'Across Europe, Africa, Asia, America & the Middle East', style: 'clean' },
+    { title: 'B2B Meetings', desc: 'Curated Meetings Organized Worldwide', style: 'image', bgImage: '/14.jpeg' },
+    { title: 'Strategic Programs', desc: 'Connecting Buyers & Suppliers Across Markets', style: 'geo' },
 ];
 
 const WorldMap = () => {
@@ -37,35 +29,20 @@ const WorldMap = () => {
             <div className="wmap-wrap">
                 <div className="wmap-canvas-wrap">
                     <svg viewBox="150 80 700 350" className="wmap-svg">
-                        <rect width="100%" height="100%" fill="#cfcfcf" />
-
                         <image
                             href="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
-                            x="0"
-                            y="0"
-                            width="1000"
-                            height="500"
+                            x="0" y="0" width="1000" height="500"
                             preserveAspectRatio="xMidYMid meet"
                             style={{ filter: "brightness(0) invert(15%) sepia(30%) saturate(600%) hue-rotate(150deg)" }}
                         />
-
                         {dots.map((dot) => (
-                            <circle
-                                key={dot.id}
-                                cx={dot.cx}
-                                cy={dot.cy}
-                                r="7"
-                                className={`dot dot-${dot.id}`}
-                            />
+                            <circle key={dot.id} cx={dot.cx} cy={dot.cy} r="7" className={`dot dot-${dot.id}`} />
                         ))}
                     </svg>
                 </div>
-
                 <div className="wmap-tags">
                     {dots.map((d) => (
-                        <span key={d.id} className={`tag tag-${d.id}`}>
-                            {d.label}
-                        </span>
+                        <span key={d.id} className={`tag tag-${d.id}`}>{d.label}</span>
                     ))}
                 </div>
             </div>
@@ -78,7 +55,6 @@ const WorldMap = () => {
                     gap: 1rem;
                     width: 520px;
                 }
-
                 .wmap-canvas-wrap {
                     position: relative;
                     width: 100%;
@@ -86,60 +62,12 @@ const WorldMap = () => {
                     overflow: hidden;
                     background: #cfcfcf;
                 }
-
-                .wmap-svg {
-                    display: block;
-                    width: 100%;
-                    height: auto;
-                }
-
-                .dot {
-                    fill: #0b4a5a;
-                    stroke: #ffffff;
-                    stroke-width: 2;
-                    opacity: 0.9;
-                    transition: all 0.25s ease;
-                }
-
-                .dot:hover {
-                    fill: #00c2d1;
-                    stroke-width: 3;
-                    r: 9;
-                    opacity: 1;
-                }
-
-                .tag-americas:hover ~ * .dot-americas,
-                .tag-europe:hover ~ * .dot-europe,
-                .tag-asia:hover ~ * .dot-asia,
-                .tag-africa:hover ~ * .dot-africa,
-                .tag-me:hover ~ * .dot-me {
-                    fill: #00c2d1;
-                    stroke-width: 3;
-                    r: 9;
-                    opacity: 1;
-                }
-
-                .wmap-tags {
-                    display: flex;
-                    justify-content: space-between;
-                    flex-wrap: wrap;
-                    gap: 0.5rem;
-                }
-
-                .tag {
-                    font-size: 0.75rem;
-                    letter-spacing: 1px;
-                    color: #ffffffaa;
-                    border-bottom: 1px solid #ffffff33;
-                    padding-bottom: 2px;
-                    transition: all 0.3s ease;
-                    cursor: pointer;
-                }
-
-                .tag:hover {
-                    color: #ffffff;
-                    border-color: #00c2d1;
-                }
+                .wmap-svg { display: block; width: 100%; height: auto; }
+                .dot { fill: #0b4a5a; stroke: #ffffff; stroke-width: 2; opacity: 0.9; transition: all 0.25s ease; }
+                .dot:hover { fill: #00c2d1; stroke-width: 3; opacity: 1; }
+                .wmap-tags { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+                .tag { font-size: 0.75rem; letter-spacing: 1px; color: #ffffffaa; border-bottom: 1px solid #ffffff33; padding-bottom: 2px; transition: all 0.3s ease; cursor: pointer; }
+                .tag:hover { color: #ffffff; border-color: #00c2d1; }
 
                 @media (max-width: 860px) {
                     .wmap-wrap { width: 100%; }
@@ -149,10 +77,97 @@ const WorldMap = () => {
     );
 };
 
+const MobileTimeline = () => {
+    const [active, setActive] = useState(0);
+    return (
+        <>
+            <div className="mtl-wrap">
+                <div className="mtl-tabs">
+                    {TIMELINE_EVENTS.map((ev, i) => (
+                        <button
+                            key={i}
+                            className={`mtl-tab ${active === i ? 'mtl-tab--active' : ''}`}
+                            onClick={() => setActive(i)}
+                        >
+                            {ev.year}
+                        </button>
+                    ))}
+                </div>
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={active}
+                        className="mtl-panel"
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -12 }}
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        <span className="mtl-eyebrow">{String(active + 1).padStart(2, '0')} / {String(TIMELINE_EVENTS.length).padStart(2, '0')}</span>
+                        <h4 className="mtl-year-big">{TIMELINE_EVENTS[active].year}</h4>
+                        <h3 className="mtl-title">{TIMELINE_EVENTS[active].label}</h3>
+                        <p className="mtl-desc">{TIMELINE_EVENTS[active].description}</p>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+            <style>{`
+                .mtl-wrap { padding: 2rem 1.5rem; }
+                .mtl-tabs {
+                    display: flex;
+                    gap: 0.5rem;
+                    flex-wrap: wrap;
+                    margin-bottom: 1.5rem;
+                }
+                .mtl-tab {
+                    background: rgba(0,206,193,0.06);
+                    border: 1px solid rgba(0,206,193,0.15);
+                    color: var(--color-third);
+                    font-size: 0.72rem;
+                    font-weight: 800;
+                    letter-spacing: 0.1em;
+                    padding: 0.5rem 1rem;
+                    border-radius: 100px;
+                    cursor: pointer;
+                    opacity: 0.5;
+                    transition: all 0.25s ease;
+                    font-family: 'Montserrat', sans-serif;
+                }
+                .mtl-tab--active {
+                    background: rgba(0,206,193,0.15);
+                    border-color: var(--color-one, #00CEC1);
+                    color: var(--color-one, #00CEC1);
+                    opacity: 1;
+                }
+                .mtl-panel {
+                    background: rgba(0,206,193,0.025);
+                    border: 1px solid rgba(0,206,193,0.07);
+                    border-top: 2px solid var(--color-one, #00CEC1);
+                    border-radius: 0 0 12px 12px;
+                    padding: 1.5rem 1.25rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.6rem;
+                }
+                .mtl-eyebrow { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-one, #00CEC1); opacity: 0.65; font-family: 'Montserrat', sans-serif; }
+                .mtl-year-big { font-size: 3rem; font-weight: 900; letter-spacing: -0.04em; color: var(--color-third); line-height: 0.88; margin: 0; opacity: 0.1; font-family: 'Montserrat', sans-serif; }
+                .mtl-title { font-size: 1.3rem; font-weight: 900; color: var(--color-third); margin: 0; letter-spacing: -0.025em; text-transform: uppercase; line-height: 1.1; font-family: 'Montserrat', sans-serif; }
+                .mtl-desc { font-size: 0.88rem; color: var(--color-third); opacity: 0.58; line-height: 1.9; margin: 0; font-family: 'Montserrat', sans-serif; }
+            `}</style>
+        </>
+    );
+};
+
 const Timeline = () => {
     const [active, setActive] = useState(null);
     const [reached, setReached] = useState(-1);
+    const [isMobile, setIsMobile] = useState(false);
     const outerRef = useRef(null);
+
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth <= 860);
+        check();
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
 
     const { scrollYProgress } = useScroll({
         target: outerRef,
@@ -170,6 +185,8 @@ const Timeline = () => {
             setReached(prev => Math.max(prev, i));
         });
     }, [scrollYProgress]);
+
+    if (isMobile) return <MobileTimeline />;
 
     const isUnlocked = (i) => i <= reached + 1;
 
@@ -237,7 +254,7 @@ const GlanceSection = () => (
                         initial={{ opacity: 0, y: 28 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                     >
                         {s.style === 'lines' && <div className="glance-lines-bg">{[...Array(8)].map((_, li) => <span key={li} className="glance-line" style={{ '--li': li }} />)}</div>}
                         {s.style === 'image' && <div className="glance-img-overlay" />}
@@ -255,12 +272,6 @@ const GlanceSection = () => (
                         )}
                         <div className="glance-card-content">
                             <div className="glance-top">
-                                {s.value && (
-                                    <div className="glance-stat-row">
-                                        <span className="glance-value">{s.value}</span>
-                                        {s.label && <span className="glance-value-label">{s.label}</span>}
-                                    </div>
-                                )}
                                 <span className="glance-card-title">{s.title}</span>
                                 <p className="glance-desc">{s.desc}</p>
                             </div>
@@ -277,41 +288,42 @@ const GlanceSection = () => (
         <style>{`
             .glance-wrap { position: relative; z-index: 2; max-width: 1240px; margin: clamp(4rem,8vw,7rem) auto 0; display: flex; flex-direction: column; gap: 2.5rem; }
             .glance-header { display: flex; flex-direction: column; gap: 0.3rem; }
-            .glance-value { font-size: clamp(2.2rem,3.5vw,2rem); font-weight: 800; letter-spacing: -0.04em; color: #ffffff; line-height: 1; font-family: 'Montserrat', sans-serif; }
-            .glance-card-title { font-size: clamp(2.2rem,3.5vw,2rem); font-weight: 800; letter-spacing: -0.04em; color: #ffffff; line-height: 1; font-family: 'Montserrat', sans-serif; }
-            .glance-accent { color: var(--color-one,#00CEC1); }
+            .glance-eyebrow { font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3em; color: var(--color-one, #00CEC1); opacity: 0.7; margin: 0; }
+            .glance-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--color-third); margin: 0; letter-spacing: -0.03em; }
+            .glance-accent { color: var(--color-one, #00CEC1); }
             .glance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-            .glance-card { background: #07283d; border-radius: 18px; min-height: 280px; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: default; }
+            .glance-card { background: #07283d; border-radius: 18px; min-height: 240px; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: default; }
             .glance-card:hover { transform: translateY(-6px); box-shadow: 0 28px 70px rgba(0,0,0,0.4); }
             .glance-lines-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
             .glance-line { position: absolute; left: calc(-40% + var(--li) * 18%); top: -20%; width: 3px; height: 160%; background: rgba(0,206,193,0.12); transform: rotate(-28deg); transform-origin: top center; border-radius: 2px; transition: background 0.35s ease; }
             .glance-line:nth-child(odd) { width: 6px; background: rgba(0,206,193,0.07); }
             .glance-card--lines:hover .glance-line { background: rgba(0,206,193,0.22); }
-            .glance-card--lines:hover .glance-line:nth-child(odd) { background: rgba(0,206,193,0.12); }
             .glance-card--image { background: #07283d; background-image: var(--card-bg); background-size: cover; background-position: center; }
             .glance-img-overlay { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to right, rgba(7,40,61,0.88) 0%, rgba(7,40,61,0.6) 55%, rgba(7,40,61,0.15) 100%); border-radius: 18px; }
             .glance-geo-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
             .glance-geo-svg { position: absolute; bottom: -10px; right: -10px; width: 75%; height: auto; }
-            .glance-card-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; flex: 1; padding: 2.2rem 1.75rem 1.6rem; }
+            .glance-card-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; flex: 1; padding: 1.8rem 1.5rem 1.4rem; }
             .glance-top { display: flex; flex-direction: column; gap: 0.5rem; }
-            .glance-stat-row { display: flex; align-items: baseline; gap: 0.5rem; }
-            .glance-value { font-size: 1rem; font-weight: 800; letter-spacing: 0.04em; color: #0073a9; line-height: 1; font-family: 'Montserrat', sans-serif; }
-            .glance-value-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(#00CEC1); opacity: 0.6; font-family: 'Montserrat', sans-serif; }
-            .glance-desc { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); line-height: 1.6; margin: 0.3rem 0 0; max-width: 160px; font-family: 'Montserrat', sans-serif; }
-            .glance-bottom { display: flex; align-items: center; margin-top: 1.5rem; }
+            .glance-card-title { font-size: clamp(1.1rem, 1.8vw, 1.5rem); font-weight: 800; letter-spacing: -0.02em; color: #ffffff; line-height: 1.15; font-family: 'Montserrat', sans-serif; }
+            .glance-desc { font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.6); line-height: 1.6; margin: 0.3rem 0 0; font-family: 'Montserrat', sans-serif; }
+            .glance-bottom { display: flex; align-items: center; margin-top: 1.2rem; }
             .glance-arrow { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.65); transition: all 0.25s ease; flex-shrink: 0; }
             .glance-card:hover .glance-arrow { border-color: var(--color-one,#00CEC1); color: var(--color-one,#00CEC1); background: rgba(0,206,193,0.12); }
+
             @media (max-width: 1000px) { .glance-grid { grid-template-columns: repeat(2, 1fr); } }
-            @media (max-width: 560px) { .glance-grid { grid-template-columns: 1fr; } }
+            @media (max-width: 560px) {
+                .glance-grid { grid-template-columns: 1fr; }
+                .glance-card { min-height: 180px; }
+            }
         `}</style>
     </>
 );
 
 const blocks = [
-    { id: 'B1', side: 'left',  tag: ' Core Statement',     title: 'Building the Next Generation of Growth Platforms', short: 'Wink is building the next generation of international growth platforms connecting high-growth markets through strategic trade and investment ecosystems.', full: null, image: '/2.png' },
-    { id: 'B2', side: 'right', tag: ' Programs & Approach', title: 'Structured Programs. Measurable Impact.',           short: 'We design and operate structured international programs that bring together institutions, companies, investors, and decision-makers — transforming cross-border ambition into measurable economic impact.', full: 'From multi-market trade acceleration initiatives and curated business forums to capital connection programs powered by smart technology, Wink goes beyond traditional matchmaking to architect scalable pathways for market expansion and long-term growth.', image: '/3.png' },
-    { id: 'B3', side: 'left',  tag: ' Differentiation',     title: 'Precision. Networks. Intelligence.',               short: 'What differentiates Wink is our ability to combine curated networks, disciplined execution, and technology-driven intelligence to structure international opportunities with precision and purpose.', full: null, image: '/4.png' },
-    { id: 'B4', side: 'right', tag: ' Global Footprint',     title: 'Trusted Global Operator',                         short: 'With active operations across the Middle East, Africa, Europe, and other dynamic regions, Wink is evolving into a trusted global operator shaping how markets connect, collaborate, and grow.', full: null, image: '/5.png' },
+    { id: 'B1', side: 'left',  tag: 'Core Statement',      title: 'Building the Next Generation of Growth Platforms', short: 'Wink is building the next generation of international growth platforms connecting high-growth markets through strategic trade and investment ecosystems.', full: null, image: '/2.png' },
+    { id: 'B2', side: 'right', tag: 'Programs & Approach',  title: 'Structured Programs. Measurable Impact.',           short: 'We design and operate structured international programs that bring together institutions, companies, investors, and decision-makers — transforming cross-border ambition into measurable economic impact.', full: 'From multi-market trade acceleration initiatives and curated business forums to capital connection programs powered by smart technology, Wink goes beyond traditional matchmaking to architect scalable pathways for market expansion and long-term growth.', image: '/3.png' },
+    { id: 'B3', side: 'left',  tag: 'Differentiation',      title: 'Precision. Networks. Intelligence.',               short: 'What differentiates Wink is our ability to combine curated networks, disciplined execution, and technology-driven intelligence to structure international opportunities with precision and purpose.', full: null, image: '/4.png' },
+    { id: 'B4', side: 'right', tag: 'Global Footprint',      title: 'Trusted Global Operator',                         short: 'With active operations across the Middle East, Africa, Europe, and other dynamic regions, Wink is evolving into a trusted global operator shaping how markets connect, collaborate, and grow.', full: null, image: '/5.png' },
 ];
 
 const AboutBlock = ({ block }) => {
@@ -354,10 +366,10 @@ const HeroSection = () => (
             <div className="hero-inner">
                 <motion.div className="hero-eyebrow" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
                     <div className="hero-eyebrow__line" />
-                    <span className="hero-eyebrow__text">International Growth Platform Builder</span>
+                    <span className="hero-eyebrow__text">About Us</span>
                 </motion.div>
                 <motion.h1 className="hero-headline" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}>
-                    WINK —<br /><em>International</em><br />Growth Platform
+                    WINK —<br /><em>International</em><br />Growth Platform Builder
                 </motion.h1>
                 <motion.p className="hero-subline" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}>
                     Connecting decision-makers through carefully curated business experiences.
@@ -380,15 +392,19 @@ const HeroSection = () => (
             .hero-eyebrow { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.6rem; }
             .hero-eyebrow__line { width: 28px; height: 1px; background: var(--color-one,#00cec1); opacity: 0.6; }
             .hero-eyebrow__text { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.38em; color: var(--color-one,#00cec1); opacity: 0.7; }
-            .hero-headline { font-size: clamp(2.2rem,5.5vw,4.8rem); font-weight: 900; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-third); text-transform: uppercase; margin: 0 0 1.4rem; }
-            .hero-headline em { font-style: normal; color: var(--color-one,#00cec1); position: relative; display: inline-block; }
+            .hero-headline { font-size: clamp(2rem, 5.5vw, 4.8rem); font-weight: 900; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-third); text-transform: uppercase; margin: 0 0 1.4rem; }
+            .hero-headline em { font-style: normal; color: var(--color-one,#00cec1); }
             .hero-subline { font-size: clamp(0.85rem,1.1vw,1rem); color: var(--color-third); opacity: 0.6; line-height: 1.8; max-width: 440px; margin: 0 0 2.4rem; }
             .hero-cta-row { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
             .hero-cta__primary { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 2.2rem; background: var(--color-one,#00cec1); color: rgba(4,18,28,1); font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.18em; border-radius: 6px; border: none; cursor: pointer; transition: all 0.25s; text-decoration: none; }
             .hero-cta__primary:hover { background: #00ede0; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,206,193,0.3); }
             .hero-cta__secondary { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--color-third); opacity: 0.4; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 2px; transition: all 0.22s; }
             .hero-cta__secondary:hover { opacity: 0.8; border-color: rgba(255,255,255,0.3); }
-            @media (max-width: 860px) { .hero-headline { font-size: clamp(2rem,10vw,3.5rem); } }
+
+            @media (max-width: 560px) {
+                .hero-cta-row { flex-direction: column; align-items: flex-start; }
+                .hero-cta__primary { width: 100%; justify-content: center; }
+            }
         `}</style>
     </>
 );
@@ -442,7 +458,7 @@ const AboutUsSection = () => {
 
                 .abt-header-block { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; padding: clamp(4rem,7vw,7rem) clamp(1.5rem,7vw,8rem) clamp(3rem,5vw,4rem); display: flex; flex-direction: column; gap: 1.2rem; }
                 .abt-header__eye { display: block; font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.38em; color: var(--color-third); opacity: 0.5; }
-                .abt-header__h { font-size: clamp(3rem,7vw,6.5rem); font-weight: 900; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-third); text-transform: uppercase; margin: 0; }
+                .abt-header__h { font-size: clamp(2.5rem,7vw,6.5rem); font-weight: 900; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-third); text-transform: uppercase; margin: 0; }
                 .abt-header__h em { color: var(--color-third); font-style: normal; }
 
                 .tl-outer { position: relative; height: ${(TIMELINE_EVENTS.length + 1) * 100}vh; width: 100%; z-index: 2; }
@@ -503,19 +519,27 @@ const AboutUsSection = () => {
 
                 .abt-tagline { max-width: 1240px; margin: clamp(5rem,9vw,9rem) auto 0; padding-top: clamp(2.5rem,5vw,5rem); border-top: 1px solid rgba(0,206,193,0.1); display: flex; align-items: center; gap: 4rem; }
                 .abt-tagline-left { display: flex; flex-direction: column; gap: 1.5rem; flex: 1; min-width: 0; }
-                .abt-tagline__q { font-size: clamp(1.05rem,2.1vw,1.75rem); font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-third); line-height: 1.2; margin: 0; }
+                .abt-tagline__q { font-size: clamp(1rem,2.1vw,1.75rem); font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-third); line-height: 1.2; margin: 0; }
                 .abt-cta__primary { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.9rem 2.2rem; background: var(--color-one,#00cec1); color: rgba(4,18,28,1); font-size: 0.76rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; border-radius: 6px; border: none; cursor: pointer; transition: all 0.25s; text-decoration: none; width: fit-content; }
                 .abt-cta__primary:hover { background: #00ede0; transform: translateY(-2px); box-shadow: 0 10px 36px rgba(0,206,193,0.28); }
 
                 @media (max-width: 860px) {
                     .abt-row { grid-template-columns: 1fr; }
-                    .abt-row[data-side="left"] .abt-row__visual, .abt-row[data-side="right"] .abt-row__visual { order: 1; min-height: 200px; }
-                    .abt-row[data-side="left"] .abt-row__text, .abt-row[data-side="right"] .abt-row__text { order: 2; }
+                    .abt-row[data-side="left"] .abt-row__visual,
+                    .abt-row[data-side="right"] .abt-row__visual { order: 1; min-height: 200px; }
+                    .abt-row[data-side="left"] .abt-row__text,
+                    .abt-row[data-side="right"] .abt-row__text { order: 2; }
                     .abt-row__img-fade--left, .abt-row__img-fade--right { background: linear-gradient(to bottom, transparent 40%, var(--color-two,#020d14) 100%); }
-                    .abt-tagline { flex-direction: column; gap: 2rem; }
-                    .wmap-wrap { width: 100%; }
-                    .tl-label { display: none; }
-                    .tl-panel-inner { padding: 1.5rem 1.25rem; }
+                    .abt-row__text { padding: 1.8rem 1.5rem; }
+                    .abt-tagline { flex-direction: column; gap: 2rem; align-items: flex-start; }
+                    .abt-tagline-left { width: 100%; }
+                    .abt-cta__primary { width: 100%; justify-content: center; }
+                    .abt-content-block { padding: clamp(2rem,5vw,4rem) 1.25rem clamp(3rem,6vw,6rem); }
+                }
+
+                @media (max-width: 560px) {
+                    .abt-header-block { padding: 3rem 1.25rem 2rem; }
+                    .abt-row__text { padding: 1.5rem 1.25rem; }
                 }
             `}</style>
         </>
