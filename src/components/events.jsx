@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 const Events = () => {
   const [filter, setFilter] = useState('upcoming');
@@ -8,7 +9,11 @@ const Events = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth <= 600 : false);
+  const [portalMounted, setPortalMounted] = useState(false);
   const carouselRef = useRef(null);
+  const touchStartX = useRef(null);
+
+  useEffect(() => { setPortalMounted(true); }, []);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 600);
@@ -23,27 +28,15 @@ const Events = () => {
   useEffect(() => {
     if (selectedEvent) {
       const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
+      document.body.dataset.scrollY = scrollY;
       document.body.style.overflow = 'hidden';
     } else {
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
+      const scrollY = parseInt(document.body.dataset.scrollY || '0');
       document.body.style.overflow = '';
-      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      delete document.body.dataset.scrollY;
+      window.scrollTo({ top: scrollY, behavior: 'instant' });
     }
-    return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [selectedEvent]);
 
   useEffect(() => {
@@ -72,7 +65,7 @@ const Events = () => {
     { id: 8, type: 'past', name: 'Mission commerciale du textile et des matières premières au Maroc', location: 'Casablanca, Morocco', date: '5 au 7 Novembre 2025', details: 'La Mission commerciale du textile et des matières premières – Maroc, organisée par İTHİB en collaboration avec le Ministère turc du Commerce.', results: { meetings: 942, buyers: 247 } },
     { id: 9, type: 'past', name: 'GULFOOD 2026', location: 'Dubai Exhibition Centre', date: '26 au 30 Janvier 2026', details: 'Taking place at the Dubai Exhibition Centre at Expo City Dubai, Gulfood is the world\'s largest and most influential food and beverage exhibition.', results: { meetings: 260, buyers: 162 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood2.jpeg'] },
     { id: 10, type: 'past', name: 'Conxemar 2025', location: 'Vigo, Espagne', date: '7 au 9 octobre 2025', details: 'Salon international de référence pour les produits de la mer surgelés.', results: { meetings: 177, buyers: 61 } },
-    { id: 11, type: 'past', name: 'Multi-Sector Food Trade Mission', location: 'Variable', date: 'Automne 2025', details: 'Dans le cadre du renforcement des échanges commerciaux entre la Turquie et le Maroc, cet événement B2B réunit une délégation d\'entreprises turques leaders du secteur agroalimentaire.', results: { meetings: 128, buyers: 29 } },
+    { id: 11, type: 'past', name: 'Multi-Sector Food Trade Mission', location: 'Variable', date: 'Automne 2025', details: 'Dans le cadre du renforcement des échanges commerciaux entre la Turquie et le Maroc, cet événement B2B réunit une délégation d\'entreprises turques.', results: { meetings: 128, buyers: 29 } },
     { id: 12, type: 'past', name: 'Big 5 Global Dubai', location: 'Dubai World Trade Centre', date: '24 au 27 novembre 2025', details: 'Taking place from November 24 – 27, 2025 at the Dubai World Trade Centre, Big 5 Global is the largest construction event in the Middle East and Africa.', results: { meetings: 142, buyers: 94 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big51.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big52.jpeg'] },
     { id: 13, type: 'past', name: 'ADIFE 2025', location: 'Abu Dhabi', date: 'Novembre 2025', details: 'Salon stratégique à Abu Dhabi pour le secteur F&B et l\'hôtellerie.', results: { meetings: 255, buyers: 85 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif2.jpeg'] },
     { id: 14, type: 'past', name: 'Kitchenware & Tableware Trade Mission', location: 'To be confirmed', date: 'Saison 2025', details: 'Une mission de prospection ciblée permettant aux fabricants turcs d\'articles de cuisine et de table de rencontrer des acheteurs stratégiques.', results: { meetings: 250, buyers: 44 } },
@@ -86,15 +79,8 @@ const Events = () => {
   const VISIBLE = isMobile ? 1 : 3;
   const maxIndex = Math.max(0, total - VISIBLE);
 
-  const handleNext = () => {
-    setDirection(1);
-    setCurrentIndex((i) => Math.min(i + 1, maxIndex));
-  };
-
-  const handlePrev = () => {
-    setDirection(-1);
-    setCurrentIndex((i) => Math.max(i - 1, 0));
-  };
+  const handleNext = () => { setDirection(1); setCurrentIndex((i) => Math.min(i + 1, maxIndex)); };
+  const handlePrev = () => { setDirection(-1); setCurrentIndex((i) => Math.max(i - 1, 0)); };
 
   const switchToUpcoming = () => {
     setSelectedEvent(null);
@@ -106,18 +92,123 @@ const Events = () => {
 
   const visibleEvents = filteredEvents.slice(currentIndex, currentIndex + VISIBLE);
 
-  const touchStartX = useRef(null);
-
   const handleTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
   const handleTouchEnd = (e) => {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
-      if (diff > 0) handleNext();
-      else handlePrev();
-    }
+    if (Math.abs(diff) > 40) { if (diff > 0) handleNext(); else handlePrev(); }
     touchStartX.current = null;
   };
+
+  const modalContent = selectedEvent && portalMounted ? createPortal(
+    <AnimatePresence>
+      {selectedEvent && (
+        <>
+          <motion.div
+            className="ev-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setSelectedEvent(null)}
+          />
+          <motion.div
+            className="ev-modal-panel"
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.97 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="ev-modal-stripe" />
+            <button className="ev-modal-close" onClick={() => setSelectedEvent(null)}>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            </button>
+            <div className="ev-modal-tag">
+              <span className={`ev-modal-tag-dot ${selectedEvent.type}`} />
+              {selectedEvent.type === 'upcoming' ? 'Upcoming Event' : 'Past Event'}
+            </div>
+            <h2 className="ev-modal-title">{selectedEvent.name}</h2>
+            <div className="ev-modal-meta">
+              <span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {selectedEvent.location}
+              </span>
+              <span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                {selectedEvent.date}
+              </span>
+            </div>
+            <div className="ev-modal-divider" />
+            <p className="ev-modal-desc">{selectedEvent.details}</p>
+            {selectedEvent.results && (
+              <div className="ev-modal-stats">
+                <div className="ev-modal-stat">
+                  <span>{selectedEvent.results.meetings.toLocaleString()}</span>
+                  <small>B2B Meetings</small>
+                </div>
+                <div className="ev-modal-stat-div" />
+                <div className="ev-modal-stat">
+                  <span>{selectedEvent.results.buyers.toLocaleString()}</span>
+                  <small>Buyers</small>
+                </div>
+              </div>
+            )}
+            {selectedEvent.type === 'past' && selectedEvent.photos?.length > 0 && (
+              <div className="ev-modal-gallery">
+                <p className="ev-modal-gallery-label">Gallery <span>· tap to enlarge</span></p>
+                <div className="ev-modal-photos">
+                  {selectedEvent.photos.map((src, i) => (
+                    <button key={i} className="ev-modal-photo" onClick={() => setLightboxSrc(src)}>
+                      <img src={src} alt={`${selectedEvent.name} ${i + 1}`} loading="lazy" />
+                      <div className="ev-photo-zoom">⤢</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className="ev-modal-footer">
+              {selectedEvent.type === 'upcoming'
+                ? <button className="ev-modal-cta" onClick={() => window.dispatchEvent(new Event('openContactModal'))}>Register Interest</button>
+                : <button className="ev-modal-cta" onClick={switchToUpcoming}>View Upcoming Events</button>
+              }
+              <button className="ev-modal-dismiss" onClick={() => setSelectedEvent(null)}>Close</button>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>,
+    document.body
+  ) : null;
+
+  const lightboxContent = lightboxSrc && portalMounted ? createPortal(
+    <AnimatePresence>
+      {lightboxSrc && (
+        <motion.div
+          className="ev-lightbox"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => setLightboxSrc(null)}
+        >
+          <motion.img
+            src={lightboxSrc}
+            className="ev-lightbox-img"
+            initial={{ scale: 0.85, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.85, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            onClick={e => e.stopPropagation()}
+          />
+          <button className="ev-lightbox-close" onClick={() => setLightboxSrc(null)}>✕</button>
+        </motion.div>
+      )}
+    </AnimatePresence>,
+    document.body
+  ) : null;
 
   return (
     <>
@@ -209,109 +300,8 @@ const Events = () => {
         </div>
       </section>
 
-      <AnimatePresence>
-        {selectedEvent && (
-          <>
-            <motion.div
-              className="modal-backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedEvent(null)}
-            />
-            <motion.div
-              className="modal-panel"
-              initial={{ opacity: 0, y: '100%' }}
-              animate={{ opacity: 1, y: '0%' }}
-              exit={{ opacity: 0, y: '100%' }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <button className="modal-close" onClick={() => setSelectedEvent(null)}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                </svg>
-              </button>
-              <div className="modal-tag">{selectedEvent.type === 'upcoming' ? 'Upcoming' : 'Past Event'}</div>
-              <h2 className="modal-title">{selectedEvent.name}</h2>
-              <div className="modal-meta">
-                <span className="modal-meta-item">📍 {selectedEvent.location}</span>
-                <span className="modal-meta-item">📅 {selectedEvent.date}</span>
-              </div>
-              <div className="modal-divider" />
-              <div className="modal-section">
-                <h4 className="modal-section-title">Description:</h4>
-                <p className="modal-details">{selectedEvent.about || selectedEvent.details}</p>
-              </div>
-              {selectedEvent.results && (
-                <div className="modal-results-grid">
-                  <div className="result-item">
-                    <span className="result-value">{selectedEvent.results.meetings}</span>
-                    <span className="result-label">Meetings done</span>
-                  </div>
-                  <div className="result-item">
-                    <span className="result-value">{selectedEvent.results.buyers}</span>
-                    <span className="result-label">Buyers</span>
-                  </div>
-                </div>
-              )}
-              {selectedEvent.type === 'past' && selectedEvent.photos?.length > 0 && (
-                <div className="modal-photos-section">
-                  <p className="modal-photos-label">Event Gallery <span className="photos-hint">tap to enlarge</span></p>
-                  <div className="modal-photos-grid">
-                    {selectedEvent.photos.map((src, i) => (
-                      <button key={i} className="modal-photo-item" onClick={() => setLightboxSrc(src)} aria-label={`View photo ${i + 1}`}>
-                        <img src={src} className="modal-photo-img" alt={`${selectedEvent.name} ${i + 1}`} loading="lazy"/>
-                        <div className="photo-zoom-icon">⤢</div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-              <div className="modal-footer">
-                {selectedEvent.type === 'upcoming' ? (
-                  <>
-                    <button className="modal-cta" onClick={() => window.dispatchEvent(new Event('openContactModal'))}>Register</button>
-                    <button className="modal-dismiss" onClick={() => setSelectedEvent(null)}>Close</button>
-                  </>
-                ) : (
-                  <>
-                    <button className="modal-cta" onClick={switchToUpcoming}>View Upcoming Events</button>
-                    <button className="modal-dismiss" onClick={() => setSelectedEvent(null)}>Close</button>
-                  </>
-                )}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {lightboxSrc && (
-          <motion.div
-            className="lightbox-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={() => setLightboxSrc(null)}
-          >
-            <motion.img
-              src={lightboxSrc}
-              className="lightbox-img"
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.85, opacity: 0 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              onClick={(e) => e.stopPropagation()}
-            />
-            <button className="lightbox-close" onClick={() => setLightboxSrc(null)}>
-              <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
-                <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-              </svg>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {modalContent}
+      {lightboxContent}
 
       <style>{`
         .events-section {
@@ -365,9 +355,9 @@ const Events = () => {
         }
 
         .tab-btn.active {
-          background: var(--color-text);
-          color: var(--color-bg);
-          border-color: var(--color-text);
+          background: var(--color-one, #00CEC1);
+          color: var(--color-two);
+          border-color: var(--color-one, #00CEC1);
         }
 
         .carousel-wrapper {
@@ -383,8 +373,8 @@ const Events = () => {
           flex-shrink: 0;
           width: 44px;
           min-height: 44px;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(0,206,193,0.06);
+          border: 1px solid rgba(0,206,193,0.15);
           border-radius: 12px;
           color: var(--color-text-primary);
           cursor: pointer;
@@ -396,7 +386,8 @@ const Events = () => {
         }
 
         .carousel-nav:hover:not(:disabled) {
-          background: rgba(255,255,255,0.1);
+          background: rgba(0,206,193,0.15);
+          border-color: var(--color-one, #00CEC1);
           transform: scale(1.05);
         }
 
@@ -411,9 +402,9 @@ const Events = () => {
         }
 
         .event-card {
-          background: var(--color-bg);
-          border-radius: 8px;
-          border: 1px solid rgba(255,255,255,0.07);
+          background: var(--color-two);
+          border-radius: 12px;
+          border: 1px solid rgba(0,206,193,0.12);
           display: flex;
           flex-direction: column;
           overflow: hidden;
@@ -426,16 +417,16 @@ const Events = () => {
           position: absolute;
           top: 0; left: 0;
           width: 100%; height: 2px;
-          background: var(--color-primary);
+          background: var(--color-one, #00CEC1);
           transform: scaleX(0);
           transform-origin: left;
           transition: transform 0.35s ease;
           z-index: 1;
         }
 
-        .event-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.12); }
+        .event-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,206,193,0.15); border-color: var(--color-one, #00CEC1); }
         .event-card:hover::before { transform: scaleX(1); }
-        .event-card:hover .event-name { color: var(--color-primary); }
+        .event-card:hover .event-name { color: var(--color-one, #00CEC1); }
 
         .event-card-img {
           width: 100%;
@@ -465,10 +456,7 @@ const Events = () => {
           line-height: 1;
         }
 
-        .event-info {
-          padding: 1.2rem 1.5rem 0;
-          flex: 1;
-        }
+        .event-info { padding: 1.2rem 1.5rem 0; flex: 1; }
 
         .event-type-tag {
           display: inline-block;
@@ -476,9 +464,8 @@ const Events = () => {
           font-weight: 700;
           letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: var(--color-text-primary);
-          opacity: 0.4;
-          border: 1px solid rgba(255,255,255,0.12);
+          color: var(--color-one, #00CEC1);
+          border: 1px solid rgba(0,206,193,0.2);
           padding: 0.2rem 0.6rem;
           border-radius: 100px;
           margin-bottom: 0.9rem;
@@ -507,17 +494,19 @@ const Events = () => {
           display: flex;
           gap: 1rem;
           margin-top: 0.5rem;
-          padding-top: 0.7rem;
-          border-top: 1px solid rgba(255,255,255,0.06);
+          padding: 0.5rem 0.75rem;
+          background: rgba(0,206,193,0.05);
+          border: 1px solid rgba(0,206,193,0.1);
+          border-radius: 8px;
         }
 
         .event-results-inline span { font-size: 0.72rem; color: var(--color-text-secondary); }
-        .event-results-inline strong { color: var(--color-text-primary); font-weight: 700; }
+        .event-results-inline strong { color: var(--color-one, #00CEC1); font-weight: 800; }
 
         .view-event-cta {
           margin: 1.2rem 1.5rem 1.5rem;
           background: none;
-          border: 1px solid rgba(255,255,255,0.15);
+          border: 1px solid rgba(0,206,193,0.2);
           color: var(--color-text-primary);
           padding: 0.55rem 1rem;
           border-radius: 8px;
@@ -532,7 +521,12 @@ const Events = () => {
           letter-spacing: 0.04em;
         }
 
-        .view-event-cta:hover { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+        .view-event-cta:hover {
+          background: rgba(0,206,193,0.08);
+          border-color: var(--color-one, #00CEC1);
+          color: var(--color-one, #00CEC1);
+        }
+
         .view-event-cta svg { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
         .view-event-cta:hover svg { transform: translateX(3px); }
 
@@ -547,7 +541,7 @@ const Events = () => {
         .dot {
           width: 6px; height: 6px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.2);
+          background: rgba(0,206,193,0.2);
           border: none;
           cursor: pointer;
           padding: 0;
@@ -555,16 +549,12 @@ const Events = () => {
         }
 
         .dot.active {
-          background: var(--color-text-primary);
+          background: var(--color-one, #00CEC1);
           width: 20px;
           border-radius: 100px;
         }
 
-        .events-footer {
-          margin-top: 3rem;
-          display: flex;
-          justify-content: center;
-        }
+        .events-footer { margin-top: 3rem; display: flex; justify-content: center; }
 
         .view-all-events-btn {
           display: inline-flex;
@@ -572,7 +562,7 @@ const Events = () => {
           gap: 0.6rem;
           text-decoration: none;
           color: var(--color-text-primary);
-          border: 2px solid rgba(255,255,255,0.2);
+          border: 2px solid rgba(0,206,193,0.3);
           padding: 0.75rem 2.2rem;
           font-size: 0.68rem;
           font-weight: 800;
@@ -588,270 +578,273 @@ const Events = () => {
           content: '';
           position: absolute;
           inset: 0;
-          background: var(--color-text-primary);
+          background: var(--color-one, #00CEC1);
           transform: translateX(-105%);
           transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
           z-index: 0;
         }
 
         .view-all-events-btn:hover::before { transform: translateX(0); }
-        .view-all-events-btn:hover { color: var(--color-bg); border-color: var(--color-text-primary); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,255,255,0.1); }
+        .view-all-events-btn:hover { color: var(--color-two); border-color: var(--color-one, #00CEC1); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,206,193,0.25); }
         .view-all-events-btn span, .view-all-events-btn svg { position: relative; z-index: 1; }
         .view-all-events-btn svg { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
         .view-all-events-btn:hover svg { transform: translateX(4px); }
 
-        .modal-backdrop {
+        .ev-modal-backdrop {
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.6);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
+          background: rgba(2,13,20,0.75);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
           z-index: 1100;
         }
 
-        .modal-panel {
+        [data-theme="light"] .ev-modal-backdrop {
+          background: rgba(180,195,196,0.72);
+          backdrop-filter: blur(28px);
+          -webkit-backdrop-filter: blur(28px);
+        }
+
+        .ev-modal-panel {
           position: fixed;
           top: 50%; left: 50%;
           transform: translate(-50%, -50%);
           z-index: 1200;
-          background: var(--color-bg);
-          border: 1px solid rgba(255,255,255,0.09);
-          border-radius: 8px;
+          background: var(--color-two);
+          filter: brightness(1.08);
+          border: 1px solid rgba(0,206,193,0.15);
+          border-radius: 12px;
           padding: 2.8rem;
-          width: min(860px, 92vw);
+          width: min(680px, 92vw);
           max-height: 88vh;
           overflow-y: auto;
           box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+          scrollbar-width: none;
         }
 
-        .modal-close {
+        .ev-modal-panel::-webkit-scrollbar { display: none; }
+
+        .ev-modal-stripe {
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, var(--color-one, #00CEC1), var(--color-fourth, #007baa));
+          border-radius: 12px 12px 0 0;
+        }
+
+        .ev-modal-close {
           position: absolute;
           top: 1.4rem; right: 1.4rem;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(0,206,193,0.06);
+          border: 1px solid rgba(0,206,193,0.15);
           border-radius: 50%;
           width: 36px; height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          display: flex; align-items: center; justify-content: center;
           cursor: pointer;
-          color: var(--color-text-primary);
-          opacity: 0.6;
-          transition: opacity 0.2s ease;
+          color: var(--color-third);
+          opacity: 0.7;
+          transition: opacity 0.2s, border-color 0.2s;
         }
 
-        .modal-close:hover { opacity: 1; }
+        .ev-modal-close:hover { opacity: 1; border-color: var(--color-one, #00CEC1); }
 
-        .modal-tag {
-          display: inline-block;
+        .ev-modal-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
           font-size: 0.6rem;
           font-weight: 700;
           letter-spacing: 0.22em;
           text-transform: uppercase;
-          color: var(--color-text-primary);
-          opacity: 0.4;
-          border: 1px solid rgba(255,255,255,0.12);
+          color: var(--color-third);
+          opacity: 0.5;
+          border: 1px solid rgba(0,206,193,0.15);
           padding: 0.25rem 0.7rem;
           border-radius: 100px;
           margin-bottom: 1.2rem;
         }
 
-        .modal-title {
-          font-size: clamp(1.2rem, 3vw, 2.2rem);
-          font-weight: 800;
-          color: var(--color-text-primary);
-          margin: 0 0 1.2rem 0;
-          line-height: 1.15;
-          letter-spacing: -0.02em;
-          padding-right: 2rem;
+        .ev-modal-tag-dot {
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          flex-shrink: 0;
         }
 
-        .modal-meta {
+        .ev-modal-tag-dot.upcoming { background: var(--color-one, #00CEC1); }
+        .ev-modal-tag-dot.past { background: var(--color-fourth, #007baa); }
+
+        .ev-modal-title {
+          font-size: clamp(1.3rem, 3vw, 2rem);
+          font-weight: 800;
+          color: var(--color-third);
+          margin: 0 0 1.2rem;
+          line-height: 1.15;
+          letter-spacing: -0.02em;
+          padding-right: 2.5rem;
+        }
+
+        .ev-modal-meta {
           display: flex;
-          gap: 1rem;
+          gap: 1.5rem;
           flex-wrap: wrap;
           margin-bottom: 1.4rem;
         }
 
-        .modal-meta-item {
+        .ev-modal-meta span {
           display: inline-flex;
           align-items: center;
           gap: 0.4rem;
           font-size: 0.82rem;
           font-weight: 600;
-          color: var(--color-text);
+          color: var(--color-third);
+          opacity: 0.6;
         }
 
-        .modal-divider {
+        .ev-modal-meta svg { color: var(--color-one, #00CEC1); opacity: 1; flex-shrink: 0; }
+
+        .ev-modal-divider {
           width: 100%;
           height: 1px;
-          background: linear-gradient(90deg, rgba(255,255,255,0.12) 0%, transparent 100%);
+          background: linear-gradient(90deg, rgba(0,206,193,0.2) 0%, transparent 100%);
           margin-bottom: 1.4rem;
         }
 
-        .modal-section { margin-bottom: 1.5rem; }
+        .ev-modal-desc {
+          font-size: 0.9rem;
+          color: var(--color-third);
+          opacity: 0.65;
+          line-height: 1.8;
+          margin: 0 0 1.5rem;
+        }
 
-        .modal-section-title {
-          font-size: 0.75rem;
+        .ev-modal-stats {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          margin-bottom: 1.5rem;
+          padding: 1rem 1.5rem;
+          background: rgba(0,206,193,0.05);
+          border: 1px solid rgba(0,206,193,0.12);
+          border-radius: 10px;
+        }
+
+        .ev-modal-stat { display: flex; flex-direction: column; text-align: center; flex: 1; }
+        .ev-modal-stat span { font-size: 1.8rem; font-weight: 800; color: var(--color-one, #00CEC1); line-height: 1; }
+        .ev-modal-stat small { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-third); opacity: 0.5; margin-top: 0.25rem; }
+        .ev-modal-stat-div { width: 1px; height: 40px; background: rgba(0,206,193,0.15); flex-shrink: 0; }
+
+        .ev-modal-gallery { margin-bottom: 1.5rem; }
+
+        .ev-modal-gallery-label {
+          font-size: 0.72rem;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: var(--color-text-primary);
-          margin-bottom: 0.5rem;
-          opacity: 0.9;
+          letter-spacing: 0.12em;
+          color: var(--color-third);
+          margin-bottom: 0.75rem;
+          opacity: 0.7;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
         }
 
-        .modal-details {
-          font-size: 0.88rem;
-          color: var(--color-text-secondary);
-          line-height: 1.75;
-          margin: 0;
-        }
+        .ev-modal-gallery-label span { opacity: 0.4; text-transform: none; letter-spacing: 0; }
 
-        .modal-results-grid {
+        .ev-modal-photos {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-          margin: 1.5rem 0;
-          padding: 1rem;
-          background: rgba(255,255,255,0.03);
-          border-radius: 8px;
-          border: 1px solid rgba(255,255,255,0.05);
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.6rem;
         }
 
-        .result-item { text-align: center; display: flex; flex-direction: column; }
-        .result-value { font-size: 1.8rem; font-weight: 800; color: var(--color-text-primary); }
-        .result-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; color: var(--color-text-secondary); }
+        .ev-modal-photo {
+          aspect-ratio: 4/3;
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid rgba(0,206,193,0.1);
+          padding: 0;
+          cursor: zoom-in;
+          position: relative;
+          display: block;
+          background: rgba(0,206,193,0.04);
+        }
 
-        .modal-footer {
+        .ev-modal-photo img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.2s, transform 0.3s; }
+        .ev-modal-photo:hover img { opacity: 1; transform: scale(1.05); }
+
+        .ev-photo-zoom {
+          position: absolute; inset: 0;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.2rem; color: white;
+          background: rgba(0,0,0,0.3);
+          opacity: 0; transition: opacity 0.2s;
+        }
+
+        .ev-modal-photo:hover .ev-photo-zoom { opacity: 1; }
+
+        .ev-modal-footer {
           display: flex;
           align-items: center;
           gap: 1rem;
-          margin-top: 2rem;
           padding-top: 1.5rem;
-          border-top: 1px solid rgba(255,255,255,0.06);
+          border-top: 1px solid rgba(0,206,193,0.1);
           flex-wrap: wrap;
         }
 
-        .modal-cta {
+        .ev-modal-cta {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          background: linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(210,230,255,0.88) 100%);
-          color: #050508;
+          background: var(--color-one, #00CEC1);
+          color: var(--color-two);
           border: none;
-          padding: 0.7rem 1.5rem;
-          font-size: 0.68rem;
+          padding: 0.8rem 1.8rem;
+          font-size: 0.7rem;
           font-weight: 800;
           text-transform: uppercase;
           letter-spacing: 0.16em;
           border-radius: 100px;
           cursor: pointer;
+          transition: all 0.25s;
         }
 
-        .modal-dismiss {
+        .ev-modal-cta:hover { background: var(--color-fourth, #007baa); transform: translateY(-1px); }
+
+        .ev-modal-dismiss {
           background: none;
           border: none;
-          color: var(--color-text-secondary);
+          color: var(--color-third);
           font-size: 0.82rem;
           font-weight: 600;
           cursor: pointer;
-          opacity: 0.5;
+          opacity: 0.4;
+          transition: opacity 0.2s;
         }
 
-        .modal-photos-label {
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: var(--color-text-primary);
-          margin-bottom: 0.5rem;
-          opacity: 0.9;
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-        }
+        .ev-modal-dismiss:hover { opacity: 0.8; }
 
-        .photos-hint { font-size: 0.65rem; opacity: 0.4; text-transform: none; letter-spacing: 0; }
-
-        .modal-photos-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 0.6rem;
-          margin-top: 1rem;
-        }
-
-        .modal-photo-item {
-          aspect-ratio: 4/3;
-          border-radius: 4px;
-          overflow: hidden;
-          background: rgba(255,255,255,0.04);
-          border: none;
-          padding: 0;
-          cursor: zoom-in;
-          position: relative;
-          display: block;
-        }
-
-        .modal-photo-item:hover .photo-zoom-icon { opacity: 1; }
-        .modal-photo-item:hover .modal-photo-img { opacity: 1; transform: scale(1.05); }
-
-        .modal-photo-img {
-          width: 100%; height: 100%;
-          object-fit: cover;
-          display: block;
-          opacity: 0.85;
-          transition: opacity 0.2s ease, transform 0.3s ease;
-        }
-
-        .photo-zoom-icon {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.4rem;
-          color: white;
-          background: rgba(0,0,0,0.35);
-          opacity: 0;
-          transition: opacity 0.2s ease;
-        }
-
-        .lightbox-overlay {
-          position: fixed;
-          inset: 0;
-          z-index: 1300;
+        .ev-lightbox {
+          position: fixed; inset: 0; z-index: 1300;
           background: rgba(0,0,0,0.92);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 1rem;
-          cursor: zoom-out;
+          display: flex; align-items: center; justify-content: center;
+          padding: 1rem; cursor: zoom-out;
         }
 
-        .lightbox-img {
-          max-width: 100%;
-          max-height: 90vh;
-          border-radius: 6px;
-          object-fit: contain;
-          cursor: default;
-          box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+        .ev-lightbox-img {
+          max-width: 100%; max-height: 90vh;
+          border-radius: 8px; object-fit: contain;
+          cursor: default; box-shadow: 0 40px 100px rgba(0,0,0,0.6);
         }
 
-        .lightbox-close {
-          position: absolute;
-          top: 1.2rem; right: 1.2rem;
-          background: rgba(255,255,255,0.1);
-          border: 1px solid rgba(255,255,255,0.2);
-          border-radius: 50%;
-          width: 44px; height: 44px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          color: white;
-          transition: background 0.2s ease;
+        .ev-lightbox-close {
+          position: absolute; top: 1.2rem; right: 1.2rem;
+          background: rgba(0,206,193,0.15);
+          border: 1px solid rgba(0,206,193,0.3);
+          border-radius: 50%; width: 44px; height: 44px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; color: white; font-size: 1rem;
+          transition: background 0.2s;
         }
 
-        .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+        .ev-lightbox-close:hover { background: rgba(0,206,193,0.3); }
 
         @media (max-width: 900px) {
           .carousel-track { grid-template-columns: repeat(2, 1fr); }
@@ -859,180 +852,77 @@ const Events = () => {
 
         @media (max-width: 600px) {
           .events-section { padding: 4rem 0.75rem 3rem; }
-
           .events-title { font-size: 2rem; }
           .events-subtitle { font-size: 0.88rem; }
-
           .filter-tabs { gap: 0.5rem; }
           .tab-btn { padding: 0.65rem 1.1rem; font-size: 0.78rem; }
-
           .carousel-wrapper { gap: 0.4rem; }
-
-          .carousel-nav {
-            width: 32px;
-            min-width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            flex-shrink: 0;
-            align-self: center;
-          }
-
-          .carousel-track {
-            grid-template-columns: 1fr;
-            gap: 0;
-            min-height: unset;
-          }
-
-          .event-card {
-            border-radius: 12px;
-            width: 100%;
-            border: 1px solid rgba(0,206,193,0.12);
-            background: var(--color-bg);
-          }
-
-          .event-card::before {
-            background: var(--color-one, #00CEC1);
-          }
-
-          .event-card-img {
-            height: 200px;
-            border-radius: 12px 12px 0 0;
-          }
-
+          .carousel-nav { width: 32px; min-width: 32px; height: 32px; border-radius: 8px; align-self: center; }
+          .carousel-track { grid-template-columns: 1fr; gap: 0; min-height: unset; }
+          .event-card { border-radius: 12px; width: 100%; }
+          .event-card-img { height: 200px; border-radius: 12px 12px 0 0; }
           .event-info { padding: 1.1rem 1.2rem 0; }
-
-          .event-type-tag {
-            font-size: 0.52rem;
-            letter-spacing: 0.2em;
-            color: var(--color-one, #00CEC1);
-            border-color: rgba(0,206,193,0.2);
-            opacity: 1;
-          }
-
-          .event-name {
-            font-size: 1.1rem;
-            font-weight: 800;
-            letter-spacing: -0.01em;
-          }
-
-          .event-meta {
-            font-size: 0.78rem;
-            gap: 0.3rem;
-          }
-
-          .event-results-inline {
-            background: rgba(0,206,193,0.05);
-            border: 1px solid rgba(0,206,193,0.1);
-            border-radius: 8px;
-            padding: 0.5rem 0.75rem;
-            gap: 1.2rem;
-          }
-
-          .event-results-inline strong {
-            color: var(--color-one, #00CEC1);
-            font-size: 1rem;
-          }
-
-          .view-event-cta {
-            margin: 1rem 1.2rem 1.2rem;
-            width: calc(100% - 2.4rem);
-            justify-content: center;
-            padding: 0.85rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 800;
-            border-color: rgba(0,206,193,0.2);
-            border-radius: 10px;
-            letter-spacing: 0.06em;
-          }
-
-          .view-event-cta:hover {
-            background: var(--color-one, #00CEC1);
-            color: var(--color-bg);
-            border-color: var(--color-one, #00CEC1);
-          }
-
+          .event-name { font-size: 1.1rem; font-weight: 800; }
+          .event-meta { font-size: 0.78rem; }
+          .view-event-cta { margin: 1rem 1.2rem 1.2rem; width: calc(100% - 2.4rem); justify-content: center; padding: 0.85rem 1rem; font-size: 0.8rem; border-radius: 10px; }
           .carousel-dots { margin-top: 1.2rem; }
-
           .dot { width: 5px; height: 5px; }
           .dot.active { width: 18px; }
-
           .events-footer { margin-top: 2rem; }
+          .view-all-events-btn { width: 100%; justify-content: center; padding: 0.9rem 1.5rem; font-size: 0.72rem; }
 
-          .view-all-events-btn {
-            width: 100%;
-            justify-content: center;
-            padding: 0.9rem 1.5rem;
-            font-size: 0.72rem;
-          }
-
-          .modal-backdrop { background: rgba(0,0,0,0.7); }
-
-          .modal-panel {
+          .ev-modal-panel {
             position: fixed;
-            top: auto;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            top: auto; bottom: 0;
+            left: 0; right: 0;
             transform: none;
             width: 100%;
             max-height: 92vh;
             border-radius: 20px 20px 0 0;
             padding: 0;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
           }
 
-          .modal-panel::before {
+          .ev-modal-stripe { border-radius: 20px 20px 0 0; }
+
+          .ev-modal-panel::after {
             content: '';
             display: block;
-            width: 40px;
-            height: 4px;
-            background: rgba(255,255,255,0.15);
+            width: 40px; height: 4px;
+            background: rgba(0,206,193,0.2);
             border-radius: 2px;
-            margin: 1rem auto 0;
-            flex-shrink: 0;
+            position: absolute;
+            top: 10px; left: 50%;
+            transform: translateX(-50%);
           }
 
-          .modal-close {
-            top: 1rem;
-            right: 1rem;
+          .ev-modal-panel > *:not(.ev-modal-stripe) {
+            overflow-y: auto;
+            padding: 2rem 1.25rem 0;
+            flex: 1;
+            scrollbar-width: none;
           }
 
-          .modal-tag { margin: 1.2rem 1.25rem 0; }
-          .modal-title { font-size: 1.25rem; padding: 0 1.25rem; margin: 0.5rem 0 1rem; }
-          .modal-meta { padding: 0 1.25rem; }
-          .modal-divider { margin: 1rem 1.25rem; width: calc(100% - 2.5rem); }
-          .modal-section { padding: 0 1.25rem; }
-          .modal-results-grid { margin: 1rem 1.25rem; width: calc(100% - 2.5rem); }
-          .modal-photos-section { padding: 0 1.25rem; }
-          .modal-photos-grid { grid-template-columns: repeat(2, 1fr); }
+          .ev-modal-panel > *:not(.ev-modal-stripe)::-webkit-scrollbar { display: none; }
 
-          .modal-footer {
+          .ev-modal-close { top: 1rem; right: 1rem; }
+          .ev-modal-title { font-size: 1.2rem; padding-right: 2rem; }
+          .ev-modal-stats { flex-direction: row; }
+          .ev-modal-photos { grid-template-columns: repeat(2, 1fr); }
+
+          .ev-modal-footer {
             flex-direction: column;
             align-items: stretch;
             padding: 1rem 1.25rem 2rem;
-            margin-top: auto;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            background: var(--color-bg);
-            position: sticky;
-            bottom: 0;
+            background: var(--color-two);
+            border-top: 1px solid rgba(0,206,193,0.1);
+            flex-shrink: 0;
           }
 
-          .modal-cta {
-            justify-content: center;
-            width: 100%;
-            padding: 0.9rem 1.5rem;
-            font-size: 0.72rem;
-            background: var(--color-one, #00CEC1);
-            color: var(--color-bg);
-            border-radius: 10px;
-          }
-
-          .modal-dismiss { text-align: center; padding: 0.5rem; }
-
-          .modal-photos-grid { grid-template-columns: repeat(2, 1fr); }
-          .modal-results-grid { grid-template-columns: 1fr 1fr; }
+          .ev-modal-cta { justify-content: center; width: 100%; padding: 0.9rem; }
+          .ev-modal-dismiss { text-align: center; }
         }
       `}</style>
     </>
