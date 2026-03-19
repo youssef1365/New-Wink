@@ -442,7 +442,7 @@ const AboutUsSection = () => {
                     <motion.div className="abt-tagline" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.15 }}>
                         <div className="abt-tagline-left">
                             <p className="abt-tagline__q">At Wink, growth is not accidental.<br />It is architected.</p>
-                            <a href="/contact" className="abt-cta__primary">Work With Us →</a>
+                            <a href="/Register" className="abt-cta__primary">Work With Us →</a>
                         </div>
                         <WorldMap />
                     </motion.div>

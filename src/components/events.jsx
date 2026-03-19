@@ -21,9 +21,7 @@ const Events = () => {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [filter]);
+  useEffect(() => { setCurrentIndex(0); }, [filter]);
 
   useEffect(() => {
     if (selectedEvent) {
@@ -100,18 +98,17 @@ const Events = () => {
     touchStartX.current = null;
   };
 
-  const modalContent = selectedEvent && portalMounted ? createPortal(
+  const modalContent = portalMounted ? createPortal(
     <AnimatePresence>
       {selectedEvent && (
-        <>
-          <motion.div
-            className="ev-modal-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={() => setSelectedEvent(null)}
-          />
+        <motion.div
+          className="ev-modal-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          onClick={() => setSelectedEvent(null)}
+        >
           <motion.div
             className="ev-modal-panel"
             initial={{ opacity: 0, y: 20, scale: 0.97 }}
@@ -177,13 +174,13 @@ const Events = () => {
               <button className="ev-modal-dismiss" onClick={() => setSelectedEvent(null)}>Close</button>
             </div>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>,
     document.body
   ) : null;
 
-  const lightboxContent = lightboxSrc && portalMounted ? createPortal(
+  const lightboxContent = portalMounted ? createPortal(
     <AnimatePresence>
       {lightboxSrc && (
         <motion.div
@@ -343,8 +340,8 @@ const Events = () => {
         }
 
         .tab-btn {
-          background: var(--color-bg-secondary);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(0,206,193,0.04);
+          border: 1px solid rgba(0,206,193,0.15);
           color: var(--color-text-secondary);
           padding: 0.8rem 1.5rem;
           border-radius: 100px;
@@ -445,8 +442,7 @@ const Events = () => {
 
         .event-card-city {
           position: absolute;
-          bottom: 12px;
-          left: 14px;
+          bottom: 12px; left: 14px;
           color: white;
           font-size: 1.3rem;
           font-weight: 900;
@@ -521,12 +517,7 @@ const Events = () => {
           letter-spacing: 0.04em;
         }
 
-        .view-event-cta:hover {
-          background: rgba(0,206,193,0.08);
-          border-color: var(--color-one, #00CEC1);
-          color: var(--color-one, #00CEC1);
-        }
-
+        .view-event-cta:hover { background: rgba(0,206,193,0.08); border-color: var(--color-one, #00CEC1); color: var(--color-one, #00CEC1); }
         .view-event-cta svg { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
         .view-event-cta:hover svg { transform: translateX(3px); }
 
@@ -590,26 +581,27 @@ const Events = () => {
         .view-all-events-btn svg { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
         .view-all-events-btn:hover svg { transform: translateX(4px); }
 
-        .ev-modal-backdrop {
+        .ev-modal-overlay {
           position: fixed;
           inset: 0;
           background: rgba(2,13,20,0.75);
           backdrop-filter: blur(24px);
           -webkit-backdrop-filter: blur(24px);
           z-index: 1100;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1.5rem;
         }
 
-        [data-theme="light"] .ev-modal-backdrop {
+        [data-theme="light"] .ev-modal-overlay {
           background: rgba(180,195,196,0.72);
           backdrop-filter: blur(28px);
           -webkit-backdrop-filter: blur(28px);
         }
 
         .ev-modal-panel {
-          position: fixed;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          z-index: 1200;
+          position: relative;
           background: var(--color-two);
           filter: brightness(1.08);
           border: 1px solid rgba(0,206,193,0.15);
@@ -664,12 +656,7 @@ const Events = () => {
           margin-bottom: 1.2rem;
         }
 
-        .ev-modal-tag-dot {
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
-
+        .ev-modal-tag-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
         .ev-modal-tag-dot.upcoming { background: var(--color-one, #00CEC1); }
         .ev-modal-tag-dot.past { background: var(--color-fourth, #007baa); }
 
@@ -683,12 +670,7 @@ const Events = () => {
           padding-right: 2.5rem;
         }
 
-        .ev-modal-meta {
-          display: flex;
-          gap: 1.5rem;
-          flex-wrap: wrap;
-          margin-bottom: 1.4rem;
-        }
+        .ev-modal-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
 
         .ev-modal-meta span {
           display: inline-flex;
@@ -749,11 +731,7 @@ const Events = () => {
 
         .ev-modal-gallery-label span { opacity: 0.4; text-transform: none; letter-spacing: 0; }
 
-        .ev-modal-photos {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 0.6rem;
-        }
+        .ev-modal-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
 
         .ev-modal-photo {
           aspect-ratio: 4/3;
@@ -787,6 +765,7 @@ const Events = () => {
           padding-top: 1.5rem;
           border-top: 1px solid rgba(0,206,193,0.1);
           flex-wrap: wrap;
+          margin-top: 1.5rem;
         }
 
         .ev-modal-cta {
@@ -871,57 +850,38 @@ const Events = () => {
           .events-footer { margin-top: 2rem; }
           .view-all-events-btn { width: 100%; justify-content: center; padding: 0.9rem 1.5rem; font-size: 0.72rem; }
 
+          .ev-modal-overlay {
+            align-items: flex-end;
+            padding: 0;
+          }
+
           .ev-modal-panel {
-            position: fixed;
-            top: auto; bottom: 0;
-            left: 0; right: 0;
-            transform: none;
             width: 100%;
             max-height: 92vh;
             border-radius: 20px 20px 0 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            padding: 2.2rem 1.25rem 2rem;
           }
 
           .ev-modal-stripe { border-radius: 20px 20px 0 0; }
 
-          .ev-modal-panel::after {
+          .ev-modal-panel::before {
             content: '';
             display: block;
             width: 40px; height: 4px;
-            background: rgba(0,206,193,0.2);
+            background: rgba(0,206,193,0.25);
             border-radius: 2px;
-            position: absolute;
-            top: 10px; left: 50%;
-            transform: translateX(-50%);
+            margin: -1rem auto 1.5rem;
           }
 
-          .ev-modal-panel > *:not(.ev-modal-stripe) {
-            overflow-y: auto;
-            padding: 2rem 1.25rem 0;
-            flex: 1;
-            scrollbar-width: none;
-          }
-
-          .ev-modal-panel > *:not(.ev-modal-stripe)::-webkit-scrollbar { display: none; }
-
-          .ev-modal-close { top: 1rem; right: 1rem; }
-          .ev-modal-title { font-size: 1.2rem; padding-right: 2rem; }
-          .ev-modal-stats { flex-direction: row; }
+          .ev-modal-title { font-size: 1.2rem; }
           .ev-modal-photos { grid-template-columns: repeat(2, 1fr); }
 
           .ev-modal-footer {
             flex-direction: column;
             align-items: stretch;
-            padding: 1rem 1.25rem 2rem;
-            background: var(--color-two);
-            border-top: 1px solid rgba(0,206,193,0.1);
-            flex-shrink: 0;
           }
 
-          .ev-modal-cta { justify-content: center; width: 100%; padding: 0.9rem; }
+          .ev-modal-cta { justify-content: center; width: 100%; }
           .ev-modal-dismiss { text-align: center; }
         }
       `}</style>

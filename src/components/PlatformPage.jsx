@@ -343,7 +343,7 @@ export default function PlatformPage() {
               <p className="plt-cta-eyebrow">Get Started</p>
               <h2 className="plt-cta-headline">Power Your Next Event<br />with the WINK Platform</h2>
               <p className="plt-cta-sub">Contact us to integrate the platform into your next B2B program or trade mission.</p>
-              <a href="/contact" className="plt-cta-btn">
+              <a href="/Register" className="plt-cta-btn">
                 Contact Us
                 <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
                   <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
