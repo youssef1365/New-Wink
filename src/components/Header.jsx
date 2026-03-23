@@ -4,20 +4,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ContactModal from './ContactModal.jsx';
 
 const MoonIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+  <svg xmlns="http://www.w3.org/2000/svg " width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
   </svg>
 );
 
 const SunIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg xmlns="http://www.w3.org/2000/svg " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="5" />
     <line x1="12" y1="1"     x2="12" y2="3" />
     <line x1="12" y1="21"    x2="12" y2="23" />
     <line x1="4.22" y1="4.22"   x2="5.64" y2="5.64" />
     <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
     <line x1="1"  y1="12"    x2="3"  y2="12" />
-    <line x1="21" y1="12"    x2="23" y2="12" />
+    <line x1="21" y1="12"    x2="23"  y2="12" />
     <line x1="4.22" y1="19.78"  x2="5.64" y2="18.36" />
     <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22" />
   </svg>
@@ -142,29 +142,16 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
   useEffect(() => {
     if (mobileMenuOpen) {
       scrollYRef.current = window.scrollY;
-
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollYRef.current}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
       document.body.style.width = '100%';
     } else {
+      const scrollPos = parseInt(document.body.style.top || '0') * -1;
       document.body.style.position = '';
       document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
       document.body.style.width = '';
-
-      window.scrollTo(0, scrollYRef.current);
+      if (scrollPos) window.scrollTo(0, scrollPos);
     }
-
-    return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.width = '';
-    };
   }, [mobileMenuOpen]);
 
   const toggleTheme = () => {
@@ -210,7 +197,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
       />
       <motion.header
         className={`header ${isScrolled ? 'scrolled' : ''} ${mobileMenuOpen ? 'mobile-active' : ''}`}
-        animate={{ y: mobileMenuOpen ? '0%' : (shouldHide ? '-100%' : '0%') }}
+        animate={{ y: mobileMenuOpen ? 0 : (shouldHide ? '-100%' : '0%') }}
         transition={{
           duration: mobileMenuOpen ? 0 : 0.4,
           ease: [0.22, 1, 0.36, 1]
