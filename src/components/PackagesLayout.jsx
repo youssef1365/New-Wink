@@ -8,7 +8,7 @@ const categories = [
     label: 'Enterprises',
     subtitle: 'International Business Development Programs',
     description: 'Structured buyer sourcing, B2B meetings and investor engagement designed to accelerate international expansion.',
-    cta: 'View Enterprise Packages',
+    cta: 'View Enterprise Programs',
     href: '/Entreprises',
     packages: [
       { title: 'Package 1 – Market Access Starter' },
@@ -36,7 +36,7 @@ const categories = [
     label: 'Event Organizers',
     subtitle: 'Strategic B2B Programs for Trade Shows',
     description: 'Structured buyer engagement programs designed to increase exhibitor ROI and event retention.',
-    cta: 'View Organizer Packages',
+    cta: 'View Organizer Programs',
     href: '/Organizers',
     packages: [
       { title: 'Package 1 – Export Trade Missions' },
@@ -284,9 +284,9 @@ export default function ProgramsPage() {
         .prg-cat-card:hover { border-color: rgba(0,206,193,0.25); box-shadow: 0 12px 40px rgba(0,206,193,0.07); }
         :root[data-theme="light"] .prg-cat-card:hover { box-shadow: 0 12px 40px rgba(0,63,92,0.08); }
         .prg-cat-card-top { display: flex; flex-direction: column; gap: 0.5rem; }
-        .prg-cat-label { font-size: clamp(1.1rem, 1.6vw, 1.3rem); font-weight: 800; color: var(--color-third); line-height: 1.2; letter-spacing: -0.015em; }
-        .prg-cat-subtitle { font-size: 0.78rem; font-weight: 700; color: var(--color-one); opacity: 0.85; line-height: 1.4; }
-        .prg-cat-desc { font-size: 0.78rem; color: var(--color-third); opacity: 0.55; line-height: 1.7; }
+        .prg-cat-label { font-size: clamp(1.5rem, 2.5vw, 1.5rem); font-weight: 800; color: var(--color-third); line-height: 1.2; letter-spacing: -0.015em; }
+        .prg-cat-subtitle { font-size: 1.2rem; font-weight: 700; color: var(--color-one); opacity: 0.85; line-height: 1.4; }
+        .prg-cat-desc { font-size: 0.9rem; color: var(--color-third); opacity: 0.55; line-height: 1.7; }
         .prg-cat-divider { height: 1px; background: linear-gradient(90deg, var(--color-third) 0%, transparent 100%); opacity: 0.1; }
         .prg-pkg-list { list-style: none; display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
         .prg-pkg-item { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; border-radius: 7px; padding: 0.7rem 0.85rem; text-decoration: none; transition: background 0.2s ease, padding-left 0.2s ease; }
@@ -299,7 +299,7 @@ export default function ProgramsPage() {
         .prg-cat-cta { margin-top: auto; display: inline-flex; align-items: center; gap: 0.5rem; background: none; border: 1px solid var(--color-third); opacity: 0.35; color: var(--color-third); font-family: 'Montserrat', sans-serif; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.7rem 1.2rem; border-radius: 100px; cursor: pointer; text-decoration: none; transition: all 0.3s ease; align-self: flex-start; }
         .prg-cat-cta:hover { opacity: 1; border-color: var(--color-one); color: var(--color-one); background: rgba(0,206,193,0.06); transform: translateX(3px); }
 
-        .prg-why { border-top: 1px solid rgba(209,219,220,0.08); padding: clamp(3rem, 6vw, 5rem) 4vw; max-width: 1200px; margin: 0 auto; }
+        .prg-why { border-top: 1px solid rgba(209,219,220,0.08); padding: clamp(3rem, 6vw, 5rem) 4vw; max-width: 1350px; margin: 0 auto; }
         :root[data-theme="light"] .prg-why { border-top-color: rgba(0,63,92,0.1); }
         .prg-why-label { text-align: center; margin-bottom: 2.5rem; font-size: 3rem; letter-spacing: 0.08em }
         .prg-why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; align-items: start; padding-bottom: 2rem; }
@@ -309,8 +309,8 @@ export default function ProgramsPage() {
         .prg-why-card:hover { background: rgba(0,206,193,0.09); border-color: rgba(0,206,193,0.35); box-shadow: 0 20px 50px rgba(0,206,193,0.12); transform: translateY(-4px); }
         :root[data-theme="light"] .prg-why-card:hover { background: #19aead; border-color: rgba(0,63,92,0.2); box-shadow: 0 12px 40px rgba(0,63,92,0.1); }
         .prg-why-icon { color: var(--color-one); opacity: 0.8; display: flex; }
-        .prg-why-title { font-size: 0.88rem; font-weight: 800; color: var(--color-third); letter-spacing: -0.01em; line-height: 1.3; }
-        .prg-why-desc { font-size: 0.76rem; color: var(--color-third); opacity: 0.55; line-height: 1.65; }
+        .prg-why-title { font-size: 1.2rem; font-weight: 800; color: var(--color-third); letter-spacing: -0.01em; line-height: 1.3; }
+        .prg-why-desc { font-size: 1rem; color: var(--color-third); opacity: 0.55; line-height: 1.65; }
 
         .prg-glance { padding: clamp(3.5rem, 7vw, 6rem) 4vw; border-top: 1px solid rgba(209,219,220,0.08); }
         :root[data-theme="light"] .prg-glance { border-top-color: rgba(0,63,92,0.1); }

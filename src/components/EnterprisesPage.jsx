@@ -87,6 +87,10 @@ export default function EnterprisesPage() {
             <div className="ent-page">
 
                 <section className="ent-hero">
+                    <div className="ent-hero-bg ent-hero-bg--dark" style={{ backgroundImage: `url('img_1.jpeg')` }} />
+                    <div className="ent-hero-bg ent-hero-bg--light" style={{ backgroundImage: `url('img_2.jpeg')` }} />
+                    <div className="ent-hero-overlay" />
+
                     <motion.p className="ent-eyebrow" variants={fadeUp} initial="hidden" animate="visible" custom={0}>
                         Enterprises
                     </motion.p>
@@ -198,11 +202,18 @@ Wink Consulting designs and operates structured international programs that gene
                                                         <span className="ent-duration-label">Duration</span>
                                                         <span className="ent-duration-value">{pkg.duration}</span>
                                                     </div>
-                                                    <button className="ent-pkg-cta" onClick={() => window.dispatchEvent(new Event('openContactModal'))}>
-                                                        Request Program Details
-                                                        <svg width="13" height="13" viewBox="0 0 18 18" fill="none">
-                                                            <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                                                        </svg>
+                                                    <button
+                                                      className="ent-pkg-cta"
+                                                      onClick={() => {
+                                                        window.dispatchEvent(new CustomEvent('openContactModal', {
+                                                          detail: { interest: 'matchmaking' }
+                                                        }));
+                                                      }}
+                                                    >
+                                                      Request Program Details
+                                                      <svg width="13" height="13" viewBox="0 0 18 18" fill="none">
+                                                        <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                                                      </svg>
                                                     </button>
                                                 </div>
                                             </div>
@@ -228,11 +239,18 @@ Wink Consulting designs and operates structured international programs that gene
                                 Following a strategic alignment call, Wink will provide a tailored execution roadmap based on your selected program and priority markets.
                             </p>
                         </div>
-                        <button className="ent-final-btn" onClick={() => window.dispatchEvent(new Event('openContactModal'))}>
-                            Book a Strategic Call
-                            <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
-                                <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
+                        <button
+                          className="ent-final-btn"
+                          onClick={() => {
+                            window.dispatchEvent(new CustomEvent('openContactModal', {
+                              detail: { interest: 'matchmaking' }
+                            }));
+                          }}
+                        >
+                          Book a Strategic Call
+                          <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+                            <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
                         </button>
                     </motion.div>
                 </section>
@@ -245,19 +263,46 @@ Wink Consulting designs and operates structured international programs that gene
           color: var(--color-third);
           font-family: 'Montserrat', sans-serif;
           min-height: 100vh;
-          padding-top: 80px;
+          padding-top: 50px;
           transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .ent-hero {
-          max-width: 900px;
-          margin: 0 auto;
+          max-width: 100%;
+          position: relative;
           padding: clamp(4.5rem, 9vw, 7.5rem) 4vw clamp(5rem, 9vw, 8rem);
           text-align: center;
           display: flex;
           flex-direction: column;
           align-items: center;
+          overflow: hidden;
         }
+
+        .ent-hero-bg {
+          position: absolute;
+          inset: 0;
+          top: 40px;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          animation: heroBgZoom 12s ease-out forwards;
+          transition: opacity 0.4s ease;
+        }
+
+        .ent-hero-bg--light { opacity: 0; }
+        .ent-hero-bg--dark  { opacity: 1; }
+
+        :root[data-theme="light"] .ent-hero-bg--light { opacity: 1; }
+        :root[data-theme="light"] .ent-hero-bg--dark  { opacity: 0; }
+
+
+        .ent-hero > *:not(.ent-hero-bg):not(.ent-hero-overlay) {
+          position: relative;
+          z-index: 1;
+          max-width: 900px;
+          width: 100%;
+        }
+
         .ent-eyebrow {
           font-size: 0.8rem;
           font-weight: 800;

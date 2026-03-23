@@ -244,23 +244,26 @@ export default function ExpertisePage() {
         }
 
         .ep-track {
-          position: relative; z-index: 1;
-          display: flex;
-          gap: 1rem;
-          padding: 1rem 5vw 2rem;
-          justify-content: center;
-          flex-wrap: nowrap;
-          overflow-x: auto;
-          scrollbar-width: none;
-        }
-        .ep-track::-webkit-scrollbar { display: none; }
+                  position: relative;
+                  z-index: 1;
+                  display: flex;
+                  gap: 1rem;
+                  padding: 80px 5vw;
+                  margin-top: -60px;
+                  margin-bottom: -60px;
+                  justify-content: center;
+                  flex-wrap: nowrap;
+                  overflow-x: auto;
+                  scrollbar-width: none;
+                }
+                .ep-track::-webkit-scrollbar { display: none; }
 
         .ep-pill {
           display: flex; flex-direction: column;
           justify-content: space-between;
           width: 180px; min-width: 160px;
           min-height: 280px;
-          border-radius: 120px;
+          border-radius: 999px;
           padding: 2rem 1.4rem;
           cursor: pointer;
           border: 1px solid rgba(0,206,193,0.18);
@@ -268,12 +271,16 @@ export default function ExpertisePage() {
           transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
           position: relative; overflow: hidden;
           flex-shrink: 0;
+          overflow: visible;
         }
         .ep-pill:hover {
-          border-color: rgba(0,206,193,0.7);
-          background: rgba(0,206,193,0.45);
+          border-color: rgba(0, 206, 193, 0.7);
+          background: rgba(0, 206, 193, 0.45);
           transform: translateY(-6px);
-          box-shadow: 0 0 60px rgba(0,206,193,0.6), 0 24px 60px rgba(0,206,193,0.3);
+          box-shadow:
+            0 0 50px 0 rgba(0, 206, 193, 0.6),
+            0 20px 60px 0 rgba(0, 206, 193, 0.3);
+          clip-path: none !important;
         }
 
         .ep-pill-icon {

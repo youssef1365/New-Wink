@@ -35,6 +35,13 @@ const PackagesPage = ({ activeSection = '' }) => {
         subheadline="From market testing to multi-country expansion, Wink structures your international journey."
         ctaLabel=" Explore Programs"
         href="/Packages"
+        onClick={(e) => {
+            e.preventDefault(); // Stop the page from changing
+            const el = document.getElementById('prg-packages');
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
 
       />
       <Footer />

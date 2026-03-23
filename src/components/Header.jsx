@@ -278,7 +278,7 @@ const Header = ({ activeSection, scrollVelocity, theme: themeProp, setTheme: set
 
           .header.scrolled {
             padding: 0.35rem 0;
-            background: rgba(3, 20, 28, 0.85);
+            background: var(--color-two);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
           }

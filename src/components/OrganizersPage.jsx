@@ -411,11 +411,18 @@ export default function OrganizersPage() {
                     <motion.div className="org-final-inner" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
                         <p className="org-final-headline">Design Your International Program</p>
                         <p className="org-final-sub">Let's explore how Wink can support your next growth initiative.</p>
-                        <button className="org-final-btn" onClick={() => window.dispatchEvent(new Event('openContactModal'))}>
-                            Start a Conversation
-                            <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
-                                <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
+                        <button
+                          className="org-final-btn"
+                          onClick={() => {
+                            window.dispatchEvent(new CustomEvent('openContactModal', {
+                              detail: { interest: 'strategy' }
+                            }));
+                          }}
+                        >
+                          Start a Conversation
+                          <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
+                            <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
                         </button>
                     </motion.div>
                 </section>

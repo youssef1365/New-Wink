@@ -98,6 +98,10 @@ export default function GovernmentPage() {
             <div className="gov-page">
 
                 <section className="gov-hero">
+                    <div className="gov-hero-bg gov-hero-bg--dark" style={{ backgroundImage: `url('img_3.jpeg')` }} />
+                    <div className="gov-hero-bg gov-hero-bg--light" style={{ backgroundImage: `url('img_4.jpeg')` }} />
+                    <div className="gov-hero-overlay" />
+
                     <motion.p className="gov-eyebrow" variants={fadeUp} initial="hidden" animate="visible" custom={0}>
                         Government & Institutional
                     </motion.p>
@@ -212,11 +216,18 @@ export default function GovernmentPage() {
                     <motion.div className="gov-final-inner" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
                         <p className="gov-final-headline">Design Your Economic Promotion Program</p>
                         <p className="gov-final-sub">Let's explore how Wink can support your next international initiative.</p>
-                        <button className="gov-final-btn" onClick={() => window.dispatchEvent(new Event('openContactModal'))}>
-                            Contact Our Team
-                            <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
-                                <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
+                        <button
+                          className="gov-final-btn"
+                          onClick={() => {
+                            window.dispatchEvent(new CustomEvent('openContactModal', {
+                              detail: { interest: 'events' }
+                            }));
+                          }}
+                        >
+                          Contact Our Team
+                          <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
+                            <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
                         </button>
                     </motion.div>
                 </section>
@@ -228,66 +239,94 @@ export default function GovernmentPage() {
           color: var(--color-third);
           font-family: 'Montserrat', sans-serif;
           min-height: 100vh;
-          padding-top: 80px;
+          padding-top: 50px;
           transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .gov-hero {
-                    max-width: 1000px;
-                    margin: 0 auto;
-                    padding: clamp(4.5rem, 9vw, 7.5rem) 4vw clamp(5rem, 9vw, 8rem);
-                    text-align: center;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-                .gov-eyebrow {
-                    font-size: 0.8rem;
-                    font-weight: 800;
-                    letter-spacing: 0.28em;
-                    text-transform: uppercase;
-                    color: var(--color-one);
-                    margin-bottom: 1.4rem;
-                }
-                .gov-hero-headline {
-                    font-size: clamp(3rem, 7vw, 5.2rem);
-                    font-weight: 800;
-                    line-height: 1.08;
-                    letter-spacing: -0.03em;
-                    color: var(--color-third);
-                    margin-bottom: 1.6rem;
-                }
-                .gov-hero-sub {
-                   font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-                   color: var(--color-third);
-                   opacity: 0.55;
-                   line-height: 1.75;
-                   max-width: 640px;
-                   margin-bottom: 2.8rem;
-                }
-                .gov-hero-cta {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 0.6rem;
-                    border: 1px solid var(--color-one);
-                    color: var(--color-one);
-                    background: none;
-                    padding: 1rem 2.4rem;
-                    border-radius: 100px;
-                    font-family: 'Montserrat', sans-serif;
-                    font-size: 0.8rem;
-                    font-weight: 800;
-                    letter-spacing: 0.16em;
-                    text-transform: uppercase;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                }
-                .gov-hero-cta:hover {
-                   background: var(--color-one);
-                   color: var(--color-two);
-                   transform: translateY(-2px);
-                   box-shadow: 0 10px 28px rgba(0, 206, 193, 0.25);
-                }
+          max-width: 100%;
+          position: relative;
+          padding: clamp(4.5rem, 9vw, 7.5rem) 4vw clamp(5rem, 9vw, 8rem);
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          overflow: hidden;
+        }
+
+        .gov-hero-bg {
+          position: absolute;
+          inset: 0;
+          top: 40px;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          animation: govBgZoom 12s ease-out forwards;
+          transition: opacity 0.4s ease;
+        }
+
+        .gov-hero-bg--light { opacity: 0; }
+        .gov-hero-bg--dark  { opacity: 1; }
+
+        :root[data-theme="light"] .gov-hero-bg--light { opacity: 1; }
+        :root[data-theme="light"] .gov-hero-bg--dark  { opacity: 0; }
+
+
+
+        .gov-hero > *:not(.gov-hero-bg):not(.gov-hero-overlay) {
+          position: relative;
+          z-index: 1;
+          max-width: 1000px;
+          width: 100%;
+        }
+
+        .gov-eyebrow {
+          font-size: 0.8rem;
+          font-weight: 800;
+          letter-spacing: 0.28em;
+          text-transform: uppercase;
+          color: var(--color-one);
+          margin-bottom: 1.4rem;
+        }
+        .gov-hero-headline {
+          font-size: clamp(3rem, 7vw, 5.2rem);
+          font-weight: 800;
+          line-height: 1.08;
+          letter-spacing: -0.03em;
+          color: var(--color-third);
+          margin-bottom: 1.6rem;
+        }
+        .gov-hero-sub {
+          font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+          color: var(--color-third);
+          opacity: 0.55;
+          line-height: 1.75;
+          max-width: 640px;
+          margin-bottom: 2.8rem;
+        }
+        .gov-hero-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          border: 1px solid var(--color-one);
+          color: var(--color-one);
+          background: none;
+          padding: 1rem 2.4rem;
+          border-radius: 100px;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.8rem;
+          font-weight: 800;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .gov-hero-cta:hover {
+          background: var(--color-one);
+          color: var(--color-two);
+          transform: translateY(-2px);
+          box-shadow: 0 10px 28px rgba(0, 206, 193, 0.25);
+        }
 
         .gov-section-label {
           font-size: 0.6rem;
@@ -333,6 +372,9 @@ export default function GovernmentPage() {
           grid-template-columns: repeat(3, 1fr);
           gap: 1.25rem;
           align-items: stretch;
+          padding: 80px 0;
+          margin: -60px 0;
+          overflow: visible;
         }
         .gov-pkg-card {
           background: rgba(209, 219, 220, 0.04);
@@ -342,18 +384,13 @@ export default function GovernmentPage() {
           display: flex;
           flex-direction: column;
           gap: 1.25rem;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
+          transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+          position: relative;
+          overflow: visible;
         }
         :root[data-theme="light"] .gov-pkg-card {
           background: rgba(0, 63, 92, 0.03);
           border-color: rgba(0, 63, 92, 0.1);
-        }
-        .gov-pkg-card:hover {
-          border-color: rgba(0, 206, 193, 0.25);
-          box-shadow: 0 12px 40px rgba(0, 206, 193, 0.07);
-        }
-        :root[data-theme="light"] .gov-pkg-card:hover {
-          box-shadow: 0 12px 40px rgba(0, 63, 92, 0.08);
         }
 
         .gov-pkg-card-top {
@@ -599,7 +636,7 @@ export default function GovernmentPage() {
         }
 
         @media (max-width: 1000px) {
-          .gov-pkg-grid { grid-template-columns: 1fr; }
+          .gov-pkg-grid { grid-template-columns: 1fr; padding: 40px 0; }
         }
         @media (max-width: 600px) {
           .gov-phase { flex-wrap: wrap; gap: 0.5rem; }

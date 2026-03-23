@@ -10,11 +10,19 @@ export default function ContactModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [country, setCountry] = useState(null);
   const [localPhone, setLocalPhone] = useState("");
+  const [interest, setInterest] = useState("");
 
   const countryOptions = useMemo(() => countryList().getData(), []);
 
   useEffect(() => {
-    const handleOpen = () => setIsOpen(true);
+    const handleOpen = (e) => {
+      setIsOpen(true);
+      if (e.detail && e.detail.interest) {
+        setInterest(e.detail.interest);
+      } else {
+        setInterest("");
+      }
+    };
     window.addEventListener('openContactModal', handleOpen);
     return () => window.removeEventListener('openContactModal', handleOpen);
   }, []);
@@ -80,7 +88,8 @@ export default function ContactModal() {
           email: payload.email,
           organization: payload.organization,
           country: country?.label || "",
-          interest: payload.interest,
+          interest: interest,
+          areaOfInterest: payload.areaOfInterest,
           phone: dialCode ? `${dialCode} ${localPhone}` : localPhone,
           message: payload.objectives,
         }),
@@ -94,6 +103,7 @@ export default function ContactModal() {
         e.target.reset();
         setLocalPhone("");
         setCountry(null);
+        setInterest("");
       } else {
         setIsSuccess(false);
         setStatusMessage(result.error || result.message || "Server error. Please try again.");
@@ -211,10 +221,19 @@ export default function ContactModal() {
                         />
                       </div>
                     </div>
+                    <div className="input-group full-width spaced-group">
+                        <label>Who Are You</label>
+                          <select name="interest" required value={interest} onChange={(e) => setInterest(e.target.value)}>
+                             <option value="">Select an option</option>
+                             <option value="matchmaking">Enterprise</option>
+                             <option value="events">Government & Association</option>
+                             <option value="strategy">Event Organizer</option>
+                          </select>
+                    </div>
 
                     <div className="input-group full-width spaced-group">
                       <label>Area of Interest</label>
-                      <select name="interest" required>
+                      <select name="areaOfInterest" required>
                         <option value="">Select an option</option>
                         <option value="matchmaking">B2B Matchmaking & Meetings</option>
                         <option value="events">Trade Missions & Hosted Buyer Programs</option>
@@ -359,6 +378,7 @@ export default function ContactModal() {
               color: #071e2b;
               width: 100%;
               box-sizing: border-box;
+              font-family: 'Montserrat', sans-serif;
             }
             input:focus, select:focus, textarea:focus {
               outline: none;

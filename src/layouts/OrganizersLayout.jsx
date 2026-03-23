@@ -34,6 +34,7 @@ const OrganizersLayout = ({ activeSection = '' }) => {
                 headline="Transform Your Event into a Performance-Driven Platform"
                 subheadline="Increase exhibitor ROI with structured and measurable B2B engagement systems."
                 ctaLabel="Partner with Wink"
+                href="/Register"
             />
 
             <Footer />

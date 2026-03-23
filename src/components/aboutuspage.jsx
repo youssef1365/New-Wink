@@ -16,6 +16,8 @@ const STATS = [
 ];
 
 const WorldMap = () => {
+    const [hoveredId, setHoveredId] = useState(null);
+
     const dots = [
         { cx: 260, cy: 210, label: "Americas", id: "americas" },
         { cx: 520, cy: 170, label: "Europe", id: "europe" },
@@ -32,17 +34,32 @@ const WorldMap = () => {
                         <image
                             href="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
                             x="0" y="0" width="1000" height="500"
-                            preserveAspectRatio="xMidYMid meet"
-                            style={{ filter: "brightness(0) invert(15%) sepia(30%) saturate(600%) hue-rotate(150deg)" }}
+                            style={{ filter: "brightness(0) invert(20%) sepia(5%) opacity(0.3)" }}
                         />
                         {dots.map((dot) => (
-                            <circle key={dot.id} cx={dot.cx} cy={dot.cy} r="7" className={`dot dot-${dot.id}`} />
+                            <circle
+                                key={dot.id}
+                                cx={dot.cx}
+                                cy={dot.cy}
+                                r={hoveredId === dot.id ? "9" : "6"}
+                                className={`dot ${hoveredId === dot.id ? 'is-active' : ''}`}
+                                onMouseEnter={() => setHoveredId(dot.id)}
+                                onMouseLeave={() => setHoveredId(null)}
+                            />
                         ))}
                     </svg>
                 </div>
+
                 <div className="wmap-tags">
                     {dots.map((d) => (
-                        <span key={d.id} className={`tag tag-${d.id}`}>{d.label}</span>
+                        <span
+                            key={d.id}
+                            className={`tag ${hoveredId === d.id ? 'tag-active' : ''}`}
+                            onMouseEnter={() => setHoveredId(d.id)}
+                            onMouseLeave={() => setHoveredId(null)}
+                        >
+                            {d.label}
+                        </span>
                     ))}
                 </div>
             </div>
@@ -52,8 +69,9 @@ const WorldMap = () => {
                     flex-shrink: 0;
                     display: flex;
                     flex-direction: column;
-                    gap: 1rem;
-                    width: 520px;
+                    gap: 1.5rem;
+                    width: 100%;
+                    max-width: 520px;
                 }
                 .wmap-canvas-wrap {
                     position: relative;
@@ -63,14 +81,47 @@ const WorldMap = () => {
                     background: #cfcfcf;
                 }
                 .wmap-svg { display: block; width: 100%; height: auto; }
-                .dot { fill: #0b4a5a; stroke: #ffffff; stroke-width: 2; opacity: 0.9; transition: all 0.25s ease; }
-                .dot:hover { fill: #00c2d1; stroke-width: 3; opacity: 1; }
-                .wmap-tags { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
-                .tag { font-size: 0.75rem; letter-spacing: 1px; color: #ffffffaa; border-bottom: 1px solid #ffffff33; padding-bottom: 2px; transition: all 0.3s ease; cursor: pointer; }
-                .tag:hover { color: #ffffff; border-color: #00c2d1; }
+
+                .dot {
+                    ill: #0b4a5a;
+                    stroke: #ffffff;
+                    stroke-width: 2;
+                    opacity: 0.4;
+                    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+                    cursor: pointer;
+                }
+                .dot.is-active {
+                    fill: #00c2d1;
+                    opacity: 1;
+                    stroke-width: 4;
+                    filter: drop-shadow(0 0 8px var(--color-one));
+                }
+                .wmap-tags {
+                    display: flex;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    gap: 1.2rem;
+                }
+                .tag {
+                    font-size: 0.7rem;
+                    font-weight: 800;
+                    letter-spacing: 0.15em;
+                    text-transform: uppercase;
+                    color: var(--color-third);
+                    opacity: 0.4;
+                    border-bottom: 1px solid transparent;
+                    padding-bottom: 4px;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                }
+                .tag:hover, .tag-active {
+                    color: var(--color-one);
+                    opacity: 1;
+                    border-color: var(--color-one);
+                }
 
                 @media (max-width: 860px) {
-                    .wmap-wrap { width: 100%; }
+                    .wmap-wrap { width: 100%; max-width: 100%; }
                 }
             `}</style>
         </>
