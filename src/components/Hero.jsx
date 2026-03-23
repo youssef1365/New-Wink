@@ -103,7 +103,7 @@ const Hero = ({ scrollVelocity = 0 }) => {
 
         .hero-title {
           text-align: left;
-          line-height: 1;
+          line-height: 0.8;
           font-weight: 800;
           margin-bottom: 2rem;
           width: fit-content;
@@ -114,7 +114,7 @@ const Hero = ({ scrollVelocity = 0 }) => {
         }
 
         .hero-line-1 { font-size : 5rem; }
-        .hero-line-2 { font-size : 5rem; white-space: nowrap;}
+        .hero-line-2 { font-size : 5rem; white-space: nowrap; color : var(--color-one)}
         .hero-line-3 { font-size : 5rem; color : var(--color-one);}
 
         .hero-description {

@@ -182,16 +182,27 @@ export default function ContactModal() {
                         <input type="text" name="fullName" placeholder="Enter your full name" required />
                       </div>
                       <div className="input-group">
-                        <label>Organization</label>
+                        <label>Organization Name</label>
                         <input type="text" name="organization" placeholder="Company name" required />
                       </div>
+                       <div className="input-group">
+                         <label>Organization Type</label>
+                            <select name="interest" required value={interest} onChange={(e) => setInterest(e.target.value)}>
+                               <option value="">Select an option</option>
+                               <option value="matchmaking">Enterprise</option>
+                               <option value="events">Government & Association</option>
+                               <option value="strategy">Event Organizer</option>
+                            </select>
+                       </div>
                       <div className="input-group">
                         <label>Business Email</label>
                         <input type="email" name="email" placeholder="email@company.com" required />
                       </div>
-                      <div className="input-group">
-                        <label>Country / Region</label>
-                        <Select
+
+                    </div>
+                     <div className="input-group full-width spaced-group">
+                       <label>Country / Region</label>
+                         <Select
                             options={countryOptions}
                             value={country}
                             onChange={handleCountryChange}
@@ -200,11 +211,9 @@ export default function ContactModal() {
                             isSearchable
                             styles={selectStyles}
                             menuPortalTarget={document.body}
-                            menuPosition="fixed"
-                        />
-                      </div>
-                    </div>
-
+                             menuPosition="fixed"
+                          />
+                     </div>
                     <div className="input-group full-width spaced-group">
                       <label>Phone Number</label>
                       <div className="phone-input-wrapper">
@@ -221,15 +230,7 @@ export default function ContactModal() {
                         />
                       </div>
                     </div>
-                    <div className="input-group full-width spaced-group">
-                        <label>Who Are You</label>
-                          <select name="interest" required value={interest} onChange={(e) => setInterest(e.target.value)}>
-                             <option value="">Select an option</option>
-                             <option value="matchmaking">Enterprise</option>
-                             <option value="events">Government & Association</option>
-                             <option value="strategy">Event Organizer</option>
-                          </select>
-                    </div>
+
 
                     <div className="input-group full-width spaced-group">
                       <label>Area of Interest</label>
