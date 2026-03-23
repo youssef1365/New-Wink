@@ -246,12 +246,13 @@ export default function GovernmentPage() {
         .gov-hero {
           max-width: 100%;
           position: relative;
-          padding: clamp(4.5rem, 9vw, 7.5rem) 4vw clamp(5rem, 9vw, 8rem);
+          padding: clamp(4.5rem, 9vw, 7.5rem) 4vw clamp(6rem, 9vw, 8rem);
           text-align: center;
           display: flex;
           flex-direction: column;
           align-items: center;
           overflow: hidden;
+          height: 100vh;
         }
 
         .gov-hero-bg {

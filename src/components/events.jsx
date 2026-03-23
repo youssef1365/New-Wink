@@ -211,7 +211,7 @@ const Events = () => {
     <>
       <section className="events-section" id="events-anchor">
         <div className="events-header">
-          <h2 className="events-title">Our Events</h2>
+          <h2 className="events-title">Events</h2>
           <p className="events-subtitle">Explore upcoming initiatives and past projects delivered across industries and markets.</p>
           <div className="filter-tabs">
             <button className={`tab-btn ${filter === 'upcoming' ? 'active' : ''}`} onClick={() => setFilter('upcoming')}>Upcoming Events</button>

@@ -38,7 +38,7 @@ const Footer = ({ setShowModal }) => {
         .footer-container {
           max-width: 1800px;
           margin: 0 auto;
-          padding: 6rem 2rem 4rem 2rem;
+          padding: 6rem 5rem 5rem 5rem;
         }
 
         .footer-grid {
@@ -55,16 +55,17 @@ const Footer = ({ setShowModal }) => {
 
         @media (min-width: 1024px) {
           .footer-grid {
-            grid-template-columns: 2.5fr 1fr 1.5fr 1.5fr;
+            grid-template-columns: 2fr 1fr 1.4fr 1.8fr;
             gap: 0;
           }
         }
 
+        /* Brand */
         .footer-brand {
           display: flex;
           flex-direction: column;
-          gap: 1.5rem;
-          padding-right: 4rem;
+          gap: 1.75rem;
+          padding-right: 3rem;
         }
 
         .footer-logo-img {
@@ -80,18 +81,19 @@ const Footer = ({ setShowModal }) => {
           color: var(--color-third);
           font-size: 0.95rem;
           font-weight: bold;
-          line-height: 1.6;
+          line-height: 1.7;
           opacity: 0.8;
           max-width: 280px;
         }
 
+        /* Shared section */
         .footer-section {
           padding-top: 0.5rem;
         }
 
         @media (min-width: 1024px) {
           .footer-section {
-            padding-left: 3rem;
+            padding-left: 3.5rem;
             border-left: 1px solid rgba(255, 255, 255, 0.08);
           }
         }
@@ -106,6 +108,7 @@ const Footer = ({ setShowModal }) => {
           opacity: 0.6;
         }
 
+        /* Nav */
         .footer-list {
           list-style: none;
           padding: 0;
@@ -129,11 +132,13 @@ const Footer = ({ setShowModal }) => {
           color: white;
         }
 
+        /* Contact */
         .footer-contact-item {
           display: flex;
           gap: 0.75rem;
-          margin-bottom: 1rem;
+          margin-bottom: 1.25rem;
           font-weight: bold;
+          align-items: flex-start;
         }
 
         .footer-icon {
@@ -141,33 +146,7 @@ const Footer = ({ setShowModal }) => {
           height: 16px;
           opacity: 0.5;
           margin-top: 2px;
-        }
-
-        .footer-newsletter-form {
-          display: flex;
-          margin-bottom: 1.5rem;
-          padding: 4px;
-        }
-
-        .footer-discussion-btn {
-          width: 100%;
-          padding: 1rem;
-          background: var(--color-third);
-          color: var(--color-two);
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          font-size: 0.75rem;
-          transition: all 0.3s ease;
-        }
-
-        .footer-discussion-btn:hover {
-          opacity: 0.9;
-          transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          flex-shrink: 0;
         }
 
         .footer-social {
@@ -177,18 +156,19 @@ const Footer = ({ setShowModal }) => {
         }
 
         .footer-social-link {
-          width: 50px;
-          height: 50px;
+          width: 44px;
+          height: 44px;
           display: flex;
           align-items: center;
           justify-content: center;
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 50%;
           color: var(--color-third);
-          font-size: 1rem;
+          font-size: 0.72rem;
           text-decoration: none;
           transition: all 0.3s ease;
           font-weight: bold;
+          letter-spacing: 0.02em;
         }
 
         .footer-social-link:hover {
@@ -197,15 +177,52 @@ const Footer = ({ setShowModal }) => {
           border-color: white;
         }
 
+        /* CTA */
+        .footer-cta-col {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+
+        .footer-cta-sub {
+          color: var(--color-third);
+          font-size: 0.88rem;
+          line-height: 1.65;
+          opacity: 0.6;
+          max-width: 250px;
+        }
+
+        .footer-discussion-btn {
+          width: 100%;
+          padding: 0.85rem 1rem;
+          background: var(--color-third);
+          color: var(--color-two);
+          border: none;
+          border-radius: 999px;
+          cursor: pointer;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          font-size: 0.72rem;
+          transition: all 0.3s ease;
+        }
+
+        .footer-discussion-btn:hover {
+          opacity: 0.9;
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Bottom bar */
         .footer-bottom {
           border-top: 1px solid rgba(255, 255, 255, 0.05);
           padding: 2rem 0;
         }
 
         .footer-bottom-container {
-          max-width: 1440px;
+          max-width: 1800px;
           margin: 0 auto;
-          padding: 0 2rem;
+          padding: 0 5rem;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -216,7 +233,11 @@ const Footer = ({ setShowModal }) => {
           font-size: 1rem;
           opacity: 0.5;
           font-weight: bold;
+          text-decoration: none;
+          transition: opacity 0.2s;
         }
+
+        .footer-copyright:hover { opacity: 0.75; }
 
         .footer-back-to-top {
           background: none;
@@ -231,14 +252,18 @@ const Footer = ({ setShowModal }) => {
           font-weight: bold;
         }
 
-        .footer-back-to-top:hover {
-          opacity: 1;
+        .footer-back-to-top:hover { opacity: 1; }
+
+        @media (max-width: 767px) {
+          .footer-container { padding: 5rem 1.5rem 3rem; }
+          .footer-bottom-container { padding: 0 1.5rem; }
         }
       `}</style>
 
       <footer className="footer-wrapper">
         <div className="footer-container">
           <div className="footer-grid">
+
             <div className="footer-brand">
               <a href="/" className="footer-logo-link" aria-label="Wink Home">
                 <div className="footer-logo-img" />
@@ -252,12 +277,12 @@ const Footer = ({ setShowModal }) => {
               <h4 className="footer-title">Explore</h4>
               <ul className="footer-list">
                 {[
-                  { label: 'Home',        href: '/' },
-                  { label: 'Expertise',   href: '#services' },
-                  { label: 'Programs',    href: '/Packages' },
-                  { label: 'Events',      href: '/Event' },
-                  { label: 'B2B Platform',href: '/Platform' },
-                  { label: 'WINK',        href: '/AboutUs' },
+                  { label: 'Home',         href: '/' },
+                  { label: 'Expertise',    href: '#services' },
+                  { label: 'Programs',     href: '/Packages' },
+                  { label: 'Events',       href: '/Event' },
+                  { label: 'B2B Platform', href: '/Platform' },
+                  { label: 'WINK',         href: '/AboutUs' },
                 ].map((item) => (
                   <li key={item.label}>
                     <motion.a href={item.href} className="footer-link" whileHover={{ x: 5 }}>
@@ -275,7 +300,7 @@ const Footer = ({ setShowModal }) => {
                   {[
                     { name: 'LN', url: 'https://www.linkedin.com/company/b2bbywink/' },
                     { name: 'FB', url: 'https://facebook.com/wink-consulting' },
-                    { name: 'IG', url: 'https://www.instagram.com/b2bbywink/' }
+                    { name: 'IG', url: 'https://www.instagram.com/b2bbywink/' },
                   ].map((social) => (
                     <motion.a
                       key={social.name}
@@ -292,7 +317,8 @@ const Footer = ({ setShowModal }) => {
               </div>
               <div className="footer-contact-item">
                 <svg className="footer-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <a href="mailto:hala@wink-consulting.com" className="footer-link">
                   hala@wink-consulting.com
@@ -300,26 +326,25 @@ const Footer = ({ setShowModal }) => {
               </div>
             </div>
 
-            <div className="footer-section">
+            <div className="footer-section footer-cta-col">
               <h4 className="footer-title">Ready to generate high-value business meetings?</h4>
-              <form className="footer-newsletter-form" onSubmit={handleContactClick}>
-                <button type="submit" className="footer-discussion-btn">
-                  Contact us
-                </button>
-              </form>
+              <button className="footer-discussion-btn" onClick={handleContactClick}>
+                Contact us
+              </button>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom">
           <div className="footer-bottom-container">
-            <a href="https://pointvirgul.com" target="_blank" rel="noopener noreferrer" className="footer-copyright" style={{ textDecoration: 'none' }}>
+            <a href="https://pointvirgul.com" target="_blank" rel="noopener noreferrer" className="footer-copyright">
               © {currentYear} PointVirgul. All Rights Reserved.
             </a>
             <motion.button onClick={scrollToTop} className="footer-back-to-top">
               <span>Back to top</span>
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M5 10l7-7m0 0l7 7m-7-7v18" />
               </svg>
             </motion.button>
           </div>

@@ -52,7 +52,7 @@ const FinalCTA = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
-            Growth Doesn't Happen by Chance.
+            Growth Doesn't Happen by Chance,
             <br />
             <span className="finalcta-accent">It's Designed.</span>
           </motion.h2>

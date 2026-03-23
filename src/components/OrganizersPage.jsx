@@ -45,7 +45,8 @@ const packages = [
         number: '02',
         label: 'Premium Structured B2B Access Program',
         tag: 'Package 2',
-        positioning: 'Zero-Investment Curated Strategic Buyer Engagement Program.\n A white-label, revenue-share B2B performance layer operated under the organizer\'s brand, designed primarily for local and regional buyers, with optional international extension.',         investmentModel: [
+        positioning: 'Zero-Investment Curated Strategic Buyer Engagement Program.\n A white-label, revenue-share B2B performance layer operated under the organizer\'s brand, designed primarily for local and regional buyers, with optional international extension.',
+        investmentModel: [
             'Zero financial investment from organizer',
             'Exhibitors pay participation fee',
             'Revenue-share model (15–20%)',
@@ -130,8 +131,6 @@ function PackageModal({ pkg, onClose }) {
                         transition={{ duration: 0.25 }}
                         onClick={onClose}
                     />
-
-                    {/* Panel */}
                     <motion.div
                         className="modal-panel"
                         initial={{ opacity: 0, scale: 0.97 }}
@@ -140,7 +139,6 @@ function PackageModal({ pkg, onClose }) {
                         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                         style={{ position: 'fixed', top: '50%', left: '50%', x: '-50%', y: '-50%' }}
                     >
-                        {/* Header */}
                         <div className="modal-header">
                             <div className="modal-header-left">
                                 <span className="modal-pkg-num">{pkg.number}</span>
@@ -155,11 +153,8 @@ function PackageModal({ pkg, onClose }) {
                                 </svg>
                             </button>
                         </div>
-
-                        {/* Scrollable body */}
                         <div className="modal-body">
                             <div className="modal-grid">
-                                {/* Left col */}
                                 <div className="modal-col">
                                     {pkg.investmentModel && (
                                         <div className="modal-section">
@@ -176,7 +171,6 @@ function PackageModal({ pkg, onClose }) {
                                         </ul>
                                     </div>
                                 </div>
-
                                 <div className="modal-col">
                                     {pkg.organizerResponsibilities && (
                                         <div className="modal-section">
@@ -220,6 +214,10 @@ export default function OrganizersPage() {
             <div className="org-page">
 
                 <section className="org-hero">
+                    <div className="org-hero-bg org-hero-bg--dark" style={{ backgroundImage: `url('img_1.png')` }} />
+                    <div className="org-hero-bg org-hero-bg--light" style={{ backgroundImage: `url('img_6.jpeg')` }} />
+                    <div className="org-hero-overlay" />
+
                     <motion.p className="org-eyebrow" variants={fadeUp} initial="hidden" animate="visible" custom={0}>
                         Event Organizers
                     </motion.p>
@@ -297,7 +295,6 @@ export default function OrganizersPage() {
                         </motion.p>
                     </div>
 
-                    {/* ── PACKAGE 1 — full layout (unchanged) ── */}
                     <motion.div
                         className="org-pkg-block"
                         initial={{ opacity: 0, y: 32 }}
@@ -353,7 +350,6 @@ export default function OrganizersPage() {
                         </div>
                     </motion.div>
 
-                    {/* ── PACKAGE 2 — condensed card, click to open modal ── */}
                     <motion.div
                         className="org-pkg-block org-pkg-block--condensed"
                         initial={{ opacity: 0, y: 32 }}
@@ -379,7 +375,6 @@ export default function OrganizersPage() {
                                 </svg>
                             </span>
                         </div>
-
                         <div className="org-pkg-body org-pkg-body--condensed">
                             <div className="org-pkg-col">
                                 <div className="org-pkg-section">
@@ -387,7 +382,6 @@ export default function OrganizersPage() {
                                     <p className="org-pkg-text">{pkg2.positioning}</p>
                                 </div>
                             </div>
-
                             <div className="org-pkg-col">
                                 <div className="org-pkg-section">
                                     <ul className="org-pkg-list">
@@ -396,7 +390,6 @@ export default function OrganizersPage() {
                                 </div>
                             </div>
                         </div>
-
                         <div className="pkg2-hint-bar">
                             <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
                                 <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.5"/>
@@ -412,17 +405,17 @@ export default function OrganizersPage() {
                         <p className="org-final-headline">Design Your International Program</p>
                         <p className="org-final-sub">Let's explore how Wink can support your next growth initiative.</p>
                         <button
-                          className="org-final-btn"
-                          onClick={() => {
-                            window.dispatchEvent(new CustomEvent('openContactModal', {
-                              detail: { interest: 'strategy' }
-                            }));
-                          }}
+                            className="org-final-btn"
+                            onClick={() => {
+                                window.dispatchEvent(new CustomEvent('openContactModal', {
+                                    detail: { interest: 'strategy' }
+                                }));
+                            }}
                         >
-                          Start a Conversation
-                          <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
-                            <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
+                            Start a Conversation
+                            <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
+                                <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
                         </button>
                     </motion.div>
                 </section>
@@ -441,60 +434,91 @@ export default function OrganizersPage() {
         }
 
         .org-hero {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: clamp(4.5rem, 9vw, 5rem) 4vw clamp(5rem, 9vw, 8rem);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+          max-width: 100%;
+          position: relative;
+          padding: clamp(4.5rem, 9vw, 7.5rem) 4vw clamp(5rem, 9vw, 8rem);
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          overflow: hidden;
         }
+
+        .org-hero-bg {
+          position: absolute;
+          inset: 0;
+          top: 0;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          transition: opacity 0.4s ease;
+        }
+
+        .org-hero-bg--light { opacity: 0; }
+        .org-hero-bg--dark  { opacity: 1; }
+
+        :root[data-theme="light"] .org-hero-bg--light { opacity: 1; }
+        :root[data-theme="light"] .org-hero-bg--dark  { opacity: 0; }
+
+        .org-hero-overlay {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+        }
+
+        .org-hero > *:not(.org-hero-bg):not(.org-hero-overlay) {
+          position: relative;
+          z-index: 1;
+          max-width: 900px;
+          width: 100%;
+        }
+
         .org-eyebrow {
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: var(--color-one);
-            margin-bottom: 1.4rem;
+          font-size: 0.8rem;
+          font-weight: 800;
+          letter-spacing: 0.28em;
+          text-transform: uppercase;
+          color: var(--color-one);
+          margin-bottom: 1.4rem;
         }
         .org-hero-headline {
-            font-size: clamp(3rem, 7vw, 4.8rem);
-            font-weight: 800;
-            line-height: 1.08;
-            letter-spacing: -0.03em;
-            color: var(--color-third);
-            margin-bottom: 1.6rem;
+          font-size: clamp(3rem, 7vw, 4.8rem);
+          font-weight: 800;
+          line-height: 1.08;
+          letter-spacing: -0.03em;
+          color: var(--color-third);
+          margin-bottom: 1.6rem;
         }
         .org-hero-sub {
-           font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-           color: var(--color-third);
-           opacity: 0.55;
-           line-height: 1.75;
-           max-width: 640px;
-           margin-bottom: 2.8rem;
+          font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+          color: var(--color-third);
+          opacity: 0.55;
+          line-height: 1.75;
+          max-width: 640px;
+          margin-bottom: 2.8rem;
         }
         .org-hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            border: 1px solid var(--color-one);
-            color: var(--color-one);
-            background: none;
-            padding: 1rem 2.4rem;
-            border-radius: 100px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          border: 1px solid var(--color-one);
+          color: var(--color-one);
+          background: none;
+          padding: 1rem 2.4rem;
+          border-radius: 100px;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.8rem;
+          font-weight: 800;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: all 0.3s ease;
         }
         .org-hero-cta:hover {
-           background: var(--color-one);
-           color: var(--color-two);
-           transform: translateY(-2px);
-           box-shadow: 0 10px 28px rgba(0, 206, 193, 0.25);
+          background: var(--color-one);
+          color: var(--color-two);
+          transform: translateY(-2px);
+          box-shadow: 0 10px 28px rgba(0, 206, 193, 0.25);
         }
 
         .org-section-label {
@@ -703,7 +727,6 @@ export default function OrganizersPage() {
           line-height: 1.25;
         }
 
-        /* Explore pill on pkg2 header */
         .pkg2-explore-pill {
           display: inline-flex;
           align-items: center;
@@ -731,7 +754,6 @@ export default function OrganizersPage() {
           grid-template-columns: 1fr 1fr;
           gap: 0;
         }
-        .org-pkg-body--condensed { /* same grid, no special override needed */ }
 
         .org-pkg-col {
           padding: 2rem;
@@ -781,7 +803,6 @@ export default function OrganizersPage() {
         }
         .org-pkg-note p { font-size: 0.78rem; color: var(--color-third); opacity: 0.6; line-height: 1.65; font-style: italic; }
 
-        /* Hint bar at bottom of pkg2 */
         .pkg2-hint-bar {
           display: flex;
           align-items: center;

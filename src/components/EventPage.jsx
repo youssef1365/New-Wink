@@ -427,14 +427,47 @@ const CSS = `
   .ep-hero-noise { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size: 200px; pointer-events: none; mix-blend-mode: overlay; }
   .ep-hero-content { position: relative; text-align: center; padding: 2rem; max-width: 860px; }
   .ep-hero-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--color-fifth); margin-bottom: 1.5rem; opacity: 0.8; }
-  .ep-hero-title { font-family: 'DM Serif Display', serif; font-size: clamp(3.2rem, 8vw, 6.5rem); line-height: 1.0; color: var(--color-third); letter-spacing: -0.02em; margin-bottom: 1.5rem; }
-  .ep-hero-accent { font-style: italic; background: linear-gradient(135deg, var(--color-fifth), var(--color-fourth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.ep-hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(3.2rem, 9vw, 6.5rem);
+  line-height: 1.0;
+  color: var(--color-third);
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  overflow: visible;
+}
+
+.ep-hero-accent {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--color-fifth), var(--color-fourth));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  padding-right: 0.25em;
+  margin-right: -0.25em;
+  overflow: visible;
+}
   .ep-hero-sub { font-size: 1.05rem; color: var(--color-third); opacity: 0.6; line-height: 1.7; margin-bottom: 3rem; }
-  .ep-hero-stats { display: inline-flex; align-items: center; gap: 2.5rem; background: rgba(var(--color-fifth-rgb),0.05); border: 1px solid rgba(var(--color-fifth-rgb),0.15); border-radius: 100px; padding: 1rem 2.5rem; backdrop-filter: blur(12px); }
-  .ep-hero-stat { text-align: center; }
+  .ep-hero-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 2.5rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    padding: 1rem 2.5rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .ep-hero-stat-div {
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,0.2);
+  }
   .ep-hero-stat-val { display: block; font-size: 1.7rem; font-weight: 800; color: var(--color-fifth); line-height: 1; }
   .ep-hero-stat-lbl { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-third); opacity: 0.55; margin-top: 0.25rem; display: block; }
-  .ep-hero-stat-div { width: 1px; height: 36px; background: rgba(var(--color-fifth-rgb),0.15); }
+
   .ep-hero-scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--color-third); opacity: 0.4; letter-spacing: 0.1em; }
 
   .ep-ticker-wrap { overflow: hidden; border-top: 1px solid rgba(var(--color-fifth-rgb),0.2); border-bottom: 1px solid rgba(var(--color-fifth-rgb),0.2); padding: 0.7rem 0; margin-bottom: 4rem; }
