@@ -94,11 +94,14 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
   const [mounted, setMounted]             = useState(false);
   const [isMobile, setIsMobile]           = useState(() => typeof window !== 'undefined' ? window.innerWidth <= 1024 : false);
   const [programsOpen, setProgramsOpen]   = useState(false);
+
   const programsRef = useRef(null);
   const leaveTimer  = useRef(null);
   const lastY       = useRef(0);
+  const scrollYRef  = useRef(0);
 
   const theme = themeProp !== undefined ? themeProp : internalTheme;
+
   const setTheme = (val) => {
     setInternalTheme(val);
     if (setThemeProp) setThemeProp(val);
@@ -138,20 +141,21 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
 
   useEffect(() => {
     if (mobileMenuOpen) {
-      const scrollY = window.scrollY;
+      scrollYRef.current = window.scrollY;
       document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
+      document.body.style.top = `-${scrollYRef.current}px`;
       document.body.style.left = '0';
       document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
+      document.body.style.width = '100%';
     } else {
-      const scrollY = document.body.style.top;
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.left = '';
       document.body.style.right = '';
       document.body.style.overflow = '';
-      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      document.body.style.width = '';
+      window.scrollTo(0, scrollYRef.current);
     }
     return () => {
       document.body.style.position = '';
@@ -159,6 +163,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
       document.body.style.left = '';
       document.body.style.right = '';
       document.body.style.overflow = '';
+      document.body.style.width = '';
     };
   }, [mobileMenuOpen]);
 
@@ -205,7 +210,7 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
       />
       <motion.header
         className={`header ${isScrolled ? 'scrolled' : ''} ${mobileMenuOpen ? 'mobile-active' : ''}`}
-        animate={{ y: shouldHide ? '-100%' : '0%' }}
+        animate={{ y: mobileMenuOpen ? '0%' : (shouldHide ? '-100%' : '0%') }}
         transition={{
           duration: mobileMenuOpen ? 0 : 0.4,
           ease: [0.22, 1, 0.36, 1]

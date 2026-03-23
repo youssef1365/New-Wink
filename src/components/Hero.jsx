@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 export const heroSEO = {
-  title: "WINK | Business Matchmaking Done Right",
-  description: "WINK is a global B2B matchmaking and business development firm that helps organizations turn meetings into measurable business outcomes."
+  title: "WINK | THE FUTURE OF BUSINESS MATCHMAKING",
+  description: "Wink combines human expertise and proprietary technology to orchestrate high-quality B2B meetings at scale — turning connections into measurable business outcomes.es."
 };
 const Hero = ({ scrollVelocity = 0 }) => {
   const containerRef = useRef(null);
@@ -36,8 +36,8 @@ const Hero = ({ scrollVelocity = 0 }) => {
             transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             <span className="hero-line-1">WINK</span> <br />
-            <span className="hero-line-2">BUSINESS MATCHMAKING,</span> <br />
-            <span className="hero-line-3">DONE RIGHT</span>
+            <span className="hero-line-2">THE FUTURE OF</span> <br />
+            <span className="hero-line-3">BUSINESS MATCHMAKING</span>
           </motion.h1>
 
           <motion.p
@@ -47,8 +47,7 @@ const Hero = ({ scrollVelocity = 0 }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           >
-            Wink is a global B2B matchmaking and business development firm that helps
-            organizations turn meetings into measurable business outcomes.
+            Wink combines human expertise and proprietary technology to orchestrate high-quality B2B meetings at scale — turning connections into measurable business outcomes.
           </motion.p>
 
           <motion.div
@@ -115,8 +114,8 @@ const Hero = ({ scrollVelocity = 0 }) => {
         }
 
         .hero-line-1 { font-size : 5rem; }
-        .hero-line-2 { font-size : 5rem; white-space: nowrap; color : var(--color-one); }
-        .hero-line-3 { font-size : 5rem; }
+        .hero-line-2 { font-size : 5rem; white-space: nowrap;}
+        .hero-line-3 { font-size : 5rem; color : var(--color-one);}
 
         .hero-description {
           font-size: clamp(1.1rem, 2vw, 1.4rem);
@@ -150,17 +149,21 @@ const Hero = ({ scrollVelocity = 0 }) => {
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
 
-        .secondary-link {
-          color: var(--color-third);
-          text-decoration: none;
-          font-weight: 500;
-          font-size: 1.1rem;
-          transition: opacity 0.3s ease;
-        }
+       .secondary-link {
+         color: var(--color-third);
+         text-decoration: none;
+         font-weight: 500;
+         font-size: 1.1rem;
+         transition: color 0.3s ease, border-color 0.3s ease;
+         border: 1.5px solid color-mix(in srgb, var(--color-third) 45%, transparent);
+         border-radius: 100px;
+         padding: 0.65rem 1.6rem;
+       }
 
-        .secondary-link:hover {
-          opacity: 0.7;
-        }
+       .secondary-link:hover {
+         color: var(--color-one);
+         border-color: var(--color-one);
+       }
 
         @media (max-width: 1024px) {
           .hero-title {

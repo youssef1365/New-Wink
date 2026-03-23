@@ -219,6 +219,7 @@ export default function ContactModal() {
                         <option value="matchmaking">B2B Matchmaking & Meetings</option>
                         <option value="events">Trade Missions & Hosted Buyer Programs</option>
                         <option value="strategy">Business Development & Market Entry</option>
+                        <option value="investement">Capital & Investment </option>
                       </select>
                     </div>
 
