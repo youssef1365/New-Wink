@@ -3,12 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getEmojiFlag, countries } from 'countries-list';
 
 const CONTINENTS = [
-  { id: 'AF', label: 'Africa',     },
-  { id: 'EU', label: 'Europe',     },
-  { id: 'AS', label: 'Asia',       },
-  { id: 'ME', label: 'Middle East',},
-  { id: 'AM', label: 'Americas',   },
-  { id: 'OC', label: 'Oceania',    },
+  { id: 'AF', label: 'Africa' },
+  { id: 'EU', label: 'Europe' },
+  { id: 'AS', label: 'Asia' },
+  { id: 'ME', label: 'Middle East' },
+  { id: 'AM', label: 'Americas' },
+  { id: 'OC', label: 'Oceania' },
 ];
 
 const CONTINENT_MAP = {
@@ -83,13 +83,13 @@ function Field({ label, required, error, children }) {
 }
 
 function GeoSelect({ value, onChange, placeholder }) {
-  const [open, setOpen]     = useState(false);
+  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const containerRef        = useRef(null);
-  const searchRef           = useRef(null);
+  const containerRef = useRef(null);
+  const searchRef = useRef(null);
 
   const selContinents = value.continents || [];
-  const selCountries  = value.countries  || [];
+  const selCountries = value.countries || [];
 
   const visibleCountries = ALL_COUNTRIES.filter(c =>
     c.name.toLowerCase().includes(search.toLowerCase()) && !selCountries.includes(c.name)
@@ -140,11 +140,10 @@ function GeoSelect({ value, onChange, placeholder }) {
             className={`rf-cont-pill ${selContinents.includes(c.id) ? 'rf-cont-pill--on' : ''}`}
             onClick={() => toggleContinent(c.id)}
           >
-            <span className="rf-cont-emoji">{c.emoji}</span> {c.label}
+            {c.label}
           </button>
         ))}
       </div>
-
       <div
         className={`rf-mcs-control ${open ? 'rf-mcs-control--open' : ''}`}
         onClick={() => setOpen(o => !o)}
@@ -164,7 +163,6 @@ function GeoSelect({ value, onChange, placeholder }) {
         </div>
         <span className={`rf-mcs-arrow ${open ? 'rf-mcs-arrow--up' : ''}`}>▾</span>
       </div>
-
       {open && (
         <div className="rf-mcs-dropdown">
           <div className="rf-mcs-search-wrap">
@@ -188,7 +186,7 @@ function GeoSelect({ value, onChange, placeholder }) {
                   ))
                 : grouped.map(g => (
                     <div key={g.id}>
-                      <div className="rf-mcs-group-header">{g.emoji} {g.label}</div>
+                      <div className="rf-mcs-group-header">{g.label}</div>
                       {g.items.map(c => (
                         <div key={c.code} className="rf-mcs-option rf-mcs-option--indent"
                           onClick={e => { e.stopPropagation(); toggleCountry(c.name); }}>
@@ -263,13 +261,13 @@ export default function RegisterForm() {
     companyTypes: [], companyTypeOther: '',
     products: '',
     sourcing: freshGeo(),
-    export:   freshGeo(),
+    export: freshGeo(),
     comments: '',
   });
 
-  const [errors, setErrors]       = useState({});
+  const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading]     = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
 
@@ -313,7 +311,7 @@ export default function RegisterForm() {
       companyTypes: [], companyTypeOther: '',
       products: '',
       sourcing: freshGeo(),
-      export:   freshGeo(),
+      export: freshGeo(),
       comments: '',
     });
   };
@@ -423,31 +421,10 @@ const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
   .rf-wrap {
-    --rf-accent:        var(--color-one);
-    --rf-accent-dark:   var(--extra-color-two);
-    --rf-accent-light:  color-mix(in srgb, var(--color-one) 12%, transparent);
-    --rf-accent-border: color-mix(in srgb, var(--color-one) 35%, transparent);
-
-    --rf-text:          var(--extra-color-one);
-    --rf-text-muted:    color-mix(in srgb, var(--extra-color-one) 65%, transparent);
-    --rf-text-faint:    color-mix(in srgb, var(--extra-color-one) 38%, transparent);
-
-    --rf-surface:       color-mix(in srgb, var(--color-two) 90%, transparent);
-    --rf-surface-sub:   color-mix(in srgb, var(--color-two) 70%, var(--extra-color-one) 30%);
-    --rf-surface-page:  var(--color-two);
-
-    --rf-border:        color-mix(in srgb, var(--color-third) 20%, transparent);
-    --rf-border-mid:    color-mix(in srgb, var(--color-third) 35%, transparent);
-
-    --rf-danger:        #f87171;
-    --rf-danger-border: #fca5a5;
-  }
-
-  .rf-wrap {
     position: relative;
     min-height: 100vh;
-    background: var(--rf-surface-page);
-    color: var(--rf-text);
+    background: var(--color-two);
+    color: var(--color-third);
     font-family: 'DM Sans', sans-serif;
     overflow-x: hidden;
   }
@@ -455,36 +432,38 @@ const CSS = `
   .rf-container {
     position: relative;
     z-index: 1;
-    max-width: 780px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 6rem 2rem 8rem;
   }
 
   .rf-hero {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 6rem;
+    margin-top: 4rem;
   }
   .rf-eyebrow {
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--rf-accent);
+    color: var(--color-one);
     margin-bottom: 1rem;
   }
   .rf-page-title {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-size: clamp(2.8rem, 6vw, 5rem);
     line-height: 1.05;
-    color: var(--rf-text);
+    color: var(--color-third);
     letter-spacing: -0.02em;
     margin-bottom: 1rem;
   }
   .rf-page-sub {
-    font-size: 0.95rem;
-    color: var(--rf-text-muted);
+    font-size: 1.05rem;
+    color: var(--color-third);
+    opacity: 0.65;
     line-height: 1.7;
-    max-width: 500px;
+    max-width: 520px;
     margin: 0 auto;
   }
 
@@ -495,54 +474,55 @@ const CSS = `
   }
 
   .rf-step {
-    border: 1px solid var(--rf-border);
+    border: 1px solid rgba(209,219,220,0.12);
     border-radius: 14px;
-    background: var(--rf-surface);
+    background: rgba(209,219,220,0.04);
     margin-bottom: 1.25rem;
     overflow: visible;
     transition: border-color 0.25s ease;
   }
   .rf-step:focus-within {
-    border-color: var(--rf-border-mid);
+    border-color: rgba(209,219,220,0.25);
   }
   .rf-step-header {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1.4rem 1.8rem;
-    border-bottom: 1px solid var(--rf-border);
+    padding: 1.6rem 2rem;
+    border-bottom: 1px solid rgba(209,219,220,0.12);
     border-radius: 14px 14px 0 0;
-    background: var(--rf-surface-sub);
+    background: rgba(209,219,220,0.03);
   }
   .rf-step-num {
-    font-size: 0.58rem;
+    font-size: 0.68rem;
     font-weight: 800;
     letter-spacing: 0.2em;
-    color: var(--rf-accent);
-    background: var(--rf-accent-light);
-    border: 1px solid var(--rf-accent-border);
-    padding: 3px 8px;
+    color: var(--color-one);
+    background: rgba(0,206,193,0.1);
+    border: 1px solid rgba(0,206,193,0.3);
+    padding: 4px 10px;
     border-radius: 100px;
     flex-shrink: 0;
   }
   .rf-step-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.15rem;
-    color: var(--rf-text);
+    font-size: 1.35rem;
+    color: var(--color-third);
     margin: 0;
     font-weight: 400;
     letter-spacing: -0.01em;
   }
   .rf-step-body {
-    padding: 1.8rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
+    gap: 1.25rem;
     border-radius: 0 0 14px 14px;
   }
   .rf-step-hint {
-    font-size: 0.78rem;
-    color: var(--rf-text-faint);
+    font-size: 0.9rem;
+    color: var(--color-third);
+    opacity: 0.45;
     line-height: 1.6;
     margin: 0;
   }
@@ -559,47 +539,49 @@ const CSS = `
   .rf-field {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.5rem;
   }
   .rf-label {
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--rf-text-muted);
+    color: var(--color-third);
+    opacity: 0.65;
   }
   .rf-req {
-    color: var(--rf-accent);
+    color: var(--color-one);
     margin-left: 2px;
   }
   .rf-error {
-    font-size: 0.72rem;
-    color: var(--rf-danger);
+    font-size: 0.8rem;
+    color: #f87171;
     margin-top: 2px;
   }
 
   .rf-input {
     width: 100%;
-    background: color-mix(in srgb, var(--color-two) 60%, transparent);
-    border: 1px solid var(--rf-border);
+    background: rgba(209,219,220,0.05);
+    border: 1px solid rgba(209,219,220,0.15);
     border-radius: 8px;
-    padding: 0.72rem 1rem;
-    font-size: 0.88rem;
+    padding: 0.85rem 1.1rem;
+    font-size: 1rem;
     font-family: 'DM Sans', sans-serif;
-    color: var(--rf-text);
+    color: var(--color-third);
     outline: none;
     transition: border-color 0.2s ease, background 0.2s ease;
     box-sizing: border-box;
   }
   .rf-input::placeholder {
-    color: var(--rf-text-faint);
+    color: var(--color-third);
+    opacity: 0.35;
   }
   .rf-input:focus {
-    border-color: var(--rf-accent-border);
-    background: var(--rf-accent-light);
+    border-color: rgba(0,206,193,0.4);
+    background: rgba(0,206,193,0.05);
   }
   .rf-input--err {
-    border-color: var(--rf-danger-border);
+    border-color: #fca5a5;
   }
   .rf-input--indent {
     margin-top: 0.5rem;
@@ -614,46 +596,49 @@ const CSS = `
   }
   .rf-select option {
     background: var(--color-two);
-    color: var(--extra-color-one);
+    color: var(--color-third);
   }
   .rf-textarea {
     resize: vertical;
-    min-height: 110px;
+    min-height: 120px;
     line-height: 1.6;
   }
 
   .rf-pills {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
   .rf-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.5rem;
     background: none;
-    border: 1px solid var(--rf-border);
+    border: 1px solid rgba(209,219,220,0.2);
     border-radius: 100px;
-    padding: 0.38rem 0.9rem;
-    font-size: 0.75rem;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.88rem;
     font-weight: 600;
     font-family: 'DM Sans', sans-serif;
-    color: var(--rf-text-muted);
+    color: var(--color-third);
+    opacity: 0.7;
     cursor: pointer;
     transition: all 0.2s ease;
   }
   .rf-pill:hover {
-    border-color: var(--rf-accent-border);
-    color: var(--rf-accent);
+    border-color: rgba(0,206,193,0.4);
+    color: var(--color-one);
+    opacity: 1;
   }
   .rf-pill--on {
-    background: var(--rf-accent-light);
-    border-color: var(--rf-accent-border);
-    color: var(--rf-accent);
+    background: rgba(0,206,193,0.1);
+    border-color: rgba(0,206,193,0.35);
+    color: var(--color-one);
+    opacity: 1;
   }
   .rf-pill-box {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border: 1.5px solid currentColor;
     border-radius: 4px;
     display: flex;
@@ -663,11 +648,11 @@ const CSS = `
     transition: background 0.15s;
   }
   .rf-pill--on .rf-pill-box {
-    background: var(--rf-accent);
-    border-color: var(--rf-accent);
+    background: var(--color-one);
+    border-color: var(--color-one);
   }
   .rf-pill-check {
-    font-size: 9px;
+    font-size: 10px;
     color: var(--color-two);
     font-weight: 900;
     line-height: 1;
@@ -676,37 +661,36 @@ const CSS = `
   .rf-cont-pills {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
-    margin-bottom: 0.65rem;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
   }
   .rf-cont-pill {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    background: color-mix(in srgb, var(--color-two) 60%, transparent);
-    border: 1px solid var(--rf-border);
+    background: rgba(209,219,220,0.04);
+    border: 1px solid rgba(209,219,220,0.15);
     border-radius: 100px;
-    padding: 0.38rem 0.85rem;
-    font-size: 0.76rem;
+    padding: 0.45rem 1rem;
+    font-size: 0.88rem;
     font-weight: 600;
     font-family: 'DM Sans', sans-serif;
-    color: var(--rf-text-muted);
+    color: var(--color-third);
+    opacity: 0.7;
     cursor: pointer;
     transition: all 0.2s ease;
   }
   .rf-cont-pill:hover {
-    border-color: var(--rf-accent-border);
-    color: var(--rf-accent);
-    background: var(--rf-accent-light);
+    border-color: rgba(0,206,193,0.4);
+    color: var(--color-one);
+    background: rgba(0,206,193,0.07);
+    opacity: 1;
   }
   .rf-cont-pill--on {
-    background: var(--rf-accent-light);
-    border-color: var(--rf-accent-border);
-    color: var(--rf-accent);
-  }
-  .rf-cont-emoji {
-    font-size: 14px;
-    line-height: 1;
+    background: rgba(0,206,193,0.1);
+    border-color: rgba(0,206,193,0.35);
+    color: var(--color-one);
+    opacity: 1;
   }
 
   .rf-mcs {
@@ -715,14 +699,14 @@ const CSS = `
   }
   .rf-mcs-control {
     width: 100%;
-    min-height: 44px;
-    background: color-mix(in srgb, var(--color-two) 60%, transparent);
-    border: 1px solid var(--rf-border);
+    min-height: 50px;
+    background: rgba(209,219,220,0.05);
+    border: 1px solid rgba(209,219,220,0.15);
     border-radius: 8px;
-    padding: 0.4rem 2.5rem 0.4rem 0.75rem;
-    font-size: 0.88rem;
+    padding: 0.5rem 2.5rem 0.5rem 0.85rem;
+    font-size: 1rem;
     font-family: 'DM Sans', sans-serif;
-    color: var(--rf-text);
+    color: var(--color-third);
     cursor: pointer;
     display: flex;
     align-items: flex-start;
@@ -732,11 +716,11 @@ const CSS = `
   }
   .rf-mcs-control:focus {
     outline: none;
-    border-color: var(--rf-accent-border);
+    border-color: rgba(0,206,193,0.4);
   }
   .rf-mcs-control--open {
-    border-color: var(--rf-accent-border);
-    background: var(--rf-accent-light);
+    border-color: rgba(0,206,193,0.4);
+    background: rgba(0,206,193,0.05);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -748,30 +732,31 @@ const CSS = `
     padding: 2px 0;
   }
   .rf-mcs-placeholder {
-    color: var(--rf-text-faint);
+    color: var(--color-third);
+    opacity: 0.35;
     padding: 2px 0;
-    font-size: 0.88rem;
+    font-size: 1rem;
     line-height: 1.6;
   }
   .rf-mcs-tag {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    background: var(--rf-accent-light);
-    border: 1px solid var(--rf-accent-border);
-    color: var(--rf-accent);
+    background: rgba(0,206,193,0.1);
+    border: 1px solid rgba(0,206,193,0.3);
+    color: var(--color-one);
     border-radius: 100px;
-    padding: 2px 8px 2px 10px;
-    font-size: 0.72rem;
+    padding: 3px 10px 3px 12px;
+    font-size: 0.82rem;
     font-weight: 600;
     white-space: nowrap;
   }
   .rf-mcs-tag-remove {
     background: none;
     border: none;
-    color: var(--rf-accent);
+    color: var(--color-one);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1;
     padding: 0;
     opacity: 0.6;
@@ -783,67 +768,67 @@ const CSS = `
   .rf-mcs-arrow {
     position: absolute;
     right: 1rem;
-    top: 14px;
-    color: var(--rf-text-muted);
-    font-size: 12px;
+    top: 16px;
+    color: var(--color-third);
+    opacity: 0.5;
+    font-size: 13px;
     pointer-events: none;
     transition: transform 0.2s ease;
   }
-  .rf-mcs-arrow--up {
-    transform: rotate(180deg);
-  }
+  .rf-mcs-arrow--up { transform: rotate(180deg); }
   .rf-mcs-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--rf-surface);
-    border: 1px solid var(--rf-accent-border);
+    background: var(--color-two);
+    border: 1px solid rgba(0,206,193,0.3);
     border-top: none;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     z-index: 9999;
     overflow: hidden;
-    box-shadow: 0 12px 32px color-mix(in srgb, var(--color-two) 60%, black);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.3);
   }
   .rf-mcs-search-wrap {
     padding: 8px;
-    border-bottom: 1px solid var(--rf-border);
+    border-bottom: 1px solid rgba(209,219,220,0.12);
   }
   .rf-mcs-search {
     width: 100%;
-    background: color-mix(in srgb, var(--color-two) 60%, transparent);
-    border: 1px solid var(--rf-border);
+    background: rgba(209,219,220,0.05);
+    border: 1px solid rgba(209,219,220,0.15);
     border-radius: 6px;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.82rem;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.95rem;
     font-family: 'DM Sans', sans-serif;
-    color: var(--rf-text);
+    color: var(--color-third);
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.2s;
   }
-  .rf-mcs-search::placeholder { color: var(--rf-text-faint); }
-  .rf-mcs-search:focus { border-color: var(--rf-accent-border); }
+  .rf-mcs-search::placeholder { color: var(--color-third); opacity: 0.35; }
+  .rf-mcs-search:focus { border-color: rgba(0,206,193,0.4); }
   .rf-mcs-list {
-    max-height: 240px;
+    max-height: 260px;
     overflow-y: auto;
     padding: 4px 0;
   }
   .rf-mcs-list::-webkit-scrollbar { width: 4px; }
   .rf-mcs-list::-webkit-scrollbar-track { background: transparent; }
   .rf-mcs-list::-webkit-scrollbar-thumb {
-    background: var(--rf-border-mid);
+    background: rgba(209,219,220,0.2);
     border-radius: 2px;
   }
   .rf-mcs-group-header {
-    padding: 0.6rem 1rem 0.25rem;
-    font-size: 0.64rem;
+    padding: 0.65rem 1rem 0.3rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--rf-text-faint);
-    border-top: 1px solid var(--rf-border);
+    color: var(--color-third);
+    opacity: 0.4;
+    border-top: 1px solid rgba(209,219,220,0.1);
     margin-top: 4px;
   }
   .rf-mcs-group-header:first-child {
@@ -851,32 +836,35 @@ const CSS = `
     margin-top: 0;
   }
   .rf-mcs-option {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-    color: var(--rf-text-muted);
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    color: var(--color-third);
+    opacity: 0.7;
     cursor: pointer;
-    transition: background 0.12s, color 0.12s;
+    transition: background 0.12s, color 0.12s, opacity 0.12s;
   }
   .rf-mcs-option--indent { padding-left: 1.6rem; }
   .rf-mcs-option:hover {
-    background: var(--rf-accent-light);
-    color: var(--rf-accent);
+    background: rgba(0,206,193,0.08);
+    color: var(--color-one);
+    opacity: 1;
   }
   .rf-mcs-empty {
     padding: 1rem;
-    font-size: 0.82rem;
-    color: var(--rf-text-faint);
+    font-size: 0.92rem;
+    color: var(--color-third);
+    opacity: 0.4;
     text-align: center;
   }
   .rf-mcs-footer {
     padding: 6px 8px;
-    border-top: 1px solid var(--rf-border);
+    border-top: 1px solid rgba(209,219,220,0.1);
   }
   .rf-mcs-clear {
     background: none;
     border: none;
-    color: var(--rf-accent);
-    font-size: 0.72rem;
+    color: var(--color-one);
+    font-size: 0.8rem;
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
     opacity: 0.65;
@@ -897,11 +885,11 @@ const CSS = `
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    background: var(--rf-accent);
+    background: var(--color-one);
     color: var(--color-two);
     border: none;
-    padding: 1rem 2.8rem;
-    font-size: 0.72rem;
+    padding: 1.1rem 3rem;
+    font-size: 0.82rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.16em;
@@ -915,24 +903,25 @@ const CSS = `
   .rf-arrow { transition: transform 0.25s ease; }
   .rf-submit:hover:not(:disabled) .rf-arrow { transform: translateX(4px); }
   .rf-spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid color-mix(in srgb, var(--color-two) 40%, transparent);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0,63,92,0.3);
     border-top-color: var(--color-two);
     border-radius: 50%;
     animation: rf-spin 0.7s linear infinite;
   }
   @keyframes rf-spin { to { transform: rotate(360deg); } }
   .rf-disclaimer {
-    font-size: 0.7rem;
-    color: var(--rf-text-faint);
+    font-size: 0.8rem;
+    color: var(--color-third);
+    opacity: 0.4;
     text-align: center;
-    max-width: 420px;
+    max-width: 440px;
     line-height: 1.6;
   }
 
   .rf-success {
-    max-width: 560px;
+    max-width: 580px;
     margin: 0 auto;
     padding: 8rem 2rem;
     text-align: center;
@@ -942,12 +931,12 @@ const CSS = `
     gap: 1.5rem;
   }
   .rf-success-icon {
-    width: 80px;
-    height: 80px;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
-    background: var(--rf-accent-light);
-    border: 1px solid var(--rf-accent-border);
-    color: var(--rf-accent);
+    background: rgba(0,206,193,0.1);
+    border: 1px solid rgba(0,206,193,0.3);
+    color: var(--color-one);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -955,34 +944,37 @@ const CSS = `
   }
   .rf-success-title {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    color: var(--rf-text);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--color-third);
     letter-spacing: -0.02em;
     margin: 0;
   }
   .rf-success-sub {
-    font-size: 0.95rem;
-    color: var(--rf-text-muted);
+    font-size: 1rem;
+    color: var(--color-third);
+    opacity: 0.65;
     line-height: 1.8;
     margin: 0;
   }
   .rf-success-sub strong {
-    color: var(--rf-accent);
+    color: var(--color-one);
     font-weight: 700;
+    opacity: 1;
   }
   .rf-success-note {
-    font-size: 0.82rem;
-    color: var(--rf-text-faint);
+    font-size: 0.9rem;
+    color: var(--color-third);
+    opacity: 0.4;
     line-height: 1.7;
     margin: 0;
   }
   .rf-success-btn {
     background: none;
-    border: 1px solid var(--rf-accent-border);
-    color: var(--rf-accent);
-    padding: 0.65rem 1.6rem;
+    border: 1px solid rgba(0,206,193,0.35);
+    color: var(--color-one);
+    padding: 0.75rem 1.8rem;
     border-radius: 100px;
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -991,11 +983,11 @@ const CSS = `
     margin-top: 0.5rem;
     transition: background 0.2s ease;
   }
-  .rf-success-btn:hover { background: var(--rf-accent-light); }
+  .rf-success-btn:hover { background: rgba(0,206,193,0.1); }
 
   @media (max-width: 640px) {
     .rf-container { padding: 4rem 1.25rem 6rem; }
-    .rf-step-body { padding: 1.25rem; }
-    .rf-step-header { padding: 1.1rem 1.25rem; }
+    .rf-step-body { padding: 1.4rem; }
+    .rf-step-header { padding: 1.2rem 1.4rem; }
   }
 `;

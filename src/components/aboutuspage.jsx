@@ -1,6 +1,8 @@
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import ContactModal from './ContactModal';
 
+const openContact = () => window.dispatchEvent(new CustomEvent('openContactModal'));
 const TIMELINE_EVENTS = [
     { year: '2010', label: 'The Beginning', description: 'Wink was founded in 2010 with a simple mission: helping companies expand internationally through hands-on business development support and strategic connections. As global markets became more complex and opportunities more fragmented, we realized that what companies truly needed was not just advice — but access to the right people.' },
     { year: '2014', label: 'The Matchmaking Focus', description: 'In 2014, Wink evolved into a specialized B2B matchmaking agency, focusing on designing and organizing high-value business meetings between qualified partners across international markets. Over the years, this expertise has led to the facilitation of thousands of meetings across multiple industries and countries.' },
@@ -491,8 +493,14 @@ const AboutUsSection = () => {
 
                     <motion.div className="abt-tagline" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.15 }}>
                         <div className="abt-tagline-left">
-                            <p className="abt-tagline__q">At Wink, growth is not accidental.<br />It is architected.</p>
-                            <a href="/Register" className="abt-cta__primary">Work With Us →</a>
+                            <p className="abt-tagline__q">At Wink, growth is not accidental,<br />It is architected.</p>
+                            <button
+                              type="button"
+                              onClick={openContact}
+                              className="abt-cta__primary"
+                            >
+                              Work With Us →
+                            </button>
                         </div>
                         <WorldMap />
                     </motion.div>

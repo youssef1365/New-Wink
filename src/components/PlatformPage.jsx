@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import ContactModal from './ContactModal';
 
 const howItWorks = [
   {
@@ -62,6 +63,8 @@ const fadeUp = {
   }),
 };
 
+const openContact = () => window.dispatchEvent(new CustomEvent('openContactModal'));
+
 export default function PlatformPage() {
   return (
     <>
@@ -79,12 +82,12 @@ export default function PlatformPage() {
               Technology powering the way B2B meetings are sourced, scheduled, and managed during international events and trade missions.
             </motion.p>
             <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={3}>
-              <a href="/contact" className="plt-hero-cta">
+              <button type="button" onClick={openContact} className="plt-hero-cta">
                 Request a Demo
                 <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
                   <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </a>
+              </button>
             </motion.div>
           </div>
           <motion.div
@@ -312,7 +315,7 @@ export default function PlatformPage() {
             >
               <div className="plt-flow-card">
                 <div className="plt-flow-title">Meeting Lifecycle</div>
-                {['Register', 'Match', 'Schedule', 'Meet', 'Analyze'].map((step, i) => (
+                {['Register', 'Match', 'Schedule', 'Meet', 'Follow Up'].map((step, i) => (
                   <React.Fragment key={i}>
                     <div className="plt-flow-step">
                       <div className="plt-flow-num">{String(i + 1).padStart(2, '0')}</div>
@@ -341,14 +344,14 @@ export default function PlatformPage() {
             </div>
             <div className="plt-cta-content">
               <p className="plt-cta-eyebrow">Get Started</p>
-              <h2 className="plt-cta-headline">Power Your Next Event<br />with the WINK Platform</h2>
+              <h2 className="plt-cta-headline">Power Your Next Event<br />with WINK Platform</h2>
               <p className="plt-cta-sub">Contact us to integrate the platform into your next B2B program or trade mission.</p>
-              <a href="/Register" className="plt-cta-btn">
+              <button type="button" onClick={openContact} className="plt-cta-btn">
                 Contact Us
                 <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
                   <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </a>
+              </button>
             </div>
           </motion.div>
         </section>
@@ -379,7 +382,6 @@ export default function PlatformPage() {
           opacity: 0.25;
           margin-bottom: 1.5rem;
         }
-
         .plt-hero {
           max-width: 1200px;
           margin: 0 auto;
@@ -453,7 +455,6 @@ export default function PlatformPage() {
           display: block;
           border-radius: 16px;
         }
-
         .plt-what {
           border-top: 1px solid rgba(209,219,220,0.08);
           border-bottom: 1px solid rgba(209,219,220,0.08);
@@ -492,7 +493,6 @@ export default function PlatformPage() {
           opacity: 0.6;
           line-height: 1.8;
         }
-
         .plt-how {
           padding: clamp(3.5rem, 6vw, 5.5rem) 4vw;
         }
@@ -549,7 +549,6 @@ export default function PlatformPage() {
           opacity: 0.55;
           line-height: 1.65;
         }
-
         .plt-benefits {
           border-top: 1px solid rgba(209,219,220,0.08);
           padding: clamp(3.5rem, 6vw, 5.5rem) 4vw;
@@ -627,7 +626,6 @@ export default function PlatformPage() {
           display: block;
           border-radius: 28px;
         }
-
         .plt-impact {
           border-top: 1px solid rgba(209,219,220,0.08);
           padding: clamp(3.5rem, 6vw, 5.5rem) 4vw;
@@ -694,7 +692,6 @@ export default function PlatformPage() {
           height: auto;
           display: block;
         }
-
         .plt-supports {
           border-top: 1px solid rgba(209,219,220,0.08);
           padding: clamp(3.5rem, 6vw, 5.5rem) 4vw;
@@ -791,7 +788,6 @@ export default function PlatformPage() {
           background: rgba(0,206,193,0.2);
           margin: 0.25rem 0 0.25rem 17px;
         }
-
         .plt-cta {
           padding: clamp(4rem, 7vw, 6rem) 4vw;
           border-top: 1px solid rgba(209,219,220,0.08);
@@ -874,7 +870,6 @@ export default function PlatformPage() {
           box-shadow: 0 10px 28px rgba(0,206,193,0.35);
           opacity: 0.92;
         }
-
         @media (max-width: 1000px) {
           .plt-how-grid { grid-template-columns: repeat(2, 1fr); }
           .plt-impact-top { grid-template-columns: 1fr; }
@@ -896,6 +891,7 @@ export default function PlatformPage() {
           .plt-how-card--down { margin-top: 0; }
         }
       `}</style>
+
     </>
   );
 }

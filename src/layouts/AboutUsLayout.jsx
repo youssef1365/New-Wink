@@ -35,7 +35,7 @@ const AboutLayout = ({ activeSection = '' }) => {
               headline="Let’s Architect </br>Your  Next Growth Initiative"
               subheadline="Join a global network of decision-makers shaping the future of international business."
               ctaLabel="Start the Conversation"
-              href="/Register"
+
             />
       <Footer />
     </>

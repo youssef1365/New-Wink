@@ -125,7 +125,6 @@ const Header = ({ activeSection, scrollVelocity, theme: themeProp, setTheme: set
     const handleScroll = () => {
       const currentY = window.scrollY;
       setIsScrolled(currentY > 50);
-
       if (!mobileMenuOpen) {
         if (!isMobile) {
           setHidden(currentY > lastY.current && currentY > 300 && (scrollVelocity || 0) > 1.5);
@@ -175,9 +174,7 @@ const Header = ({ activeSection, scrollVelocity, theme: themeProp, setTheme: set
       />
       <motion.header
         className={`header ${isScrolled ? 'scrolled' : ''} ${mobileMenuOpen ? 'mobile-active' : ''}`}
-        animate={{
-          y: mobileMenuOpen ? 0 : (hidden ? '-100%' : '0%')
-        }}
+        animate={{ y: mobileMenuOpen ? 0 : (hidden ? '-100%' : '0%') }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="progress-bar">
@@ -468,10 +465,52 @@ const Header = ({ activeSection, scrollVelocity, theme: themeProp, setTheme: set
             transform: translateY(-4px) rotate(-45deg);
           }
 
+          @media (max-width: 1280px) {
+            .nav-links {
+              gap: clamp(1rem, 1.8vw, 2rem);
+            }
+            .nav-link {
+              font-size: 0.75rem;
+              letter-spacing: 0.16em;
+            }
+            .cta-button-high-end {
+              padding: 0.75rem 1.5rem;
+              font-size: 0.72rem;
+            }
+            .dynamic-logo {
+              width: 180px;
+              height: 54px;
+            }
+          }
+
+          @media (max-width: 1180px) {
+            .nav-links {
+              gap: clamp(0.8rem, 1.4vw, 1.6rem);
+            }
+            .nav-link {
+              font-size: 0.7rem;
+              letter-spacing: 0.12em;
+            }
+            .cta-button-high-end {
+              padding: 0.7rem 1.2rem;
+              font-size: 0.68rem;
+              letter-spacing: 0.12em;
+            }
+          }
+
           @media (max-width: 1024px) {
             .desktop-only { display: none !important; }
             .hamburger-menu { display: flex; }
-            .dynamic-logo { width: 140px; height: 40px; }
+            .dynamic-logo {
+              width: 160px;
+              height: 48px;
+            }
+            .header {
+              padding: 0.9rem 0;
+            }
+            .header.scrolled {
+              padding: 0.3rem 0;
+            }
             .mobile-overlay {
               position: fixed;
               top: 0;
@@ -489,13 +528,13 @@ const Header = ({ activeSection, scrollVelocity, theme: themeProp, setTheme: set
               list-style: none;
               text-align: center;
               width: 100%;
-              max-width: 320px;
-              padding: 0;
+              max-width: 420px;
+              padding: 0 2rem;
             }
-            .mobile-links > li { margin: 1.2rem 0; }
+            .mobile-links > li { margin: 1.4rem 0; }
             .mobile-links a {
               color: var(--color-third);
-              font-size: 1.6rem;
+              font-size: 1.8rem;
               text-transform: uppercase;
               font-weight: 800;
               text-decoration: none;
@@ -511,8 +550,8 @@ const Header = ({ activeSection, scrollVelocity, theme: themeProp, setTheme: set
               background: rgba(0, 206, 193, 0.1);
               border: 1px solid rgba(0, 206, 193, 0.2);
               border-radius: 50%;
-              width: 36px;
-              height: 36px;
+              width: 40px;
+              height: 40px;
               display: flex;
               align-items: center;
               justify-content: center;
@@ -520,9 +559,57 @@ const Header = ({ activeSection, scrollVelocity, theme: themeProp, setTheme: set
             }
             .mobile-chevron { transition: 0.25s; }
             .mobile-chevron.open { transform: rotate(180deg); }
-            .mobile-sub-links { list-style: none; padding: 0.5rem 0; }
-            .mobile-sub-links a { font-size: 1rem; opacity: 0.6; }
-            .mobile-cta { font-size: 1rem; width: 100%; max-width: 280px; }
+            .mobile-sub-links { list-style: none; padding: 0.5rem 0; overflow: hidden; }
+            .mobile-sub-links a { font-size: 1.1rem; opacity: 0.6; }
+            .mobile-cta { font-size: 1rem; width: 100%; max-width: 320px; }
+          }
+
+          @media (max-width: 768px) {
+            .dynamic-logo {
+              width: 140px;
+              height: 40px;
+            }
+            .header {
+              padding: 0.8rem 0;
+            }
+            .nav-container {
+              padding: 0 5vw;
+            }
+            .mobile-links a {
+              font-size: 1.5rem;
+            }
+            .mobile-links > li { margin: 1.1rem 0; }
+            .mobile-cta { max-width: 280px; }
+          }
+
+          @media (max-width: 480px) {
+            .dynamic-logo {
+              width: 120px;
+              height: 36px;
+            }
+            .nav-container {
+              padding: 0 4vw;
+            }
+            .mobile-links a {
+              font-size: 1.3rem;
+              letter-spacing: 0.08em;
+            }
+            .mobile-links > li { margin: 0.9rem 0; }
+          }
+
+          @media (max-width: 360px) {
+            .dynamic-logo {
+              width: 100px;
+              height: 32px;
+            }
+            .mobile-links a {
+              font-size: 1.1rem;
+            }
+            .mobile-links > li { margin: 0.75rem 0; }
+            .theme-toggle-minimal {
+              width: 36px;
+              height: 36px;
+            }
           }
         `}</style>
       </motion.header>

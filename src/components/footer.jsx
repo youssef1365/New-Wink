@@ -301,10 +301,10 @@ const Footer = ({ setShowModal }) => {
             </div>
 
             <div className="footer-section">
-              <h4 className="footer-title">Are You Interested?</h4>
+              <h4 className="footer-title">Ready to generate high-value business meetings?</h4>
               <form className="footer-newsletter-form" onSubmit={handleContactClick}>
                 <button type="submit" className="footer-discussion-btn">
-                  Request a Discussion
+                  Contact us
                 </button>
               </form>
             </div>

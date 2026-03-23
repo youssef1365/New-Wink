@@ -36,7 +36,7 @@ const PackagesPage = ({ activeSection = '' }) => {
         ctaLabel=" Explore Programs"
         href="/Packages"
         onClick={(e) => {
-            e.preventDefault(); // Stop the page from changing
+            e.preventDefault();
             const el = document.getElementById('prg-packages');
             if (el) {
               el.scrollIntoView({ behavior: 'smooth' });

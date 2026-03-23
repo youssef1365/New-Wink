@@ -106,7 +106,7 @@ export default function GovernmentPage() {
                         Government & Institutional
                     </motion.p>
                     <motion.h1 className="gov-hero-headline" variants={fadeUp} initial="hidden" animate="visible" custom={1}>
-                        Government & Institutional Programs 2026
+                        Government & Institutional Programs
                     </motion.h1>
                     <motion.p className="gov-hero-sub" variants={fadeUp} initial="hidden" animate="visible" custom={2}>
                         Structured International Economic Promotion Services

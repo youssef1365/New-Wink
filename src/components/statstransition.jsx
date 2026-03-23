@@ -26,12 +26,12 @@ const Counter = ({ value, duration = 2 }) => {
 
 const StatsTransition = () => {
   const stats = [
-    { label: "Years Experience", value: "15", suffix: "+" },
-    { label: "Events Managed",   value: "150", suffix: "+" },
-    { label: "Countries Reached", value: "35", suffix: "+" },
-    { label: "Meetings Organized" , value: "50", suffix: "k"},
-    { label: "Efficiency Ratings", value: "75", suffix: "%"},
-    { label: "Customer Satisfaction", value: "90", suffix:"%"}
+    { label: "Years Experience",     value: "15",  suffix: "+",   suffixBig: false },
+    { label: "Events Managed",       value: "150", suffix: "+",   suffixBig: false },
+    { label: "Countries Reached",    value: "35",  suffix: "+",   suffixBig: false },
+    { label: "Meetings Organized",   value: "30",  suffix: "k",   suffixBig: true  },
+    { label: "Efficiency Ratings",   value: "75",  suffix: "%",   suffixBig: false },
+    { label: "Customer Satisfaction",value: "90",  suffix: "%",   suffixBig: false },
   ];
 
   return (
@@ -72,7 +72,14 @@ const StatsTransition = () => {
             >
               <div className="stat-value">
                 <Counter value={stat.value} />
-                <span className="stat-suffix">{stat.suffix}</span>
+                {stat.suffixBig ? (
+                  <>
+                    <span className="stat-suffix-big">{stat.suffix}</span>
+                    <span className="stat-suffix">+</span>
+                  </>
+                ) : (
+                  <span className="stat-suffix">{stat.suffix}</span>
+                )}
               </div>
 
               <div className="stat-label">{stat.label}</div>
@@ -154,12 +161,22 @@ const StatsTransition = () => {
           align-items: flex-start;
         }
 
+        /* Small superscript suffix (e.g. +, %) */
         .stat-suffix {
           font-size: 0.45em;
           font-weight: 800;
           color: var(--color-1, currentColor);
           margin-top: 0.15em;
           letter-spacing: 0;
+        }
+
+        /* Full-size suffix — same font-size as the number (e.g. +k) */
+        .stat-suffix-big {
+          font-size: 1em;
+          font-weight: 800;
+          color: var(--color-1, currentColor);
+          letter-spacing: -0.03em;
+          line-height: 1.5;
         }
 
         .stat-divider {

@@ -164,7 +164,7 @@ export default function ScrollController() {
       <div>
         <CallToAction
           image="/8.png"
-          headline="Growth Doesn’t Happen by Chance. It’s Designed."
+          headline="Growth Doesn’t Happen by Chance, It’s Designed."
           subheadline="Partner with Wink to build structured international opportunity ecosystems."
           ctaLabel="Talk to an Expert Now"
 

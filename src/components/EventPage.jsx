@@ -51,9 +51,10 @@ const DATE_SORTS = [
 ];
 
 const totalStats = {
-  meetings: 50_000,
+  meetings: 30_000,
   buyers: 6_000,
-  completed: 1_00
+  completed: 1_00,
+  countries: 30
 };
 
 
@@ -179,7 +180,7 @@ function UpcomingCard({ event, index, onClick }) {
       </div>
       <div className="ep-uc-body">
         <div className="ep-uc-sector">{event.sector}</div>
-        <h3 className="ep-uc-name" style={{ color: hovered ? 'var(--color-one)' : undefined }}>{event.name}</h3>
+        <h3 className="ep-uc-name" style={{ color: hovered ? 'var(--color-fifth)' : undefined }}>{event.name}</h3>
         <div className="ep-uc-meta">
           <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>{event.location}</span>
           <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{event.date}</span>
@@ -260,22 +261,23 @@ export default function EventsPage() {
             transition={{ duration: 0.7, delay: 0.35 }}
           >
             <div className="ep-hero-stat">
-              <span className="ep-hero-stat-val">+50k</span>
+              <span className="ep-hero-stat-val">+30k</span>
               <span className="ep-hero-stat-lbl">B2B Meetings</span>
             </div>
-
             <div className="ep-hero-stat-div" />
-
             <div className="ep-hero-stat">
               <span className="ep-hero-stat-val">+6k</span>
               <span className="ep-hero-stat-lbl">Buyers Reached</span>
             </div>
-
             <div className="ep-hero-stat-div" />
-
             <div className="ep-hero-stat">
               <span className="ep-hero-stat-val">+100</span>
               <span className="ep-hero-stat-lbl">Events Completed</span>
+            </div>
+            <div className="ep-hero-stat-div" />
+            <div className="ep-hero-stat">
+                <span className="ep-hero-stat-val">+30</span>
+                <span className="ep-hero-stat-lbl">Countries</span>
             </div>
           </motion.div>
         </motion.div>
@@ -421,101 +423,101 @@ const CSS = `
   body { background-color: var(--color-two); color: var(--color-third); }
 
   .ep-hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--color-two); }
-  .ep-hero-bg { position: absolute; inset: -20%; background: radial-gradient(ellipse 70% 60% at 30% 40%, rgba(0,206,193,0.12) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 75% 70%, rgba(0,63,92,0.25) 0%, transparent 55%), radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, var(--color-two) 100%); will-change: transform; }
+  .ep-hero-bg { position: absolute; inset: -20%; background: radial-gradient(ellipse 70% 60% at 30% 40%, rgba(var(--color-fifth-rgb),0.12) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 75% 70%, rgba(0,63,92,0.25) 0%, transparent 55%), radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, var(--color-two) 100%); will-change: transform; }
   .ep-hero-noise { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size: 200px; pointer-events: none; mix-blend-mode: overlay; }
   .ep-hero-content { position: relative; text-align: center; padding: 2rem; max-width: 860px; }
-  .ep-hero-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--color-one); margin-bottom: 1.5rem; opacity: 0.8; }
+  .ep-hero-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--color-fifth); margin-bottom: 1.5rem; opacity: 0.8; }
   .ep-hero-title { font-family: 'DM Serif Display', serif; font-size: clamp(3.2rem, 8vw, 6.5rem); line-height: 1.0; color: var(--color-third); letter-spacing: -0.02em; margin-bottom: 1.5rem; }
-  .ep-hero-accent { font-style: italic; background: linear-gradient(135deg, var(--color-one), var(--color-fourth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .ep-hero-accent { font-style: italic; background: linear-gradient(135deg, var(--color-fifth), var(--color-fourth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .ep-hero-sub { font-size: 1.05rem; color: var(--color-third); opacity: 0.6; line-height: 1.7; margin-bottom: 3rem; }
-  .ep-hero-stats { display: inline-flex; align-items: center; gap: 2.5rem; background: rgba(0,206,193,0.05); border: 1px solid rgba(0,206,193,0.15); border-radius: 100px; padding: 1rem 2.5rem; backdrop-filter: blur(12px); }
+  .ep-hero-stats { display: inline-flex; align-items: center; gap: 2.5rem; background: rgba(var(--color-fifth-rgb),0.05); border: 1px solid rgba(var(--color-fifth-rgb),0.15); border-radius: 100px; padding: 1rem 2.5rem; backdrop-filter: blur(12px); }
   .ep-hero-stat { text-align: center; }
-  .ep-hero-stat-val { display: block; font-size: 1.7rem; font-weight: 800; color: var(--color-one); line-height: 1; }
+  .ep-hero-stat-val { display: block; font-size: 1.7rem; font-weight: 800; color: var(--color-fifth); line-height: 1; }
   .ep-hero-stat-lbl { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-third); opacity: 0.55; margin-top: 0.25rem; display: block; }
-  .ep-hero-stat-div { width: 1px; height: 36px; background: rgba(0,206,193,0.15); }
+  .ep-hero-stat-div { width: 1px; height: 36px; background: rgba(var(--color-fifth-rgb),0.15); }
   .ep-hero-scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--color-third); opacity: 0.4; letter-spacing: 0.1em; }
 
-  .ep-ticker-wrap { overflow: hidden; border-top: 1px solid rgba(0,206,193,0.2); border-bottom: 1px solid rgba(0,206,193,0.2); padding: 0.7rem 0; margin-bottom: 4rem; }
+  .ep-ticker-wrap { overflow: hidden; border-top: 1px solid rgba(var(--color-fifth-rgb),0.2); border-bottom: 1px solid rgba(var(--color-fifth-rgb),0.2); padding: 0.7rem 0; margin-bottom: 4rem; }
   .ep-ticker-inner { display: flex; gap: 3rem; white-space: nowrap; }
-  .ep-ticker-item { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-one); opacity: 0.7; }
+  .ep-ticker-item { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-fifth); opacity: 0.7; }
   .ep-ticker-dot { color: var(--color-third); opacity: 0.3; margin: 0 0.5rem; }
 
   .ep-main { max-width: 1260px; margin: 0 auto; padding: 5rem 2rem 6rem; background: var(--color-two); }
 
-  .ep-filter-bar { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(0,206,193,0.12); }
+  .ep-filter-bar { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(var(--color-fifth-rgb),0.12); }
   .ep-filter-row { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
   .ep-filter-row--top { justify-content: space-between; }
   .ep-filter-row--areas { gap: 0.75rem; }
   .ep-filter-row--sectors { gap: 0.75rem; }
   .ep-filter-label { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-third); opacity: 0.4; white-space: nowrap; flex-shrink: 0; }
 
-  .ep-tabs { display: flex; gap: 0.5rem; background: rgba(209,219,220,0.04); border: 1px solid rgba(0,206,193,0.12); border-radius: 100px; padding: 4px; }
+  .ep-tabs { display: flex; gap: 0.5rem; background: rgba(209,219,220,0.04); border: 1px solid rgba(var(--color-fifth-rgb),0.12); border-radius: 100px; padding: 4px; }
   .ep-tab { background: none; border: none; color: var(--color-third); opacity: 0.55; padding: 0.55rem 1.4rem; border-radius: 100px; cursor: pointer; font-size: 0.82rem; font-weight: 700; font-family: 'DM Sans', sans-serif; letter-spacing: 0.02em; transition: all 0.25s ease; }
-  .ep-tab.active { background: var(--color-one); color: var(--color-two); opacity: 1; }
+  .ep-tab.active { background: var(--color-fifth); color: var(--color-two); opacity: 1; }
 
-  .ep-date-sort { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(209,219,220,0.04); border: 1px solid rgba(0,206,193,0.12); border-radius: 100px; padding: 4px 4px 4px 10px; }
-  .ep-date-sort svg { color: var(--color-one); opacity: 0.7; flex-shrink: 0; }
+  .ep-date-sort { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(209,219,220,0.04); border: 1px solid rgba(var(--color-fifth-rgb),0.12); border-radius: 100px; padding: 4px 4px 4px 10px; }
+  .ep-date-sort svg { color: var(--color-fifth); opacity: 0.7; flex-shrink: 0; }
   .ep-sort-btn { background: none; border: none; color: var(--color-third); opacity: 0.5; padding: 0.45rem 1rem; border-radius: 100px; cursor: pointer; font-size: 0.75rem; font-weight: 700; font-family: 'DM Sans', sans-serif; letter-spacing: 0.04em; transition: all 0.25s ease; white-space: nowrap; }
-  .ep-sort-btn.active { background: rgba(0,206,193,0.12); color: var(--color-one); opacity: 1; }
-  .ep-sort-btn:hover:not(.active) { opacity: 0.8; color: var(--color-one); }
+  .ep-sort-btn.active { background: rgba(var(--color-fifth-rgb),0.12); color: var(--color-fifth); opacity: 1; }
+  .ep-sort-btn:hover:not(.active) { opacity: 0.8; color: var(--color-fifth); }
 
   .ep-areas { display: flex; gap: 0.45rem; flex-wrap: wrap; }
-  .ep-area-pill { background: none; border: 1px solid rgba(0,206,193,0.12); color: var(--color-third); opacity: 0.55; padding: 0.32rem 0.9rem; border-radius: 100px; cursor: pointer; font-size: 0.72rem; font-weight: 600; font-family: 'DM Sans', sans-serif; letter-spacing: 0.04em; transition: all 0.25s ease; }
-  .ep-area-pill:hover { border-color: var(--color-one); color: var(--color-one); opacity: 1; }
-  .ep-area-pill.active { background: rgba(0,206,193,0.08); border-color: var(--color-one); color: var(--color-one); opacity: 1; }
+  .ep-area-pill { background: none; border: 1px solid rgba(var(--color-fifth-rgb),0.12); color: var(--color-third); opacity: 0.55; padding: 0.32rem 0.9rem; border-radius: 100px; cursor: pointer; font-size: 0.72rem; font-weight: 600; font-family: 'DM Sans', sans-serif; letter-spacing: 0.04em; transition: all 0.25s ease; }
+  .ep-area-pill:hover { border-color: var(--color-fifth); color: var(--color-fifth); opacity: 1; }
+  .ep-area-pill.active { background: rgba(var(--color-fifth-rgb),0.08); border-color: var(--color-fifth); color: var(--color-fifth); opacity: 1; }
 
   .ep-count-label { font-size: 0.72rem; color: var(--color-third); opacity: 0.5; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2rem; }
 
   .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
 
-  .ep-uc { cursor: pointer; border-radius: var(--border-radius); overflow: hidden; background: var(--color-two); filter: brightness(1.08); border: 1px solid rgba(0,206,193,0.12); display: flex; flex-direction: column; transition: border-color 0.25s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; }
-  .ep-uc:hover { border-color: var(--color-one); transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,206,193,0.15); filter: brightness(1.12); }
+  .ep-uc { cursor: pointer; border-radius: var(--border-radius); overflow: hidden; background: var(--color-two); filter: brightness(1.08); border: 1px solid rgba(var(--color-fifth-rgb),0.12); display: flex; flex-direction: column; transition: border-color 0.25s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; }
+  .ep-uc:hover { border-color: var(--color-fifth); transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(var(--color-fifth-rgb),0.15); filter: brightness(1.12); }
   .ep-uc-img { position: relative; width: 100%; height: 220px; background-size: cover; background-position: center 20%; flex-shrink: 0; overflow: hidden; }
   .ep-uc-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 100%); z-index: 1; pointer-events: none; }
-  .ep-uc-teal { position: absolute; inset: 0; background: rgba(0,206,193,0.22); z-index: 2; pointer-events: none; transition: opacity 0.35s ease; }
-  .ep-uc-foodex-tag { position: absolute; top: 12px; right: 12px; z-index: 3; font-size: 0.48rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: white; background: rgba(0,206,193,0.35); border: 1px solid rgba(0,206,193,0.55); padding: 3px 9px; border-radius: 100px; backdrop-filter: blur(6px); font-family: 'DM Sans', sans-serif; }
+  .ep-uc-teal { position: absolute; inset: 0; background: rgba(var(--color-fifth-rgb),0.22); z-index: 2; pointer-events: none; transition: opacity 0.35s ease; }
+  .ep-uc-foodex-tag { position: absolute; top: 12px; right: 12px; z-index: 3; font-size: 0.48rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: white; background: rgba(var(--color-fifth-rgb),0.35); border: 1px solid rgba(var(--color-fifth-rgb),0.55); padding: 3px 9px; border-radius: 100px; backdrop-filter: blur(6px); font-family: 'DM Sans', sans-serif; }
   .ep-uc-city-wrap { position: absolute; bottom: 14px; left: 14px; z-index: 3; display: flex; flex-direction: column; gap: 0.2rem; }
-  .ep-uc-area-badge { font-size: 0.5rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-one); background: rgba(0,0,0,0.45); border: 1px solid rgba(0,206,193,0.35); padding: 2px 7px; border-radius: 100px; backdrop-filter: blur(4px); align-self: flex-start; font-family: 'DM Sans', sans-serif; }
+  .ep-uc-area-badge { font-size: 0.5rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-fifth); background: rgba(0,0,0,0.45); border: 1px solid rgba(var(--color-fifth-rgb),0.35); padding: 2px 7px; border-radius: 100px; backdrop-filter: blur(4px); align-self: flex-start; font-family: 'DM Sans', sans-serif; }
   .ep-uc-city { color: white; font-size: 1.6rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; text-shadow: 0 2px 12px rgba(0,0,0,0.6); line-height: 1; font-family: 'DM Sans', sans-serif; }
   .ep-uc-body { padding: 1.2rem 1.4rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
-  .ep-uc-sector { font-size: 0.58rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-one); opacity: 0.8; }
+  .ep-uc-sector { font-size: 0.58rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-fifth); opacity: 0.8; }
   .ep-uc-name { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--color-third); line-height: 1.25; letter-spacing: -0.01em; margin: 0; transition: color 0.25s ease; }
   .ep-uc-meta { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.1rem; }
   .ep-uc-meta span { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--color-third); opacity: 0.55; font-weight: 500; }
-  .ep-uc-meta svg { color: var(--color-one); opacity: 0.8; flex-shrink: 0; }
-  .ep-uc-cta { display: inline-flex; align-items: center; gap: 0.4rem; background: none; border: 1px solid rgba(0,206,193,0.12); color: var(--color-third); opacity: 0.6; padding: 0.5rem 1rem; border-radius: var(--border-radius); font-size: 0.75rem; font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer; align-self: flex-start; margin-top: 0.4rem; transition: all 0.25s ease; }
-  .ep-uc:hover .ep-uc-cta { border-color: var(--color-one); color: var(--color-one); opacity: 1; background: rgba(0,206,193,0.06); }
+  .ep-uc-meta svg { color: var(--color-fifth); opacity: 0.8; flex-shrink: 0; }
+  .ep-uc-cta { display: inline-flex; align-items: center; gap: 0.4rem; background: none; border: 1px solid rgba(var(--color-fifth-rgb),0.12); color: var(--color-third); opacity: 0.6; padding: 0.5rem 1rem; border-radius: var(--border-radius); font-size: 0.75rem; font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer; align-self: flex-start; margin-top: 0.4rem; transition: all 0.25s ease; }
+  .ep-uc:hover .ep-uc-cta { border-color: var(--color-fifth); color: var(--color-fifth); opacity: 1; background: rgba(var(--color-fifth-rgb),0.06); }
 
-  .ep-card { position: relative; background: var(--color-two); filter: brightness(1.08); border: 1px solid rgba(0,206,193,0.12); border-radius: var(--border-radius); padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; overflow: hidden; cursor: pointer; transition: border-color 0.25s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; }
-  .ep-card:hover, .ep-card.hovered { border-color: var(--color-one); transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,206,193,0.15); filter: brightness(1.12); }
-  .ep-card-glow { position: absolute; top: 0; left: 0; right: 0; height: 200px; background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,206,193,0.07), transparent); pointer-events: none; opacity: 0; transition: opacity 0.25s ease; }
+  .ep-card { position: relative; background: var(--color-two); filter: brightness(1.08); border: 1px solid rgba(var(--color-fifth-rgb),0.12); border-radius: var(--border-radius); padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; overflow: hidden; cursor: pointer; transition: border-color 0.25s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; }
+  .ep-card:hover, .ep-card.hovered { border-color: var(--color-fifth); transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.2), 0 0 0 1px rgba(var(--color-fifth-rgb),0.15); filter: brightness(1.12); }
+  .ep-card-glow { position: absolute; top: 0; left: 0; right: 0; height: 200px; background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(var(--color-fifth-rgb),0.07), transparent); pointer-events: none; opacity: 0; transition: opacity 0.25s ease; }
   .ep-card:hover .ep-card-glow { opacity: 1; }
   .ep-card-top-tags { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-  .ep-card-sector { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-one); opacity: 0.8; }
+  .ep-card-sector { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-fifth); opacity: 0.8; }
   .ep-card-area-tag { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-third); opacity: 0.45; background: rgba(209,219,220,0.06); border: 1px solid rgba(209,219,220,0.12); padding: 2px 7px; border-radius: 100px; }
   .ep-card-name { font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: var(--color-third); line-height: 1.2; letter-spacing: -0.01em; transition: color 0.25s ease; }
   .ep-card-meta { display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
   .ep-card-meta-item { display: flex; align-items: flex-start; gap: 0.45rem; font-size: 0.78rem; color: var(--color-third); opacity: 0.55; font-weight: 500; }
   .ep-card-desc-preview { font-style: italic; opacity: 0.4; margin-top: 0.25rem; line-height: 1.5; }
-  .ep-card-meta-item svg { flex-shrink: 0; margin-top: 2px; color: var(--color-one); opacity: 0.7; }
-  .ep-card-results { display: flex; align-items: center; gap: 1rem; background: rgba(0,206,193,0.05); border: 1px solid rgba(0,206,193,0.1); border-radius: var(--border-radius); padding: 0.6rem 1rem; margin-top: 0.25rem; }
+  .ep-card-meta-item svg { flex-shrink: 0; margin-top: 2px; color: var(--color-fifth); opacity: 0.7; }
+  .ep-card-results { display: flex; align-items: center; gap: 1rem; background: rgba(var(--color-fifth-rgb),0.05); border: 1px solid rgba(var(--color-fifth-rgb),0.1); border-radius: var(--border-radius); padding: 0.6rem 1rem; margin-top: 0.25rem; }
   .ep-card-result { display: flex; flex-direction: column; line-height: 1.2; }
   .ep-card-result span { font-size: 1.1rem; font-weight: 800; color: var(--color-fourth); }
   .ep-card-result small { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-third); opacity: 0.5; }
-  .ep-card-result-div { width: 1px; height: 28px; background: rgba(0,206,193,0.12); }
-  .ep-card-cta { display: inline-flex; align-items: center; gap: 0.4rem; background: none; border: 1px solid rgba(0,206,193,0.12); color: var(--color-third); opacity: 0.6; padding: 0.5rem 1rem; border-radius: var(--border-radius); font-size: 0.75rem; font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer; align-self: flex-start; margin-top: 0.25rem; transition: all 0.25s ease; }
-  .ep-card:hover .ep-card-cta { border-color: var(--color-one); color: var(--color-one); opacity: 1; background: rgba(0,206,193,0.06); }
+  .ep-card-result-div { width: 1px; height: 28px; background: rgba(var(--color-fifth-rgb),0.12); }
+  .ep-card-cta { display: inline-flex; align-items: center; gap: 0.4rem; background: none; border: 1px solid rgba(var(--color-fifth-rgb),0.12); color: var(--color-third); opacity: 0.6; padding: 0.5rem 1rem; border-radius: var(--border-radius); font-size: 0.75rem; font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer; align-self: flex-start; margin-top: 0.25rem; transition: all 0.25s ease; }
+  .ep-card:hover .ep-card-cta { border-color: var(--color-fifth); color: var(--color-fifth); opacity: 1; background: rgba(var(--color-fifth-rgb),0.06); }
 
   .ep-empty { text-align: center; padding: 5rem 2rem; color: var(--color-third); opacity: 0.4; font-size: 0.9rem; letter-spacing: 0.05em; }
 
   .ep-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(14px); z-index: 1100; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
-  .ep-modal { position: relative; background: var(--color-two); filter: brightness(1.1); border: 1px solid rgba(0,206,193,0.12); border-radius: 12px; padding: 2.8rem; width: min(680px, 94vw); max-height: 88vh; overflow-y: auto; box-shadow: 0 32px 80px rgba(0,0,0,0.5); }
-  .ep-modal-stripe { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--color-one), var(--color-fourth)); border-radius: 12px 12px 0 0; }
+  .ep-modal { position: relative; background: var(--color-two); filter: brightness(1.1); border: 1px solid rgba(var(--color-fifth-rgb),0.12); border-radius: 12px; padding: 2.8rem; width: min(680px, 94vw); max-height: 88vh; overflow-y: auto; box-shadow: 0 32px 80px rgba(0,0,0,0.5); }
+  .ep-modal-stripe { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--color-fifth), var(--color-fourth)); border-radius: 12px 12px 0 0; }
   .ep-modal-close { position: absolute; top: 1.4rem; right: 1.4rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-third); opacity: 0.6; transition: opacity 0.2s; }
   .ep-modal-close:hover { opacity: 1; }
   .ep-modal-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-third); opacity: 0.45; border: 1px solid rgba(255,255,255,0.1); padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 1.2rem; }
   .ep-modal-tag-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .ep-modal-tag-dot.upcoming { background: var(--color-one); }
+  .ep-modal-tag-dot.upcoming { background: var(--color-fifth); }
   .ep-modal-tag-dot.past { background: var(--color-fourth); }
   .ep-modal-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 400; color: var(--color-third); margin: 0 0 1.2rem; line-height: 1.2; letter-spacing: -0.01em; }
   .ep-modal-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
@@ -536,7 +538,7 @@ const CSS = `
   .ep-photo-zoom { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white; background: rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.2s; }
   .ep-modal-photo:hover .ep-photo-zoom { opacity: 1; }
   .ep-modal-footer { display: flex; align-items: center; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
-  .ep-modal-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--color-one); color: var(--color-two); border: none; padding: 0.75rem 1.6rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; border-radius: 100px; cursor: pointer; transition: all 0.25s; }
+  .ep-modal-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--color-fifth); color: var(--color-two); border: none; padding: 0.75rem 1.6rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; border-radius: 100px; cursor: pointer; transition: all 0.25s; }
   .ep-modal-cta:hover { background: var(--color-fourth); transform: translateY(-1px); }
   .ep-modal-dismiss { background: none; border: none; color: var(--color-third); font-size: 0.82rem; font-weight: 600; cursor: pointer; opacity: 0.45; transition: opacity 0.2s; }
   .ep-modal-dismiss:hover { opacity: 0.8; }

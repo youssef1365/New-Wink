@@ -35,8 +35,8 @@ const packages = [
         kpis: [
             'Number of confirmed international hosted buyers',
             'Number of structured meetings facilitated',
-            '85%+ meeting attendance rate',
-            '70%+ meetings rated \'high relevance\'',
+            'High meeting attendance rate',
+            'Meetings rated \'high relevance\'',
             'Exhibitor ROI performance summary',
         ],
     },
