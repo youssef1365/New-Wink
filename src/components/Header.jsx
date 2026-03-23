@@ -139,8 +139,6 @@ const Header = ({ activeSection, scrollVelocity, scrollDirection, theme: themePr
     return unsubscribe;
   }, [scrollProgress]);
 
-  const scrollYRef = useRef(0);
-
   useEffect(() => {
     if (mobileMenuOpen) {
       scrollYRef.current = window.scrollY;
