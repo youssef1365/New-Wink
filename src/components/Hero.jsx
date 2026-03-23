@@ -170,9 +170,11 @@ const Hero = ({ scrollVelocity = 0 }) => {
             margin-left: 0;
             align-self: center;
             text-align: center;
-            text-height: 0.7;
+            text-align: 1;
+            line-height: 0.75;
+            gap: 0;
           }
-          .hero-line-1, .hero-line-2, .hero-line-3 { font-size: clamp(2rem, 8vw, 3.5rem); white-space: normal; }
+          .hero-line-1, .hero-line-2, .hero-line-3 { font-size: clamp(2rem, 8vw, 3.5rem); white-space: normal; margin: 0; padding: 0; }
           .hero-buttons {
             flex-direction: column;
           }
