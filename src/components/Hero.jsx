@@ -170,7 +170,7 @@ const Hero = ({ scrollVelocity = 0 }) => {
             margin-left: 0;
             align-self: center;
             text-align: center;
-            line-height: 1.1; /* tighter overall */
+            line-height: 0.7;
           }
 
           .hero-line-1,
@@ -178,10 +178,9 @@ const Hero = ({ scrollVelocity = 0 }) => {
           .hero-line-3 {
             font-size: clamp(2rem, 8vw, 3.5rem);
             white-space: normal;
-            margin: 0; /* remove default spacing */
+            margin: 0;
           }
 
-          /* control spacing BETWEEN lines */
           .hero-line-1 { margin-bottom: 0.2em; }
           .hero-line-2 { margin-bottom: 0.2em; }
 
