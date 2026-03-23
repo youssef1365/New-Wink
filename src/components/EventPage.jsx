@@ -50,33 +50,12 @@ const DATE_SORTS = [
   { label: 'Oldest First', value: 'asc' },
 ];
 
-const totalStats = allEvents.filter(e => e.results).reduce(
-  (acc, e) => ({ meetings: acc.meetings + (e.results?.meetings || 0), buyers: acc.buyers + (e.results?.buyers || 0) }),
-  { meetings: 0, buyers: 0 }
-);
+const totalStats = {
+  meetings: 50_000,
+  buyers: 6_000,
+  completed: 1_00
+};
 
-function Counter({ target, duration = 1800 }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const started = useRef(false);
-  useEffect(() => {
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !started.current) {
-        started.current = true;
-        const start = performance.now();
-        const tick = (now) => {
-          const p = Math.min((now - start) / duration, 1);
-          setCount(Math.round(p * p * target));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }
-    }, { threshold: 0.3 });
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, [target, duration]);
-  return <span ref={ref}>{count.toLocaleString()}</span>;
-}
 
 function Ticker() {
   const items = ['FOODEX JAPAN', 'GULFOOD', 'IFE LONDON', 'CIIE CHINA', 'BIG 5 DUBAI', 'CONXEMAR', 'KOREA BUILD WEEK', 'ADIFE ABU DHABI'];
@@ -274,19 +253,28 @@ export default function EventsPage() {
           <motion.p className="ep-hero-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}>
             Explore upcoming initiatives and past projects<br />delivered across industries and markets.
           </motion.p>
-          <motion.div className="ep-hero-stats" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }}>
+          <motion.div
+            className="ep-hero-stats"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.35 }}
+          >
             <div className="ep-hero-stat">
-              <span className="ep-hero-stat-val"><Counter target={totalStats.meetings} /></span>
+              <span className="ep-hero-stat-val">+50k</span>
               <span className="ep-hero-stat-lbl">B2B Meetings</span>
             </div>
+
             <div className="ep-hero-stat-div" />
+
             <div className="ep-hero-stat">
-              <span className="ep-hero-stat-val"><Counter target={totalStats.buyers} /></span>
+              <span className="ep-hero-stat-val">+6k</span>
               <span className="ep-hero-stat-lbl">Buyers Reached</span>
             </div>
+
             <div className="ep-hero-stat-div" />
+
             <div className="ep-hero-stat">
-              <span className="ep-hero-stat-val"><Counter target={allEvents.filter(e => e.type === 'past').length} />+</span>
+              <span className="ep-hero-stat-val">+100</span>
               <span className="ep-hero-stat-lbl">Events Completed</span>
             </div>
           </motion.div>
