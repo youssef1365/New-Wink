@@ -171,7 +171,7 @@ const Hero = ({ scrollVelocity = 0 }) => {
             align-self: center;
             text-align: center;
             text-align : 1;
-            line-height: 0.9;
+            line-height: 1;
           }
           .hero-title br {
             display: none;
