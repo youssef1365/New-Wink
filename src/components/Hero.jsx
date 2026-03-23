@@ -170,23 +170,12 @@ const Hero = ({ scrollVelocity = 0 }) => {
             margin-left: 0;
             align-self: center;
             text-align: center;
-            line-height: 1;
+            text-align : 1;
           }
-
-          hero-line-1,
-            .hero-line-2,
-            .hero-line-3 {
-              margin: 0;
-            }
-
-            /* reduce space between title groups */
-            .hero-line-1 { margin-bottom: 0.3em; }  /* WINK → FUTURE */
-            .hero-line-2 { margin-bottom: 0.2em; }  /* FUTURE → MATCHMAKING */
-
+          .hero-line-1, .hero-line-2, .hero-line-3 { font-size: clamp(2rem, 8vw, 3.5rem); white-space: normal; }
           .hero-buttons {
             flex-direction: column;
           }
-
           .cta-button {
             padding: 1.3rem 2.8rem;
             font-size: 1.1rem;
