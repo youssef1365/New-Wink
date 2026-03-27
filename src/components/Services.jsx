@@ -231,12 +231,12 @@ export default function ExpertisePage() {
         .ep-eyebrow {
           display: block; font-size: 1.5rem; font-weight: 700;
           text-transform: uppercase; letter-spacing: 0.32em;
-          color: var(--ep-text-muted);
+          color: var(--color-third);
           margin-bottom: 0.9rem;
         }
         .ep-headline {
           font-size: clamp(1.8rem, 4vw, 3rem);
-          font-weight: 900; color: var(--ep-text);
+          font-weight: 900; color: var(--color-third);
           letter-spacing: -0.03em; margin: 0; line-height: 1.1;
         }
         .ep-headline em {

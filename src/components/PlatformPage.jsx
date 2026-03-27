@@ -96,7 +96,7 @@ export default function PlatformPage() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.75, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
-            <img src="Platform1_2.jpeg" alt="WINK scheduling interface on tablet" className="plt-hero-img" />
+            <img src="img_2.png" alt="WINK scheduling interface on tablet" className="plt-hero-img" />
           </motion.div>
         </section>
 
@@ -110,7 +110,7 @@ export default function PlatformPage() {
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="plt-laptop-wrap">
-                <img src="Platform1_1.jpeg" alt="WINK events management on laptop" className="plt-laptop-img" />
+                <img src="img_3.png" alt="WINK events management on laptop" className="plt-laptop-img" />
               </div>
             </motion.div>
             <motion.div
@@ -270,7 +270,7 @@ export default function PlatformPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               >
-                <img src="Platform4.jpeg" alt="WINK analytics dashboard" className="plt-impact-dashboard" />
+                <img src="img_4.png" alt="WINK analytics dashboard" className="plt-impact-dashboard" />
               </motion.div>
             </div>
           </div>
