@@ -170,7 +170,7 @@ const Events = () => {
             )}
             <div className="ev-modal-footer">
               {selectedEvent.type === 'upcoming'
-                ? <button className="ev-modal-cta" onClick={() => window.dispatchEvent(new Event('openContactModal'))}>Register Interest</button>
+                ? <a href="/Register" className="ev-modal-cta">Register Interest</a>
                 : <button className="ev-modal-cta" onClick={switchToUpcoming}>View Upcoming Events</button>
               }
               <button className="ev-modal-dismiss" onClick={() => setSelectedEvent(null)}>Close</button>
