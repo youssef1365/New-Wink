@@ -73,7 +73,7 @@ export default function PlatformPage() {
         <section className="plt-hero">
           <div className="plt-hero-text">
             <motion.p className="plt-eyebrow" variants={fadeUp} initial="hidden" animate="visible" custom={0}>
-              Technology
+              Technology - POWERED BY SKEJIO
             </motion.p>
             <motion.h1 className="plt-hero-headline" variants={fadeUp} initial="hidden" animate="visible" custom={1}>
               WINK Meeting<br />Management Platform

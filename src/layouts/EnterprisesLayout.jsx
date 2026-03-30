@@ -34,7 +34,6 @@ const EnterprisesLayout = ({ activeSection = '' }) => {
                     headline="Accelerate Your International Business Development"
                     subheadline="Access qualified buyers, structured meetings, and measurable growth opportunities."
                     ctaLabel="Apply for a Program"
-                    href="/Register"
                   />
             <Footer />
         </>

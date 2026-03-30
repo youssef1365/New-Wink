@@ -34,7 +34,6 @@ const GovernmentLayout = ({ activeSection = '' }) => {
                     headline="Deliver High-Impact International Economic Programs"
                     subheadline="Partner with Wink to structure trade missions, delegations, and investment initiatives."
                     ctaLabel="Request a Proposal"
-                    href="/Register"
                   />
             <Footer />
         </>

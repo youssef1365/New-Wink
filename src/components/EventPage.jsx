@@ -1,31 +1,17 @@
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { supabase } from '../lib/supabase';
 
-const upcomingImages = {
-  1: '/tokyo.jpeg',
-  2: '/marakkesh.jpeg',
-  3: '/london.jpeg',
-  4: '/newyork.jpeg',
+const isUpcoming = (dateValue) => {
+  if (!dateValue) return false;
+
+  const eventDate = new Date(dateValue);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return eventDate >= today;
 };
-
-const allEvents = [
-  { id: 1,  type: 'upcoming', name: 'FOODEX JAPAN 2026', location: 'Tokyo, Japan', date: 'March 10–13, 2026', dateSort: '2026-03-10', area: 'Asia', sector: 'Food / Agri-Food', details: "Morocco will showcase the richness and diversity of its agri-food sector at FOODEX Japan 2026, one of Asia's leading international food and beverage exhibitions. From fresh fruits and vegetables to processed snacks, aromatic herbs, premium olive and terroir oils, and seafood products, Moroccan exhibitors present solutions tailored to the needs of international markets." },
-  { id: 2,  type: 'upcoming', name: 'Moroccan Business Mission for Agri-Food & Fresh Products', location: 'Marrakech, Morocco', date: 'March 26, 2026', dateSort: '2026-03-26', area: 'Africa', sector: 'Food / Agri-Food', details: 'The Morocco Food & Fresh Produce Incoming Business Mission 2026, hosted in Marrakech, is an exclusive B2B initiative to strengthen international trade partnerships. It combines curated B2B matchmaking meetings, market discovery activities, and networking opportunities in a premium business setting.' },
-  { id: 3,  type: 'upcoming', name: 'International Food & Drink Event (IFE) 2026', location: 'London, UK', date: 'March 30 – April 1, 2026', dateSort: '2026-03-30', area: 'Europe', sector: 'Food / Agri-Food', details: 'IFE is the ultimate business event for food & drink product discovery, bringing together over 25,000 verified trade visitors, expert speakers, and global exhibitors from across the food & beverage industry.' },
-  { id: 4,  type: 'upcoming', name: 'Moroccan Trade Mission of Olive Oil Industry', location: 'New York, USA', date: 'March 27, 2026', dateSort: '2026-03-27', area: 'Americas', sector: 'Food / Agri-Food', details: 'Designed to showcase the excellence of Moroccan olive oil to the North American market, this B2B initiative connects selected Moroccan exporters with leading American importers and distributors, promoting long-term commercial partnerships.' },
-  { id: 5,  type: 'past', name: 'Moroccan Seafood Trade Mission in Ghana', location: 'Ghana', date: 'December 9, 2025', dateSort: '2025-12-09', area: 'Africa', sector: 'Food / Agri-Food', details: "A high-level B2B event connecting Moroccan seafood exporters with Ghanaian importers, distributors, and buyers. Highlights the excellence of Morocco's seafood industry — from canned fish to value-added marine products.", results: { meetings: 70, buyers: 41 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana2.jpeg'] },
-  { id: 6,  type: 'past', name: '8th China International Import Expo (CIIE 2025)', location: 'Shanghai, China', date: 'November 5–10, 2025', dateSort: '2025-11-05', area: 'Asia', sector: 'Food / Agri-Food', details: "The Morocco Foodex Pavilion at CIIE 2025 highlights Morocco's dynamic agri-food sector and its growing partnership with China, including key national institutions committed to strengthening trade and investment.", results: { meetings: 60, buyers: 37 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china2.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china3.jpeg'] },
-  { id: 7,  type: 'past', name: 'GULFOOD 2026', location: 'Dubai, UAE', date: 'January 26–30, 2026', dateSort: '2026-01-26', area: 'Middle East', sector: 'Food / Agri-Food', details: "Gulfood is the world's largest and most influential food and beverage exhibition. Discover new trends, launch products, connect with high-level buyers, and transform meetings into long-term commercial partnerships.", results: { meetings: 260, buyers: 162 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood2.jpeg'] },
-  { id: 8,  type: 'past', name: 'Conxemar 2025', location: 'Vigo, Spain', date: 'October 7–9, 2025', dateSort: '2025-10-07', area: 'Europe', sector: 'Food / Agri-Food', details: 'Salon international de référence pour les produits de la mer surgelés. La mission vise à positionner les acteurs marocains et internationaux face aux acheteurs européens et mondiaux.', results: { meetings: 177, buyers: 61 } },
-  { id: 9,  type: 'past', name: 'Multi-Sector Food Trade Mission', location: 'Morocco', date: 'Autumn 2025', dateSort: '2025-10-01', area: 'Africa', sector: 'Food / Agri-Food', details: 'A multi-sector food trade mission bringing together international buyers and Moroccan exporters across a wide range of food and agri-food categories.', results: { meetings: 120, buyers: 60 } },
-  { id: 10, type: 'past', name: 'ADIFE 2025 (Abu Dhabi International Food Exhibition)', location: 'Abu Dhabi, UAE', date: 'November 2025', dateSort: '2025-11-01', area: 'Middle East', sector: 'Food / Agri-Food', details: "Salon stratégique à Abu Dhabi pour le secteur F&B et l'hôtellerie, mettant l'accent sur les innovations alimentaires et les partenariats dans le Golfe.", results: { meetings: 255, buyers: 85 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif2.jpeg'] },
-  { id: 11, type: 'past', name: 'KOREA BUILD WEEK 2025', location: 'South Korea', date: 'July 30 – August 2, 2025', dateSort: '2025-07-30', area: 'Asia', sector: 'Construction / BTP', details: 'KOREA BUILD WEEK 2025 brings together global leaders in building materials, interior design, construction equipment, and smart building technologies — the go-to platform to discover the future of construction in Asia.', results: { meetings: 81, buyers: 48 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea2.jpeg'] },
-  { id: 12, type: 'past', name: 'Big 5 Global Dubai', location: 'Dubai, UAE', date: 'November 24–27, 2025', dateSort: '2025-11-24', area: 'Middle East', sector: 'Construction / BTP', details: 'Taking place at the Dubai World Trade Centre, Big 5 Global is the largest construction event in the Middle East and Africa.', results: { meetings: 142, buyers: 94 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big51.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big52.jpeg'] },
-  { id: 13, type: 'past', name: 'Textile & Raw Materials Trade Mission – Morocco', location: 'Casablanca, Morocco', date: 'November 5–7, 2025', dateSort: '2025-11-05', area: 'Africa', sector: 'Textile', details: "Un événement B2B réunissant une délégation d'entreprises turques leaders du secteur agroalimentaire et des importateurs marocains qualifiés à la recherche de nouveaux partenariats durables.", results: { meetings: 942, buyers: 247 } },
-  { id: 14, type: 'past', name: 'Kitchenware & Tableware Trade Mission', location: 'Not specified', date: '2025 Season', dateSort: '2025-06-01', area: 'Africa', sector: 'Kitchenware & HORECA', details: 'A dedicated B2B trade mission focused on kitchenware, tableware, and HORECA equipment, connecting international suppliers with qualified Moroccan buyers and distributors.', results: { meetings: 45, buyers: 28 } },
-  { id: 15, type: 'past', name: 'RDC Trade Mission', location: 'Kinshasa & Lubumbashi, Democratic Republic of Congo', date: '2025 / 2026', dateSort: '2025-12-01', area: 'Africa', sector: 'Multisector', details: 'A multisector trade and investment mission to the Democratic Republic of Congo, targeting key economic hubs in Kinshasa and Lubumbashi to develop lasting commercial partnerships across multiple industries.', results: { meetings: 90, buyers: 55 } },
-];
 
 const ALL_SECTORS = [
   'All',
@@ -49,14 +35,6 @@ const DATE_SORTS = [
   { label: 'Newest First', value: 'desc' },
   { label: 'Oldest First', value: 'asc' },
 ];
-
-const totalStats = {
-  meetings: 30_000,
-  buyers: 6_000,
-  completed: 1_00,
-  countries: 30
-};
-
 
 function Ticker() {
   const items = ['FOODEX JAPAN', 'GULFOOD', 'IFE LONDON', 'CIIE CHINA', 'BIG 5 DUBAI', 'CONXEMAR', 'KOREA BUILD WEEK', 'ADIFE ABU DHABI'];
@@ -108,15 +86,15 @@ function EventModal({ event, onClose, onViewUpcoming, setLightboxSrc }) {
             </span>
             <span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              {event.date}
+              {event.date} - {event.end_date}
             </span>
           </div>
           <div className="ep-modal-divider" />
           <p className="ep-modal-desc">{event.details}</p>
           {event.results && (
             <div className="ep-modal-stats">
-              <div className="ep-modal-stat"><span>{event.results.meetings.toLocaleString()}</span><small>B2B Meetings</small></div>
-              <div className="ep-modal-stat"><span>{event.results.buyers.toLocaleString()}</span><small>Buyers</small></div>
+              <div className="ep-modal-stat"><span>{event.results.meetings?.toLocaleString()}</span><small>B2B Meetings</small></div>
+              <div className="ep-modal-stat"><span>{event.results.buyers?.toLocaleString()}</span><small>Buyers</small></div>
             </div>
           )}
           {event.photos?.length > 0 && (
@@ -159,7 +137,6 @@ function Lightbox({ src, onClose }) {
 
 function UpcomingCard({ event, index, onClick }) {
   const [hovered, setHovered] = useState(false);
-  const img = upcomingImages[event.id];
   const city = event.location.split(',')[0].toUpperCase();
   return (
     <motion.article
@@ -169,7 +146,7 @@ function UpcomingCard({ event, index, onClick }) {
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onClick={onClick}
     >
-      <div className="ep-uc-img" style={{ backgroundImage: `url(${img})` }}>
+      <div className="ep-uc-img" style={{ backgroundImage: event.hero_picture_url ? `url(${event.hero_picture_url})` : 'none' }}>
         <div className="ep-uc-gradient" />
         <div className="ep-uc-teal" style={{ opacity: hovered ? 1 : 0 }} />
         <span className="ep-uc-foodex-tag">MOROCCO FOODEX</span>
@@ -192,6 +169,8 @@ function UpcomingCard({ event, index, onClick }) {
 }
 
 export default function EventsPage() {
+  const [allEvents, setAllEvents]         = useState([]);
+  const [loading, setLoading]             = useState(true);
   const [filter, setFilter]               = useState('upcoming');
   const [area, setArea]                   = useState('All');
   const [sector, setSector]               = useState('All');
@@ -203,6 +182,24 @@ export default function EventsPage() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const heroY       = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  useEffect(() => {
+    supabase.from('events').select('*').then(({ data }) => {
+      if (data) {
+        setAllEvents(data.map(e => ({
+          ...e,
+          type: isUpcoming(e.date) ? 'upcoming' : 'past',
+          name: e.title,
+          details: e.description,
+          results: e.stats && Object.keys(e.stats).length > 0 ? e.stats : null,
+          photos: e.gallery_urls || [],
+          location: e.venue_location || e.venue_name || '',
+          area: e.sub_domain || '',
+        })));
+      }
+      setLoading(false);
+    });
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = (selectedEvent || lightboxSrc) ? 'hidden' : '';
@@ -222,7 +219,7 @@ export default function EventsPage() {
       (sector === 'All' || e.sector === sector)
     )
     .sort((a, b) => {
-      const da = new Date(a.dateSort), db = new Date(b.dateSort);
+      const da = new Date(a.date_sort), db = new Date(b.date_sort);
       return dateSort === 'desc' ? db - da : da - db;
     });
 
@@ -243,42 +240,20 @@ export default function EventsPage() {
           <motion.p className="ep-hero-eyebrow" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             Wink B2B Agency — Global Presence
           </motion.p>
-          <motion.h1
-            className="ep-hero-title"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-          >
+          <motion.h1 className="ep-hero-title" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>
             <span className="ep-hero-accent">Events</span>
           </motion.h1>
           <motion.p className="ep-hero-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}>
             Explore upcoming initiatives and past projects<br />delivered across industries and markets.
           </motion.p>
-          <motion.div
-            className="ep-hero-stats"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35 }}
-          >
-            <div className="ep-hero-stat">
-              <span className="ep-hero-stat-val">+30k</span>
-              <span className="ep-hero-stat-lbl">B2B Meetings</span>
-            </div>
+          <motion.div className="ep-hero-stats" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }}>
+            <div className="ep-hero-stat"><span className="ep-hero-stat-val">+30k</span><span className="ep-hero-stat-lbl">B2B Meetings</span></div>
             <div className="ep-hero-stat-div" />
-            <div className="ep-hero-stat">
-              <span className="ep-hero-stat-val">+6k</span>
-              <span className="ep-hero-stat-lbl">Buyers Reached</span>
-            </div>
+            <div className="ep-hero-stat"><span className="ep-hero-stat-val">+6k</span><span className="ep-hero-stat-lbl">Buyers Reached</span></div>
             <div className="ep-hero-stat-div" />
-            <div className="ep-hero-stat">
-              <span className="ep-hero-stat-val">+100</span>
-              <span className="ep-hero-stat-lbl">Events Completed</span>
-            </div>
+            <div className="ep-hero-stat"><span className="ep-hero-stat-val">+100</span><span className="ep-hero-stat-lbl">Events Completed</span></div>
             <div className="ep-hero-stat-div" />
-            <div className="ep-hero-stat">
-                <span className="ep-hero-stat-val">+30</span>
-                <span className="ep-hero-stat-lbl">Countries</span>
-            </div>
+            <div className="ep-hero-stat"><span className="ep-hero-stat-val">+30</span><span className="ep-hero-stat-lbl">Countries</span></div>
           </motion.div>
         </motion.div>
         <div className="ep-hero-scroll-hint">
@@ -292,20 +267,13 @@ export default function EventsPage() {
         <div className="ep-filter-bar" id="events-anchor">
           <div className="ep-filter-row ep-filter-row--top">
             <div className="ep-tabs">
-              <button
-                className={`ep-tab ${filter === 'upcoming' ? 'active' : ''}`}
-                onClick={() => { setFilter('upcoming'); setArea('All'); }}
-              >
+              <button className={`ep-tab ${filter === 'upcoming' ? 'active' : ''}`} onClick={() => { setFilter('upcoming'); setArea('All'); }}>
                 ⟢ Upcoming Events
               </button>
-              <button
-                className={`ep-tab ${filter === 'past' ? 'active' : ''}`}
-                onClick={() => { setFilter('past'); setArea('All'); }}
-              >
+              <button className={`ep-tab ${filter === 'past' ? 'active' : ''}`} onClick={() => { setFilter('past'); setArea('All'); }}>
                 ◎ Past Events
               </button>
             </div>
-
             <div className="ep-date-sort">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
               {DATE_SORTS.map(d => (
@@ -323,9 +291,7 @@ export default function EventsPage() {
             </span>
             <div className="ep-areas">
               {AREAS.map(a => (
-                <button key={a} className={`ep-area-pill ${area === a ? 'active' : ''}`} onClick={() => setArea(a)}>
-                  {a}
-                </button>
+                <button key={a} className={`ep-area-pill ${area === a ? 'active' : ''}`} onClick={() => setArea(a)}>{a}</button>
               ))}
             </div>
           </div>
@@ -337,9 +303,7 @@ export default function EventsPage() {
             </span>
             <div className="ep-areas">
               {ALL_SECTORS.map(s => (
-                <button key={s} className={`ep-area-pill ${sector === s ? 'active' : ''}`} onClick={() => setSector(s)}>
-                  {s}
-                </button>
+                <button key={s} className={`ep-area-pill ${sector === s ? 'active' : ''}`} onClick={() => setSector(s)}>{s}</button>
               ))}
             </div>
           </div>
@@ -348,7 +312,7 @@ export default function EventsPage() {
         <div className="ep-count-label">
           <AnimatePresence mode="wait">
             <motion.span key={`${filter}-${area}-${sector}-${dateSort}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              {visible.length} event{visible.length !== 1 ? 's' : ''}{area !== 'All' ? ` · ${area}` : ''}{sector !== 'All' ? ` · ${sector}` : ''} · {dateSort === 'desc' ? 'Newest first' : 'Oldest first'}
+              {loading ? 'Loading…' : `${visible.length} event${visible.length !== 1 ? 's' : ''}${area !== 'All' ? ` · ${area}` : ''}${sector !== 'All' ? ` · ${sector}` : ''} · ${dateSort === 'desc' ? 'Newest first' : 'Oldest first'}`}
             </motion.span>
           </AnimatePresence>
         </div>
@@ -373,7 +337,7 @@ export default function EventsPage() {
                   <div className="ep-card-meta">
                     <span className="ep-card-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>{event.location}</span>
                     <span className="ep-card-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{event.date}</span>
-                    <span className="ep-card-meta-item ep-card-desc-preview">{event.details.slice(0, 90)}…</span>
+                    <span className="ep-card-meta-item ep-card-desc-preview">{event.details?.slice(0, 90)}…</span>
                   </div>
                   {event.results && (
                     <div className="ep-card-results">
@@ -393,7 +357,7 @@ export default function EventsPage() {
           </AnimatePresence>
         </motion.div>
 
-        {visible.length === 0 && (
+        {!loading && visible.length === 0 && (
           <motion.div className="ep-empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <p>No events found for this filter.</p>
           </motion.div>
@@ -427,47 +391,13 @@ const CSS = `
   .ep-hero-noise { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size: 200px; pointer-events: none; mix-blend-mode: overlay; }
   .ep-hero-content { position: relative; text-align: center; padding: 2rem; max-width: 860px; }
   .ep-hero-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--color-fifth); margin-bottom: 1.5rem; opacity: 0.8; }
-.ep-hero-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(3.2rem, 9vw, 6.5rem);
-  line-height: 1.0;
-  color: var(--color-third);
-  letter-spacing: -0.02em;
-  margin-bottom: 1.5rem;
-  overflow: visible;
-}
-
-.ep-hero-accent {
-  font-style: italic;
-  background: linear-gradient(135deg, var(--color-fifth), var(--color-fourth));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  display: inline-block;
-  padding-right: 0.25em;
-  margin-right: -0.25em;
-  overflow: visible;
-}
+  .ep-hero-title { font-family: 'DM Serif Display', serif; font-size: clamp(3.2rem, 9vw, 6.5rem); line-height: 1.0; color: var(--color-third); letter-spacing: -0.02em; margin-bottom: 1.5rem; overflow: visible; }
+  .ep-hero-accent { font-style: italic; background: linear-gradient(135deg, var(--color-fifth), var(--color-fourth)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block; padding-right: 0.25em; margin-right: -0.25em; overflow: visible; }
   .ep-hero-sub { font-size: 1.05rem; color: var(--color-third); opacity: 0.6; line-height: 1.7; margin-bottom: 3rem; }
-  .ep-hero-stats {
-    display: inline-flex;
-    align-items: center;
-    gap: 2.5rem;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 100px;
-    padding: 1rem 2.5rem;
-    backdrop-filter: blur(12px);
-  }
-
-  .ep-hero-stat-div {
-    width: 1px;
-    height: 36px;
-    background: rgba(255,255,255,0.2);
-  }
+  .ep-hero-stats { display: inline-flex; align-items: center; gap: 2.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 100px; padding: 1rem 2.5rem; backdrop-filter: blur(12px); }
+  .ep-hero-stat-div { width: 1px; height: 36px; background: rgba(255,255,255,0.2); }
   .ep-hero-stat-val { display: block; font-size: 1.7rem; font-weight: 800; color: var(--color-fifth); line-height: 1; }
   .ep-hero-stat-lbl { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-third); opacity: 0.55; margin-top: 0.25rem; display: block; }
-
   .ep-hero-scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--color-third); opacity: 0.4; letter-spacing: 0.1em; }
 
   .ep-ticker-wrap { overflow: hidden; border-top: 1px solid rgba(var(--color-fifth-rgb),0.2); border-bottom: 1px solid rgba(var(--color-fifth-rgb),0.2); padding: 0.7rem 0; margin-bottom: 4rem; }
@@ -505,7 +435,7 @@ const CSS = `
 
   .ep-uc { cursor: pointer; border-radius: var(--border-radius); overflow: hidden; background: var(--color-two); filter: brightness(1.08); border: 1px solid rgba(var(--color-fifth-rgb),0.12); display: flex; flex-direction: column; transition: border-color 0.25s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease; }
   .ep-uc:hover { border-color: var(--color-fifth); transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(var(--color-fifth-rgb),0.15); filter: brightness(1.12); }
-  .ep-uc-img { position: relative; width: 100%; height: 220px; background-size: cover; background-position: center 20%; flex-shrink: 0; overflow: hidden; }
+  .ep-uc-img { position: relative; width: 100%; height: 220px; background-size: cover; background-position: center 20%; flex-shrink: 0; overflow: hidden; background-color: rgba(var(--color-fifth-rgb),0.05); }
   .ep-uc-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 100%); z-index: 1; pointer-events: none; }
   .ep-uc-teal { position: absolute; inset: 0; background: rgba(var(--color-fifth-rgb),0.22); z-index: 2; pointer-events: none; transition: opacity 0.35s ease; }
   .ep-uc-foodex-tag { position: absolute; top: 12px; right: 12px; z-index: 3; font-size: 0.48rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: white; background: rgba(var(--color-fifth-rgb),0.35); border: 1px solid rgba(var(--color-fifth-rgb),0.55); padding: 3px 9px; border-radius: 100px; backdrop-filter: blur(6px); font-family: 'DM Sans', sans-serif; }
@@ -544,7 +474,8 @@ const CSS = `
   .ep-empty { text-align: center; padding: 5rem 2rem; color: var(--color-third); opacity: 0.4; font-size: 0.9rem; letter-spacing: 0.05em; }
 
   .ep-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(14px); z-index: 1100; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
-  .ep-modal { position: relative; background: var(--color-two); filter: brightness(1.1); border: 1px solid rgba(var(--color-fifth-rgb),0.12); border-radius: 12px; padding: 2.8rem; width: min(680px, 94vw); max-height: 88vh; overflow-y: auto; box-shadow: 0 32px 80px rgba(0,0,0,0.5); }
+  .ep-modal { position: relative; background: var(--color-two); filter: brightness(1.1); border: 1px solid rgba(var(--color-fifth-rgb),0.12); border-radius: 12px; padding: 2.8rem; width: min(680px, 94vw); max-height: 88vh; overflow-y: auto; box-shadow: 0 32px 80px rgba(0,0,0,0.5); scrollbar-width: none; }
+  .ep-modal::-webkit-scrollbar { display: none; }
   .ep-modal-stripe { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--color-fifth), var(--color-fourth)); border-radius: 12px 12px 0 0; }
   .ep-modal-close { position: absolute; top: 1.4rem; right: 1.4rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-third); opacity: 0.6; transition: opacity 0.2s; }
   .ep-modal-close:hover { opacity: 1; }

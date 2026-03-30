@@ -158,9 +158,6 @@ export default function ScrollController() {
       <div id="engage" />
       <div id="insights" />
 
-      <div id="cta" data-section-id="cta" ref={reg("cta")}>
-        <FinalCTA isActive={activeSection === "cta"} />
-      </div>
       <div>
         <CallToAction
           image="/8.png"

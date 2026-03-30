@@ -1,8 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { supabase } from '../lib/supabase';
+
+const isUpcoming = (dateSort) => dateSort ? new Date(dateSort) >= new Date(new Date().toDateString()) : false;
 
 const Events = () => {
+  const [allEvents, setAllEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('upcoming');
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [lightboxSrc, setLightboxSrc] = useState(null);
@@ -12,6 +17,23 @@ const Events = () => {
   const [portalMounted, setPortalMounted] = useState(false);
   const carouselRef = useRef(null);
   const touchStartX = useRef(null);
+
+  useEffect(() => {
+    supabase.from('events').select('*').then(({ data }) => {
+      if (data) {
+        setAllEvents(data.map(e => ({
+          ...e,
+          type: isUpcoming(e.date) ? 'upcoming' : 'past',
+          name: e.title,
+          details: e.description,
+          results: e.stats && Object.keys(e.stats).length > 0 ? e.stats : null,
+          photos: e.gallery_urls || [],
+          location: e.venue_location || e.venue_name || '',
+        })));
+      }
+      setLoading(false);
+    });
+  }, []);
 
   useEffect(() => { setPortalMounted(true); }, []);
 
@@ -51,26 +73,6 @@ const Events = () => {
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [lightboxSrc, selectedEvent, currentIndex, filter]);
-
-  const allEvents = [
-    { id: 1, type: 'upcoming', name: 'FOODEX JAPAN 2026', location: 'Japan', date: 'March 10 (Tue.) - 13 (Fri.), 2026', details: 'Morocco will showcase the richness and diversity of its agri-food sector at FOODEX Japan 2026, one of Asia\'s leading international food and beverage exhibitions.' },
-    { id: 2, type: 'upcoming', name: 'Moroccan Business Mission for Agri-food & Fresh Products', location: 'Jaal Hotel Marrakech, Marrakech', date: 'March 26, 2026', details: 'The Morocco Food & Fresh Produce Incoming Business Mission 2026, hosted in Marrakech, is an exclusive B2B initiative organized by Morocco Foodex.' },
-    { id: 3, type: 'upcoming', name: 'International Food & Drink Event (IFE) 2026', location: 'ExCeL London, United Kingdom', date: '30 March – 01 April 2026', details: 'IFE is the ultimate business event for food & drink product discovery, bringing together over 25,000 verified trade visitors, expert speakers, and global exhibitors.' },
-    { id: 4, type: 'upcoming', name: 'Moroccan Trade Mission of Olive Oil Industry in New York', location: 'New York City', date: 'March 27th, 2026', details: 'Taking place in the heart of New York City, the Moroccan Trade Mission – Olive Oil Industry, organized by Morocco Foodex.' },
-    { id: 5, type: 'past', name: 'The Moroccan Seafood Trade Mission in Ghana', location: 'Ghana', date: 'Mardi 9 Décembre 2025', details: 'The Moroccan Seafood Trade Mission in Ghana is a high-level B2B event designed to connect Moroccan seafood exporters with Ghanaian importers, distributors, and buyers.', results: { meetings: 70, buyers: 41 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GHANA-FOODEX/ghana2.jpeg'] },
-    { id: 6, type: 'past', name: '8th China International Import Expo (CIIE 2025)', location: 'China', date: '5 au 10 novembre 2025', details: 'The Morocco Foodex Pavilion at the China International Import Expo (CIIE 2025) highlights Morocco\'s dynamic agri-food sector.', results: { meetings: 60, buyers: 37 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china2.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/China-Moroccofoodex/china3.jpeg'] },
-    { id: 7, type: 'past', name: 'KOREA BUILD WEEK 2025', location: 'Korea', date: '30 juillet au 2 août 2025', details: 'KOREA BUILD WEEK 2025 brings together global leaders in building materials, interior design, construction equipment, and smart building technologies.', results: { meetings: 81, buyers: 48 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/KOREA-BUILDWEEK/korea2.jpeg'] },
-    { id: 8, type: 'past', name: 'Mission commerciale du textile et des matières premières au Maroc', location: 'Casablanca, Morocco', date: '5 au 7 Novembre 2025', details: 'La Mission commerciale du textile et des matières premières – Maroc, organisée par İTHİB en collaboration avec le Ministère turc du Commerce.', results: { meetings: 942, buyers: 247 } },
-    { id: 9, type: 'past', name: 'GULFOOD 2026', location: 'Dubai Exhibition Centre', date: '26 au 30 Janvier 2026', details: 'Taking place at the Dubai Exhibition Centre at Expo City Dubai, Gulfood is the world\'s largest and most influential food and beverage exhibition.', results: { meetings: 260, buyers: 162 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/GULFOOD-2026/gulfood2.jpeg'] },
-    { id: 10, type: 'past', name: 'Conxemar 2025', location: 'Vigo, Espagne', date: '7 au 9 octobre 2025', details: 'Salon international de référence pour les produits de la mer surgelés.', results: { meetings: 177, buyers: 61 } },
-    { id: 11, type: 'past', name: 'Multi-Sector Food Trade Mission', location: 'Variable', date: 'Automne 2025', details: 'Dans le cadre du renforcement des échanges commerciaux entre la Turquie et le Maroc, cet événement B2B réunit une délégation d\'entreprises turques.', results: { meetings: 128, buyers: 29 } },
-    { id: 12, type: 'past', name: 'Big 5 Global Dubai', location: 'Dubai World Trade Centre', date: '24 au 27 novembre 2025', details: 'Taking place from November 24 – 27, 2025 at the Dubai World Trade Centre, Big 5 Global is the largest construction event in the Middle East and Africa.', results: { meetings: 142, buyers: 94 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big51.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/BIG5-2025/big52.jpeg'] },
-    { id: 13, type: 'past', name: 'ADIFE 2025', location: 'Abu Dhabi', date: 'Novembre 2025', details: 'Salon stratégique à Abu Dhabi pour le secteur F&B et l\'hôtellerie.', results: { meetings: 255, buyers: 85 }, photos: ['/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif1.jpeg', '/PHOTOS-POUR-LE-SITE-WEB/ADIF-2025/adif2.jpeg'] },
-    { id: 14, type: 'past', name: 'Kitchenware & Tableware Trade Mission', location: 'To be confirmed', date: 'Saison 2025', details: 'Une mission de prospection ciblée permettant aux fabricants turcs d\'articles de cuisine et de table de rencontrer des acheteurs stratégiques.', results: { meetings: 250, buyers: 44 } },
-    { id: 15, type: 'past', name: 'Mission Commerciale en République Démocratique du Congo', location: 'Kinshasa et Lubumbashi', date: 'Courant 2025/2026', details: 'Mission de prospection à Kinshasa et Lubumbashi pour explorer les opportunités dans les infrastructures, l\'énergie et l\'agro-industrie.', results: { meetings: 159, buyers: 71 } },
-  ];
-
-  const upcomingImages = { 1: '/tokyo.jpeg', 2: '/marakkesh.jpeg', 3: '/london.jpeg', 4: '/newyork.jpeg' };
 
   const filteredEvents = allEvents.filter((e) => e.type === filter);
   const total = filteredEvents.length;
@@ -143,12 +145,12 @@ const Events = () => {
             {selectedEvent.results && (
               <div className="ev-modal-stats">
                 <div className="ev-modal-stat">
-                  <span>{selectedEvent.results.meetings.toLocaleString()}</span>
+                  <span>{selectedEvent.results.meetings?.toLocaleString()}</span>
                   <small>B2B Meetings</small>
                 </div>
                 <div className="ev-modal-stat-div" />
                 <div className="ev-modal-stat">
-                  <span>{selectedEvent.results.buyers.toLocaleString()}</span>
+                  <span>{selectedEvent.results.buyers?.toLocaleString()}</span>
                   <small>Buyers</small>
                 </div>
               </div>
@@ -219,73 +221,79 @@ const Events = () => {
           </div>
         </div>
 
-        <div className="carousel-wrapper" ref={carouselRef} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-          <button className="carousel-nav prev" onClick={handlePrev} disabled={currentIndex === 0} aria-label="Previous">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M11 4L6 9l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
+        {loading ? (
+          <div className="ev-loading">Loading events…</div>
+        ) : (
+          <>
+            <div className="carousel-wrapper" ref={carouselRef} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+              <button className="carousel-nav prev" onClick={handlePrev} disabled={currentIndex === 0} aria-label="Previous">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M11 4L6 9l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
 
-          <div className="carousel-track">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {visibleEvents.map((event) => (
-                <motion.div
-                  key={`${filter}-${event.id}`}
-                  layout
-                  initial={{ opacity: 0, x: direction * 60 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: direction * -60 }}
-                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-                  className="event-card"
-                >
-                  {event.type === 'upcoming' && upcomingImages[event.id] && (
-                    <div className="event-card-img" style={{ backgroundImage: `url(${upcomingImages[event.id]})` }}>
-                      <div className="event-card-img-gradient" />
-                      <span className="event-card-city">{event.location.split(',')[0].toUpperCase()}</span>
-                    </div>
-                  )}
-                  <div className="event-info">
-                    <span className="event-type-tag">{event.type === 'upcoming' ? 'Upcoming' : 'Past'}</span>
-                    <h3 className="event-name">{event.name}</h3>
-                    <div className="event-meta">
-                      <span>📍 {event.location}</span>
-                      <span>📅 {event.date}</span>
-                    </div>
-                    {event.results && (
-                      <div className="event-results-inline">
-                        <span><strong>{event.results.meetings}</strong> meetings</span>
-                        <span><strong>{event.results.buyers}</strong> buyers</span>
+              <div className="carousel-track">
+                <AnimatePresence mode="popLayout" initial={false}>
+                  {visibleEvents.map((event) => (
+                    <motion.div
+                      key={`${filter}-${event.id}`}
+                      layout
+                      initial={{ opacity: 0, x: direction * 60 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: direction * -60 }}
+                      transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                      className="event-card"
+                    >
+                      {event.type === 'upcoming' && event.hero_picture_url && (
+                        <div className="event-card-img" style={{ backgroundImage: `url(${event.hero_picture_url})` }}>
+                          <div className="event-card-img-gradient" />
+                          <span className="event-card-city">{event.location.split(',')[0].toUpperCase()}</span>
+                        </div>
+                      )}
+                      <div className="event-info">
+                        <span className="event-type-tag">{event.type === 'upcoming' ? 'Upcoming' : 'Past'}</span>
+                        <h3 className="event-name">{event.name}</h3>
+                        <div className="event-meta">
+                          <span>📍 {event.location}</span>
+                          <span>📅 {event.date}</span>
+                        </div>
+                        {event.results && (
+                          <div className="event-results-inline">
+                            <span><strong>{event.results.meetings}</strong> meetings</span>
+                            <span><strong>{event.results.buyers}</strong> buyers</span>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <button className="view-event-cta" onClick={() => setSelectedEvent(event)}>
-                    View Event
-                    <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
-                      <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                </motion.div>
+                      <button className="view-event-cta" onClick={() => setSelectedEvent(event)}>
+                        View Event
+                        <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+                          <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+
+              <button className="carousel-nav next" onClick={handleNext} disabled={currentIndex >= maxIndex} aria-label="Next">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M7 4l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <div className="carousel-dots">
+              {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+                <button
+                  key={i}
+                  className={`dot ${i === currentIndex ? 'active' : ''}`}
+                  onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); }}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
               ))}
-            </AnimatePresence>
-          </div>
-
-          <button className="carousel-nav next" onClick={handleNext} disabled={currentIndex >= maxIndex} aria-label="Next">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M7 4l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        </div>
-
-        <div className="carousel-dots">
-          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-            <button
-              key={i}
-              className={`dot ${i === currentIndex ? 'active' : ''}`}
-              onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); }}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
-        </div>
+            </div>
+          </>
+        )}
 
         <div className="events-footer">
           <a href="/Event" className="view-all-events-btn">
@@ -309,28 +317,24 @@ const Events = () => {
           flex-direction: column;
           align-items: center;
         }
-
         .events-header {
           max-width: var(--max-width);
           width: 100%;
           margin: 0 auto var(--space-xl);
           text-align: center;
         }
-
         .events-title {
           font-size: clamp(2rem, 5vw, 4rem);
           color: var(--color-text-primary);
           font-weight: 800;
           margin-bottom: var(--space-sm);
         }
-
         .events-subtitle {
           color: var(--color-text-secondary);
           font-size: 1.05rem;
           max-width: 560px;
           margin: 0 auto var(--space-lg);
         }
-
         .filter-tabs {
           display: flex;
           gap: 1rem;
@@ -338,7 +342,6 @@ const Events = () => {
           margin-top: 2rem;
           flex-wrap: wrap;
         }
-
         .tab-btn {
           background: rgba(0,206,193,0.04);
           border: 1px solid rgba(0,206,193,0.15);
@@ -350,13 +353,18 @@ const Events = () => {
           transition: all 0.3s ease;
           font-size: clamp(0.8rem, 2.5vw, 1rem);
         }
-
         .tab-btn.active {
           background: var(--color-one, #00CEC1);
           color: var(--color-two);
           border-color: var(--color-one, #00CEC1);
         }
-
+        .ev-loading {
+          color: var(--color-text-secondary);
+          font-size: 0.85rem;
+          opacity: 0.5;
+          padding: 4rem 0;
+          letter-spacing: 0.1em;
+        }
         .carousel-wrapper {
           display: flex;
           align-items: stretch;
@@ -365,7 +373,6 @@ const Events = () => {
           max-width: var(--max-width);
           margin: 0 auto;
         }
-
         .carousel-nav {
           flex-shrink: 0;
           width: 44px;
@@ -381,15 +388,12 @@ const Events = () => {
           transition: background 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
           align-self: center;
         }
-
         .carousel-nav:hover:not(:disabled) {
           background: rgba(0,206,193,0.15);
           border-color: var(--color-one, #00CEC1);
           transform: scale(1.05);
         }
-
         .carousel-nav:disabled { opacity: 0.2; cursor: default; }
-
         .carousel-track {
           flex: 1;
           display: grid;
@@ -397,7 +401,6 @@ const Events = () => {
           gap: 1.25rem;
           min-height: 260px;
         }
-
         .event-card {
           background: var(--color-two);
           border-radius: 12px;
@@ -408,7 +411,6 @@ const Events = () => {
           position: relative;
           transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.3s ease;
         }
-
         .event-card::before {
           content: '';
           position: absolute;
@@ -420,11 +422,9 @@ const Events = () => {
           transition: transform 0.35s ease;
           z-index: 1;
         }
-
         .event-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,206,193,0.15); border-color: var(--color-one, #00CEC1); }
         .event-card:hover::before { transform: scaleX(1); }
         .event-card:hover .event-name { color: var(--color-one, #00CEC1); }
-
         .event-card-img {
           width: 100%;
           height: 180px;
@@ -433,13 +433,11 @@ const Events = () => {
           background-position: center 20%;
           position: relative;
         }
-
         .event-card-img-gradient {
           position: absolute;
           inset: 0;
           background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 100%);
         }
-
         .event-card-city {
           position: absolute;
           bottom: 12px; left: 14px;
@@ -451,9 +449,7 @@ const Events = () => {
           text-shadow: 0 2px 12px rgba(0,0,0,0.6);
           line-height: 1;
         }
-
         .event-info { padding: 1.2rem 1.5rem 0; flex: 1; }
-
         .event-type-tag {
           display: inline-block;
           font-size: 0.55rem;
@@ -466,7 +462,6 @@ const Events = () => {
           border-radius: 100px;
           margin-bottom: 0.9rem;
         }
-
         .event-name {
           color: var(--color-text-primary);
           font-size: 1rem;
@@ -475,7 +470,6 @@ const Events = () => {
           line-height: 1.35;
           transition: color 0.3s ease;
         }
-
         .event-meta {
           display: flex;
           flex-direction: column;
@@ -485,7 +479,6 @@ const Events = () => {
           font-weight: 500;
           margin-bottom: 0.8rem;
         }
-
         .event-results-inline {
           display: flex;
           gap: 1rem;
@@ -495,10 +488,8 @@ const Events = () => {
           border: 1px solid rgba(0,206,193,0.1);
           border-radius: 8px;
         }
-
         .event-results-inline span { font-size: 0.72rem; color: var(--color-text-secondary); }
         .event-results-inline strong { color: var(--color-one, #00CEC1); font-weight: 800; }
-
         .view-event-cta {
           margin: 1.2rem 1.5rem 1.5rem;
           background: none;
@@ -516,11 +507,9 @@ const Events = () => {
           transition: all 0.25s ease;
           letter-spacing: 0.04em;
         }
-
         .view-event-cta:hover { background: rgba(0,206,193,0.08); border-color: var(--color-one, #00CEC1); color: var(--color-one, #00CEC1); }
         .view-event-cta svg { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
         .view-event-cta:hover svg { transform: translateX(3px); }
-
         .carousel-dots {
           display: flex;
           gap: 0.5rem;
@@ -528,7 +517,6 @@ const Events = () => {
           margin-top: 1.8rem;
           flex-wrap: wrap;
         }
-
         .dot {
           width: 6px; height: 6px;
           border-radius: 50%;
@@ -538,15 +526,12 @@ const Events = () => {
           padding: 0;
           transition: background 0.25s ease, width 0.25s ease;
         }
-
         .dot.active {
           background: var(--color-one, #00CEC1);
           width: 20px;
           border-radius: 100px;
         }
-
         .events-footer { margin-top: 3rem; display: flex; justify-content: center; }
-
         .view-all-events-btn {
           display: inline-flex;
           align-items: center;
@@ -564,7 +549,6 @@ const Events = () => {
           overflow: hidden;
           transition: color 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease;
         }
-
         .view-all-events-btn::before {
           content: '';
           position: absolute;
@@ -574,13 +558,11 @@ const Events = () => {
           transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
           z-index: 0;
         }
-
         .view-all-events-btn:hover::before { transform: translateX(0); }
         .view-all-events-btn:hover { color: var(--color-two); border-color: var(--color-one, #00CEC1); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,206,193,0.25); }
         .view-all-events-btn span, .view-all-events-btn svg { position: relative; z-index: 1; }
         .view-all-events-btn svg { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
         .view-all-events-btn:hover svg { transform: translateX(4px); }
-
         .ev-modal-overlay {
           position: fixed;
           inset: 0;
@@ -593,7 +575,6 @@ const Events = () => {
           justify-content: center;
           padding: 1.5rem;
         }
-
         .ev-modal-panel {
           position: relative;
           background: var(--color-two);
@@ -607,9 +588,7 @@ const Events = () => {
           box-shadow: 0 32px 80px rgba(0,0,0,0.5);
           scrollbar-width: none;
         }
-
         .ev-modal-panel::-webkit-scrollbar { display: none; }
-
         .ev-modal-stripe {
           position: absolute;
           top: 0; left: 0; right: 0;
@@ -617,7 +596,6 @@ const Events = () => {
           background: linear-gradient(90deg, var(--color-one, #00CEC1), var(--color-fourth, #007baa));
           border-radius: 12px 12px 0 0;
         }
-
         .ev-modal-close {
           position: absolute;
           top: 1.4rem; right: 1.4rem;
@@ -631,9 +609,7 @@ const Events = () => {
           opacity: 0.7;
           transition: opacity 0.2s, border-color 0.2s;
         }
-
         .ev-modal-close:hover { opacity: 1; border-color: var(--color-one, #00CEC1); }
-
         .ev-modal-tag {
           display: inline-flex;
           align-items: center;
@@ -649,11 +625,9 @@ const Events = () => {
           border-radius: 100px;
           margin-bottom: 1.2rem;
         }
-
         .ev-modal-tag-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
         .ev-modal-tag-dot.upcoming { background: var(--color-one, #00CEC1); }
         .ev-modal-tag-dot.past { background: var(--color-fourth, #007baa); }
-
         .ev-modal-title {
           font-size: clamp(1.3rem, 3vw, 2rem);
           font-weight: 800;
@@ -663,9 +637,7 @@ const Events = () => {
           letter-spacing: -0.02em;
           padding-right: 2.5rem;
         }
-
         .ev-modal-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
-
         .ev-modal-meta span {
           display: inline-flex;
           align-items: center;
@@ -675,16 +647,13 @@ const Events = () => {
           color: var(--color-third);
           opacity: 0.6;
         }
-
         .ev-modal-meta svg { color: var(--color-one, #00CEC1); opacity: 1; flex-shrink: 0; }
-
         .ev-modal-divider {
           width: 100%;
           height: 1px;
           background: linear-gradient(90deg, rgba(0,206,193,0.2) 0%, transparent 100%);
           margin-bottom: 1.4rem;
         }
-
         .ev-modal-desc {
           font-size: 0.9rem;
           color: var(--color-third);
@@ -692,7 +661,6 @@ const Events = () => {
           line-height: 1.8;
           margin: 0 0 1.5rem;
         }
-
         .ev-modal-stats {
           display: flex;
           align-items: center;
@@ -703,14 +671,11 @@ const Events = () => {
           border: 1px solid rgba(0,206,193,0.12);
           border-radius: 10px;
         }
-
         .ev-modal-stat { display: flex; flex-direction: column; text-align: center; flex: 1; }
         .ev-modal-stat span { font-size: 1.8rem; font-weight: 800; color: var(--color-one, #00CEC1); line-height: 1; }
         .ev-modal-stat small { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-third); opacity: 0.5; margin-top: 0.25rem; }
         .ev-modal-stat-div { width: 1px; height: 40px; background: rgba(0,206,193,0.15); flex-shrink: 0; }
-
         .ev-modal-gallery { margin-bottom: 1.5rem; }
-
         .ev-modal-gallery-label {
           font-size: 0.72rem;
           text-transform: uppercase;
@@ -722,11 +687,8 @@ const Events = () => {
           align-items: center;
           gap: 0.5rem;
         }
-
         .ev-modal-gallery-label span { opacity: 0.4; text-transform: none; letter-spacing: 0; }
-
         .ev-modal-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
-
         .ev-modal-photo {
           aspect-ratio: 4/3;
           border-radius: 8px;
@@ -738,10 +700,8 @@ const Events = () => {
           display: block;
           background: rgba(0,206,193,0.04);
         }
-
         .ev-modal-photo img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.2s, transform 0.3s; }
         .ev-modal-photo:hover img { opacity: 1; transform: scale(1.05); }
-
         .ev-photo-zoom {
           position: absolute; inset: 0;
           display: flex; align-items: center; justify-content: center;
@@ -749,9 +709,7 @@ const Events = () => {
           background: rgba(0,0,0,0.3);
           opacity: 0; transition: opacity 0.2s;
         }
-
         .ev-modal-photo:hover .ev-photo-zoom { opacity: 1; }
-
         .ev-modal-footer {
           display: flex;
           align-items: center;
@@ -761,7 +719,6 @@ const Events = () => {
           flex-wrap: wrap;
           margin-top: 1.5rem;
         }
-
         .ev-modal-cta {
           display: inline-flex;
           align-items: center;
@@ -778,9 +735,7 @@ const Events = () => {
           cursor: pointer;
           transition: all 0.25s;
         }
-
         .ev-modal-cta:hover { background: var(--color-fourth, #007baa); transform: translateY(-1px); }
-
         .ev-modal-dismiss {
           background: none;
           border: none;
@@ -791,22 +746,18 @@ const Events = () => {
           opacity: 0.4;
           transition: opacity 0.2s;
         }
-
         .ev-modal-dismiss:hover { opacity: 0.8; }
-
         .ev-lightbox {
           position: fixed; inset: 0; z-index: 1300;
           background: rgba(0,0,0,0.92);
           display: flex; align-items: center; justify-content: center;
           padding: 1rem; cursor: zoom-out;
         }
-
         .ev-lightbox-img {
           max-width: 100%; max-height: 90vh;
           border-radius: 8px; object-fit: contain;
           cursor: default; box-shadow: 0 40px 100px rgba(0,0,0,0.6);
         }
-
         .ev-lightbox-close {
           position: absolute; top: 1.2rem; right: 1.2rem;
           background: rgba(0,206,193,0.15);
@@ -816,13 +767,10 @@ const Events = () => {
           cursor: pointer; color: white; font-size: 1rem;
           transition: background 0.2s;
         }
-
         .ev-lightbox-close:hover { background: rgba(0,206,193,0.3); }
-
         @media (max-width: 900px) {
           .carousel-track { grid-template-columns: repeat(2, 1fr); }
         }
-
         @media (max-width: 600px) {
           .events-section { padding: 4rem 0.75rem 3rem; }
           .events-title { font-size: 2rem; }
@@ -843,20 +791,8 @@ const Events = () => {
           .dot.active { width: 18px; }
           .events-footer { margin-top: 2rem; }
           .view-all-events-btn { width: 100%; justify-content: center; padding: 0.9rem 1.5rem; font-size: 0.72rem; }
-
-          .ev-modal-overlay {
-            align-items: center;
-            padding: 1.25rem;
-          }
-
-          .ev-modal-panel {
-            width: 100%;
-            max-width: 94vw;
-            max-height: 88vh;
-            border-radius: 12px;
-            padding: 2rem 1.25rem 1.5rem;
-          }
-
+          .ev-modal-overlay { align-items: center; padding: 1.25rem; }
+          .ev-modal-panel { width: 100%; max-width: 94vw; max-height: 88vh; border-radius: 12px; padding: 2rem 1.25rem 1.5rem; }
           .ev-modal-title { font-size: 1.2rem; }
           .ev-modal-photos { grid-template-columns: repeat(2, 1fr); }
           .ev-modal-footer { flex-direction: column; align-items: stretch; }
