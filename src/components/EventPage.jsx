@@ -219,7 +219,7 @@ export default function EventsPage() {
       (sector === 'All' || e.sector === sector)
     )
     .sort((a, b) => {
-      const da = new Date(a.date_sort), db = new Date(b.date_sort);
+      const da = new Date(a.date), db = new Date(b.date);
       return dateSort === 'desc' ? db - da : da - db;
     });
 
