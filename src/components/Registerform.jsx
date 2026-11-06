@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getEmojiFlag, countries } from 'countries-list';
+import { supabase } from '../lib/supabase';
 
 const CONTINENTS = [
   { id: 'AF', label: 'Africa' },
@@ -222,39 +223,86 @@ function Step({ number, title, children, index }) {
   );
 }
 
-function SuccessScreen({ onReset }) {
+function SuccessScreen({ onReset, suggestions }) {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const handleCardClick = (eventId) => {
+    window.location.href = `/Event?open=${eventId}`;
+  };
+
   return (
-    <motion.div
-      className="rf-success"
-      initial={{ opacity: 0, scale: 0.96 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="rf-success-icon">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-          <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2" opacity="0.3" />
-          <motion.path
-            d="M14 24l7 7 13-14"
-            stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
-          />
-        </svg>
-      </div>
-      <h2 className="rf-success-title">Registration Received</h2>
-      <p className="rf-success-sub">
-        Thank you for your interest. Our team will review your profile and reach out within{' '}
-        <strong>2–3 business days</strong> to discuss the next steps and confirm your participation.
-      </p>
-      <p className="rf-success-note">
-        Keep an eye on your inbox — and feel free to contact us if you have any questions in the meantime.
-      </p>
-      <button className="rf-success-btn" onClick={onReset}>Submit Another Registration</button>
-    </motion.div>
+    <div className="rf-success-container">
+      <motion.div
+        className="rf-success"
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <div className="rf-success-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2" opacity="0.3" />
+            <motion.path
+              d="M14 24l7 7 13-14"
+              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+            />
+          </svg>
+        </div>
+        <h2 className="rf-success-title">Registration Received</h2>
+        <p className="rf-success-sub">
+          Thank you for your interest. Our team will review your profile and reach out within{' '}
+          <strong>2–3 business days</strong> to discuss the next steps and confirm your participation.
+        </p>
+        <p className="rf-success-note">
+          Keep an eye on your inbox — and feel free to contact us if you have any questions in the meantime.
+        </p>
+      </motion.div>
+
+      {suggestions.length > 0 && (
+        <motion.div
+          className="rf-suggestions"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          <h3 className="rf-suggest-title">Events you might be interested in</h3>
+          <div className="rf-suggest-grid">
+            {suggestions.map((ev) => (
+              <div
+                key={ev.id}
+                className="rf-suggest-card"
+                onClick={() => handleCardClick(ev.id)}
+              >
+                <div className="rf-sc-img">
+                   <img
+                     src={ev.hero_picture_url || (ev.gallery_urls && ev.gallery_urls[0])}
+                     alt={ev.title}
+                     onError={(e) => { e.target.src = '/placeholder-event.jpg'; }}
+                   />
+                   <div className="rf-sc-badge">{ev.region}</div>
+                </div>
+                <div className="rf-sc-content">
+                  <h4>{ev.title}</h4>
+                  <p>{ev.date}</p>
+                  <span className="rf-sc-link">View Details →</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      <button className="rf-success-btn" onClick={onReset} style={{ marginTop: '3rem' }}>Submit Another Registration</button>
+    </div>
   );
 }
 
 export default function RegisterForm() {
+  const [allEvents, setAllEvents] = useState([]);
+  const [suggestedEvents, setSuggestedEvents] = useState([]);
   const [form, setForm] = useState({
     companyName: '', sector: '', website: '',
     contactName: '', email: '', phone: '',
@@ -268,6 +316,31 @@ export default function RegisterForm() {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const { data } = await supabase.from('events').select('*');
+      if (data) {
+        setAllEvents(data);
+
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get('event');
+
+        if (eventId) {
+          const sourceEvent = data.find(e => String(e.id) === eventId);
+
+          if (sourceEvent) {
+            const sectorValue = sourceEvent.sector_name || sourceEvent.sector || '';
+            const finalSector = Array.isArray(sectorValue) ? sectorValue[0] : sectorValue;
+
+            set('sector', finalSector);
+          }
+        }
+      }
+    };
+
+    fetchEvents();
+  }, []); // Runs once on mount
 
   const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
 
@@ -286,22 +359,73 @@ export default function RegisterForm() {
     return e;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
-    setErrors({});
-    setLoading(true);
-    try {
-      await fetch(PHP_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-    } catch (_) {}
-    setLoading(false);
-    setSubmitted(true);
-  };
+ const handleSubmit = async (e) => {
+   e.preventDefault();
+
+   // 1. Validate Form
+   const errs = validate();
+   if (Object.keys(errs).length) {
+     setErrors(errs);
+     return;
+   }
+
+   setErrors({});
+   setLoading(true);
+
+   try {
+     // 2. Send Data to PHP Backend
+     await fetch(PHP_ENDPOINT, {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify(form),
+     });
+
+     // 3. Get all Upcoming Events
+     const today = new Date();
+     today.setHours(0, 0, 0, 0);
+
+     const upcoming = allEvents.filter(ev => {
+       if (!ev.date) return false;
+       const eventDate = new Date(ev.date);
+       return eventDate >= today;
+     });
+
+     // 4. Loose Filtering Logic
+     let filtered = upcoming.filter(ev => {
+       // Handle Sector (Supports strings or arrays from Supabase)
+       const evSectorRaw = ev.sector_name || ev.sector || '';
+       const evSector = Array.isArray(evSectorRaw) ? evSectorRaw[0] : evSectorRaw;
+
+       const userSector = form.sector.split(' / ')[0].toLowerCase();
+       const sameSector = evSector?.toLowerCase().includes(userSector);
+
+       // Handle Regions/Continents
+       const userContinents = [...form.sourcing.continents, ...form.export.continents];
+       const sameRegion = userContinents.includes(ev.region);
+
+       return sameSector || sameRegion;
+     });
+
+     if (filtered.length === 0) {
+       filtered = upcoming
+         .sort((a, b) => new Date(a.date) - new Date(b.date))
+         .slice(0, 3);
+     } else {
+       filtered = filtered.slice(0, 3);
+     }
+
+     setSuggestedEvents(filtered);
+     setSubmitted(true);
+
+   } catch (error) {
+     console.error("Submission failed:", error);
+     // Even if PHP fails, we show fallback events to the user
+     setSuggestedEvents(allEvents.slice(0, 3));
+     setSubmitted(true);
+   } finally {
+     setLoading(false);
+   }
+ };
 
   const reset = () => {
     setSubmitted(false);
@@ -322,7 +446,7 @@ export default function RegisterForm() {
       <div className="rf-wrap">
         <AnimatePresence mode="wait">
           {submitted ? (
-            <SuccessScreen key="success" onReset={reset} />
+            <SuccessScreen key="success" onReset={reset} suggestions={suggestedEvents} />
           ) : (
             <motion.div key="form" className="rf-container" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
 
@@ -920,10 +1044,18 @@ const CSS = `
     line-height: 1.6;
   }
 
+  .rf-success-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .rf-success {
     max-width: 580px;
     margin: 0 auto;
-    padding: 8rem 2rem;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -985,9 +1117,88 @@ const CSS = `
   }
   .rf-success-btn:hover { background: rgba(0,206,193,0.1); }
 
-  @media (max-width: 640px) {
-    .rf-container { padding: 4rem 1.25rem 6rem; }
-    .rf-step-body { padding: 1.4rem; }
-    .rf-step-header { padding: 1.2rem 1.4rem; }
+  .rf-suggestions {
+    width: 100%;
+    margin-top: 4rem;
+  }
+
+  .rf-suggest-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--color-third);
+  }
+
+  .rf-suggest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .rf-suggest-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(209,219,220,0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .rf-suggest-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-one);
+    background: rgba(0,206,193,0.05);
+  }
+
+  .rf-sc-img {
+    height: 180px;
+    position: relative;
+    background: #1a1a1a;
+  }
+
+  .rf-sc-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+  }
+
+  .rf-sc-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--color-one);
+    color: var(--color-two);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 100px;
+    text-transform: uppercase;
+  }
+
+  .rf-sc-content {
+    padding: 1.5rem;
+  }
+
+  .rf-sc-content h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--color-third);
+  }
+
+  .rf-sc-content p {
+    font-size: 0.9rem;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+  }
+
+  .rf-sc-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-one);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 `;

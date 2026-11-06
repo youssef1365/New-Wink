@@ -63,8 +63,23 @@ const fadeUp = {
   }),
 };
 
-const openContact = () => window.dispatchEvent(new CustomEvent('openContactModal'));
+const handleOpenModal = () => {
+  const event = new CustomEvent('openContactModal', {
+    detail: {
+      interest: "matchmaking",
+      source: "platform",
+      interests: [
+        { label: "B2B Matchmaking & Meetings", value: "matchmaking"  },
+        { label: "Trade Missions & Hosted Buyer Programs", value: "events" },
+      ]
+    }
+  });
+  window.dispatchEvent(event);
+};
 
+const openContact = () => window.dispatchEvent(new CustomEvent('openContactModal', {
+  detail: { source: "platform" }
+}));
 export default function PlatformPage() {
   return (
     <>
@@ -72,8 +87,14 @@ export default function PlatformPage() {
 
         <section className="plt-hero">
           <div className="plt-hero-text">
-            <motion.p className="plt-eyebrow" variants={fadeUp} initial="hidden" animate="visible" custom={0}>
-              Technology - POWERED BY SKEJIO
+            <motion.p
+              className="plt-eyebrow"
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={0}
+            >
+              Technology — <span className="powered-by">POWERED BY SKEJIO</span>
             </motion.p>
             <motion.h1 className="plt-hero-headline" variants={fadeUp} initial="hidden" animate="visible" custom={1}>
               WINK Meeting<br />Management Platform
@@ -82,7 +103,7 @@ export default function PlatformPage() {
               Technology powering the way B2B meetings are sourced, scheduled, and managed during international events and trade missions.
             </motion.p>
             <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={3}>
-              <button type="button" onClick={openContact} className="plt-hero-cta">
+              <button type="button" onClick={handleOpenModal} className="plt-hero-cta">
                 Request a Demo
                 <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
                   <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -96,7 +117,7 @@ export default function PlatformPage() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.75, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
-            <img src="img_2.png" alt="WINK scheduling interface on tablet" className="plt-hero-img" />
+            <img src="/img_2.png" alt="WINK scheduling interface on tablet" className="plt-hero-img" />
           </motion.div>
         </section>
 
@@ -110,7 +131,7 @@ export default function PlatformPage() {
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="plt-laptop-wrap">
-                <img src="img_3.png" alt="WINK events management on laptop" className="plt-laptop-img" />
+                <img src="/img_3.png" alt="WINK events management on laptop" className="plt-laptop-img" />
               </div>
             </motion.div>
             <motion.div
@@ -226,7 +247,7 @@ export default function PlatformPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               >
-                <img src="Platform5.jpeg" alt="WINK meeting detail on mobile" className="plt-benefits-phone" />
+                <img src="/Platform5.jpeg" alt="WINK meeting detail on mobile" className="plt-benefits-phone" />
               </motion.div>
             </div>
           </div>
@@ -270,7 +291,7 @@ export default function PlatformPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               >
-                <img src="img_4.png" alt="WINK analytics dashboard" className="plt-impact-dashboard" />
+                <img src="/img_4.png" alt="WINK analytics dashboard" className="plt-impact-dashboard" />
               </motion.div>
             </div>
           </div>
@@ -346,7 +367,7 @@ export default function PlatformPage() {
               <p className="plt-cta-eyebrow">Get Started</p>
               <h2 className="plt-cta-headline">Power Your Next Event<br />with WINK Platform</h2>
               <p className="plt-cta-sub">Contact us to integrate the platform into your next B2B program or trade mission.</p>
-              <button type="button" onClick={openContact} className="plt-cta-btn">
+              <button type="button" onClick={handleOpenModal} className="plt-hero-cta">
                 Contact Us
                 <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
                   <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -420,6 +441,12 @@ export default function PlatformPage() {
           max-width: 480px;
           margin-bottom: 2.2rem;
         }
+
+        .plt-eyebrow .powered-by {
+          font-size: 0.8em;
+          opacity: 0.8;
+        }
+
         .plt-hero-cta {
           display: inline-flex;
           align-items: center;

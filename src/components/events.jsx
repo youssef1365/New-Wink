@@ -18,21 +18,57 @@ const Events = () => {
   const carouselRef = useRef(null);
   const touchStartX = useRef(null);
 
+  const parseSector = (val) => {
+    if (Array.isArray(val)) return val;
+    if (!val) return [];
+    if (typeof val === 'string') {
+      try { return JSON.parse(val); } catch { return [val]; }
+    }
+    return [];
+  };
+
   useEffect(() => {
-    supabase.from('events').select('*').then(({ data }) => {
-      if (data) {
-        setAllEvents(data.map(e => ({
-          ...e,
-          type: isUpcoming(e.date) ? 'upcoming' : 'past',
-          name: e.title,
-          details: e.description,
-          results: e.stats && Object.keys(e.stats).length > 0 ? e.stats : null,
-          photos: e.gallery_urls || [],
-          location: e.venue_location || e.venue_name || '',
-        })));
-      }
-      setLoading(false);
-    });
+    supabase
+      .from('events')
+      .select('*')
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('[Events] Supabase fetch error:', error.message);
+          setLoading(false);
+          return;
+        }
+        if (data) {
+          const mapped = data.map(e => {
+            let parsedStats = null;
+            if (e.stats) {
+              try {
+                // Handle both string and object types from Supabase
+                const parsed = typeof e.stats === 'string' ? JSON.parse(e.stats) : e.stats;
+                // CRITICAL: Only assign if the object actually has keys (buyers/meetings)
+                if (parsed && Object.keys(parsed).length > 0) {
+                  parsedStats = parsed;
+                }
+              } catch (err) {
+                console.error("Error parsing stats", err);
+              }
+            }
+
+            return {
+              ...e,
+              type: isUpcoming(e.date) ? 'upcoming' : 'past',
+              name: e.title || '',
+              details: e.description || '',
+              results: parsedStats, // This will now be null if {} was passed
+              photos: Array.isArray(e.gallery_urls) ? e.gallery_urls : [],
+              location: (e.venue_location || e.venue_name || '').trim(),
+              area: (e.region || '').trim(),
+              sector: parseSector(e.sector),
+            };
+          });
+          setAllEvents(mapped);
+        }
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => { setPortalMounted(true); }, []);
@@ -155,16 +191,16 @@ const Events = () => {
                 </div>
               </div>
             )}
-            {selectedEvent.type === 'past' && selectedEvent.photos?.length > 0 && (
-              <div className="ev-modal-gallery">
-                <p className="ev-modal-gallery-label">Gallery <span>· tap to enlarge</span></p>
-                <div className="ev-modal-photos">
-                  {selectedEvent.photos.map((src, i) => (
-                    <button key={i} className="ev-modal-photo" onClick={() => setLightboxSrc(src)}>
-                      <img src={src} alt={`${selectedEvent.name} ${i + 1}`} loading="lazy" />
-                      <div className="ev-photo-zoom">⤢</div>
-                    </button>
-                  ))}
+            {selectedEvent.type === 'past' && selectedEvent.results && (
+              <div className="ev-modal-stats">
+                <div className="ev-modal-stat">
+                  <span>{selectedEvent.results.meetings?.toLocaleString() || '0'}</span>
+                  <small>B2B Meetings</small>
+                </div>
+                <div className="ev-modal-stat-div" />
+                <div className="ev-modal-stat">
+                  <span>{selectedEvent.results.buyers?.toLocaleString() || '0'}</span>
+                  <small>Buyers</small>
                 </div>
               </div>
             )}

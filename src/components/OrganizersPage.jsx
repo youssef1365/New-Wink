@@ -214,8 +214,8 @@ export default function OrganizersPage() {
             <div className="org-page">
 
                 <section className="org-hero">
-                    <div className="org-hero-bg org-hero-bg--dark" style={{ backgroundImage: `url('img_1.png')` }} />
-                    <div className="org-hero-bg org-hero-bg--light" style={{ backgroundImage: `url('img_6.jpeg')` }} />
+                    <div className="org-hero-bg org-hero-bg--dark" style={{ backgroundImage: `url('/img_1.png')` }} />
+                    <div className="org-hero-bg org-hero-bg--light" style={{ backgroundImage: `url('/img_6.jpeg')` }} />
                     <div className="org-hero-overlay" />
 
                     <motion.p className="org-eyebrow" variants={fadeUp} initial="hidden" animate="visible" custom={0}>

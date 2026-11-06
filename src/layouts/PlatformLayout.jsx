@@ -20,6 +20,19 @@ const PlatformLayout = ({ activeSection = '' }) => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
+  const handleOpenDemoModal = () => {
+    const event = new CustomEvent('openContactModal', {
+      detail: {
+        interest: "matchmaking",
+        interests: [
+          { label: "B2B Matchmaking & Meetings", value: "matchmaking" },
+          { label: "Trade Missions & Hosted Buyer Programs", value: "events" },
+        ]
+      }
+    });
+    window.dispatchEvent(event);
+  };
+
   return (
     <>
       <Header
@@ -35,6 +48,7 @@ const PlatformLayout = ({ activeSection = '' }) => {
         headline="Power Your B2B Programs with Structured Intelligence"
         subheadline="Leverage smart matching, structured data, and real-time performance tracking to transform how you manage international business interactions."
         ctaLabel="  Request a Demo"
+        onCtaClick={handleOpenDemoModal}
       />
       <Footer />
     </>

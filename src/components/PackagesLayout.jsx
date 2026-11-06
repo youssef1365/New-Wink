@@ -92,8 +92,8 @@ const whyPoints = [
 
 const stats = [
   { value: '30K+', label: 'Curated B2B Meetings Organized',             style: 'lines' },
-  { value: '900+', label: 'Companies Connected Through WINK Programs',  style: 'image', bgImage: 'statsprogrammes.jpeg' },
-  { value: '350+', label: 'International Programs Delivered',           style: 'clean' },
+  { value: '900+', label: 'Companies Connected Through WINK Programs',  style:  'clean'},
+  { value: '350+', label: 'International Programs Delivered',           style: 'image', bgImage: '/img_5.png' },
   { value: '+35',  label: 'Countries Covered',                          style: 'geo' },
 ];
 
@@ -198,7 +198,11 @@ export default function ProgramsPage() {
                 <motion.div
                   key={i}
                   className={`prg-glance-card prg-glance-card--${stat.style}`}
-                  style={stat.style === 'image' ? { '--card-bg-image': `url(${stat.bgImage})` } : {}}
+                  style={
+                    stat.style === 'image'
+                      ? { '--card-bg-image': `url(${stat.bgImage})` }
+                      : {}
+                  }
                   initial={{ opacity: 0, y: 28 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

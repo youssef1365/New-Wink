@@ -132,9 +132,9 @@ export default function AboutUs({ isActive, scrollVelocity }) {
               alt="WINK B2B Matchmaking & Meetings Agency"
               className="aus-logo-mobile"
             />
-            <p className="aus-narrative-text">
+            <h1 className="aus-narrative-text">
               Wink is building the next generation of international growth platforms — connecting high-growth markets through structured trade and investment ecosystems.
-            </p>
+            </h1>
             <p className="aus-narrative-text">
               We design and operate international programs that bring together institutions, companies, investors, and decision-makers — transforming cross-border ambition into measurable economic impact.
             </p>

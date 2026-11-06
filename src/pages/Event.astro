@@ -1,16 +1,15 @@
 ---
 import EventsLayout from '../layouts/EventsLayout.jsx';
 import '../styles/global.css';
+import MasterLayout from '../layouts/MasterLayout.astro';
 ---
-
+<MasterLayout>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Morocco Foodex — Trade missions, B2B exhibitions, and market discovery events across 4 continents and 20+ markets." />
-    <title>Events | Morocco Foodex</title>
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/WinkWhite.png" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
     <script is:inline>
@@ -25,3 +24,4 @@ import '../styles/global.css';
     <EventsLayout client:load />
   </body>
 </html>
+</MasterLayout>

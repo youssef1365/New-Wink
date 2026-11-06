@@ -193,7 +193,7 @@ const Header = ({ activeSection, scrollVelocity, theme: themeProp, setTheme: set
               <li><a href="/" className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}><span className="nav-link-text">Home</span></a></li>
               <li><a href="/#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`}><span className="nav-link-text">Expertise</span></a></li>
               <li className="programs-parent" onMouseEnter={() => { clearTimeout(leaveTimer.current); setProgramsOpen(true); }} onMouseLeave={() => { leaveTimer.current = setTimeout(() => setProgramsOpen(false), 120); }}>
-                <a href="/Packages" ref={programsRef} className={`nav-link ${activeSection === 'packages' ? 'active' : ''}`}>
+                <a href="/Programs" ref={programsRef} className={`nav-link ${activeSection === 'packages' ? 'active' : ''}`}>
                   <span className="nav-link-text">Programs</span>
                   <svg className={`chevron ${programsOpen ? 'open' : ''}`} width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="2 3.5 5 6.5 8 3.5" />

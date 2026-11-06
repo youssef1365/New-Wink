@@ -85,7 +85,7 @@ const WorldMap = () => {
                 .wmap-svg { display: block; width: 100%; height: auto; }
 
                 .dot {
-                    ill: #0b4a5a;
+                    fill: #0b4a5a;
                     stroke: #ffffff;
                     stroke-width: 2;
                     opacity: 0.4;
@@ -428,18 +428,18 @@ const HeroSection = () => (
                     Connecting decision-makers through carefully curated business experiences.
                 </motion.p>
                 <motion.div className="hero-cta-row" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}>
-                    <a href="/contact" className="hero-cta__primary">Start Your Program →</a>
+                    <a href="/Programs" className="hero-cta__primary">Start Your Program →</a>
                 </motion.div>
             </div>
         </section>
         <style>{`
             .hero-section { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: clamp(5rem,9vw,9rem) clamp(1.5rem,7vw,8rem) clamp(3rem,5vw,5rem); overflow: hidden; background-color: var(--color-two); }
-            .hero-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+            .hero-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
             .hero-bg__orb-a { position: absolute; border-radius: 50%; filter: blur(120px); width: 70vw; height: 70vw; top: -20%; left: -15%; background: radial-gradient(circle, rgba(0,206,193,0.07) 0%, transparent 70%); }
-            .hero-bg__orb-b { position: absolute; border-radius: 50%; filter: blur(100px); width: 50vw; height: 50vw; bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(0,63,92,0.25) 0%, transparent 70%); }
+            .hero-bg__orb-b { position: absolute; border-radius: 50%; filter: blur(100px); width: 50vw; height: 50vw; bottom: -10%; left: 60%; background: radial-gradient(circle, rgba(0,63,92,0.25) 0%, transparent 70%); }
             .hero-bg__dots { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(0,206,193,0.045) 1px, transparent 1px); background-size: 38px 38px; }
-            .hero-bg__ring { position: absolute; width: min(600px,60vw); height: min(600px,60vw); border-radius: 50%; border: 1px solid rgba(0,206,193,0.06); top: 50%; right: -10%; transform: translateY(-50%); }
-            .hero-bg__ring-2 { position: absolute; width: min(900px,85vw); height: min(900px,85vw); border-radius: 50%; border: 1px solid rgba(0,206,193,0.03); top: 50%; right: -25%; transform: translateY(-50%); }
+            .hero-bg__ring { position: absolute; width: min(600px,60vw); height: min(600px,60vw); border-radius: 50%; border: 1px solid rgba(0,206,193,0.06); top: 50%; left: 60%; transform: translateY(-50%); }
+            .hero-bg__ring-2 { position: absolute; width: min(900px,85vw); height: min(900px,85vw); border-radius: 50%; border: 1px solid rgba(0,206,193,0.03); top: 50%; left: 45%; transform: translateY(-50%); }
             .hero-inner { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; width: 100%; }
             .hero-eyebrow { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.6rem; }
             .hero-eyebrow__line { width: 28px; height: 1px; background: var(--color-one,#00cec1); opacity: 0.6; }
@@ -509,9 +509,9 @@ const AboutUsSection = () => {
 
             <style>{`
                 .abt-section { position: relative; overflow: visible; background-color: var(--color-two); transition: background-color 0.3s ease; }
-                .abt-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+                .abt-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
                 .abt-bg__a { position: absolute; border-radius: 50%; filter: blur(100px); width: 60vw; height: 60vw; top: 0; left: -10%; background: radial-gradient(circle, rgba(0,206,193,0.055) 0%, transparent 70%); }
-                .abt-bg__b { position: absolute; border-radius: 50%; filter: blur(100px); width: 50vw; height: 50vw; bottom: 0; right: -5%; background: radial-gradient(circle, rgba(0,63,92,0.2) 0%, transparent 70%); }
+                .abt-bg__b { position: absolute; border-radius: 50%; filter: blur(100px); width: 50vw; height: 50vw; bottom: 0; left: 55%; background: radial-gradient(circle, rgba(0,63,92,0.2) 0%, transparent 70%); }
                 .abt-bg__dots { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(0,206,193,0.045) 1px, transparent 1px); background-size: 38px 38px; }
 
                 .abt-header-block { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; padding: clamp(4rem,7vw,7rem) clamp(1.5rem,7vw,8rem) clamp(3rem,5vw,4rem); display: flex; flex-direction: column; gap: 1.2rem; }
@@ -523,7 +523,7 @@ const AboutUsSection = () => {
                 .tl-sticky { position: sticky; top: 0; height: 100vh; width: 100%; background: var(--color-two, #020d14); display: flex; align-items: center; justify-content: center; z-index: 2; }
                 .tl-inner { width: 100%; max-width: 1240px; padding: 0 clamp(1.5rem,7vw,8rem); display: flex; flex-direction: column; gap: 2.5rem; }
                 .tl-track { position: relative; display: flex; align-items: flex-start; justify-content: space-between; padding: 2rem 0 0; flex-shrink: 0; }
-                .tl-line-bg { position: absolute; top: 2.72rem; left: 0; right: 0; height: 1px; background: rgba(0,206,193,0.1); }
+                .tl-line-bg { position: absolute; top: 2.72rem; left: 0; width: 100%; height: 1px; background: rgba(0,206,193,0.1); }
                 .tl-line-fill { position: absolute; top: 2.72rem; left: 0; height: 1px; background: linear-gradient(90deg, var(--color-one,#00CEC1), rgba(0,206,193,0.35)); }
                 .tl-node { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.55rem; flex: 1; background: none; border: none; cursor: pointer; padding: 0; transition: all 0.35s ease; }
                 .tl-node--locked { opacity: 0.18; filter: blur(0.6px); cursor: default; }

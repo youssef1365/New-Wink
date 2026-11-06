@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 export const heroSEO = {
-  title: "WINK | THE FUTURE OF BUSINESS MATCHMAKING",
+  title: "WINK | THE FUTURE OF BUSINESS CONNECTIONS",
   description: "Wink combines human expertise and proprietary technology to orchestrate high-quality B2B meetings at scale — turning connections into measurable business outcomes.es."
 };
 const Hero = ({ scrollVelocity = 0 }) => {
@@ -37,7 +37,7 @@ const Hero = ({ scrollVelocity = 0 }) => {
           >
             <span className="hero-line-1">WINK</span> <br />
             <span className="hero-line-2">THE FUTURE OF</span> <br />
-            <span className="hero-line-3">BUSINESS MATCHMAKING</span>
+            <span className="hero-line-3">BUSINESS CONNECTIONS</span>
           </motion.h1>
 
           <motion.p

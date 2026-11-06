@@ -3,8 +3,9 @@ import '../styles/global.css';
 import ScrollController from '../components/ScrollController.jsx';
 import ContactModal from '../components/ContactModal.jsx';
 import SEO from '../components/SEO.astro';
+import MasterLayout from '../layouts/MasterLayout.astro';
 ---
-
+<MasterLayout>
 <html lang="en">
   <head>
     <SEO
@@ -35,6 +36,7 @@ import SEO from '../components/SEO.astro';
     <ScrollController client:load />
   </body>
 </html>
+</MasterLayout>
 
 <style>
   html {

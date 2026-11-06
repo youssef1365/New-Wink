@@ -11,6 +11,16 @@ export default function ContactModal() {
   const [country, setCountry] = useState(null);
   const [localPhone, setLocalPhone] = useState("");
   const [interest, setInterest] = useState("");
+  const [modalSource, setModalSource] = useState("general");
+
+  const defaultAreaInterests = [
+    { label: "B2B Matchmaking & Meetings", value: "matchmaking" },
+    { label: "Trade Missions & Hosted Buyer Programs", value: "events" },
+    { label: "Business Development & Market Entry", value: "strategy" },
+    { label: "Capital & Investment", value: "investement" }
+  ];
+
+  const [dynamicAreaInterests, setDynamicAreaInterests] = useState(defaultAreaInterests);
 
   const countryOptions = useMemo(() => countryList().getData(), []);
 
@@ -21,6 +31,14 @@ export default function ContactModal() {
         setInterest(e.detail.interest);
       } else {
         setInterest("");
+      }
+
+      setModalSource(e.detail?.source || "general");
+
+      if (e.detail && e.detail.interests) {
+        setDynamicAreaInterests(e.detail.interests);
+      } else {
+        setDynamicAreaInterests(defaultAreaInterests);
       }
     };
     window.addEventListener('openContactModal', handleOpen);
@@ -88,6 +106,7 @@ export default function ContactModal() {
           email: payload.email,
           organization: payload.organization,
           country: country?.label || "",
+          source: modalSource,
           interest: interest,
           areaOfInterest: payload.areaOfInterest,
           phone: dialCode ? `${dialCode} ${localPhone}` : localPhone,
@@ -236,10 +255,9 @@ export default function ContactModal() {
                       <label>Area of Interest</label>
                       <select name="areaOfInterest" required>
                         <option value="">Select an option</option>
-                        <option value="matchmaking">B2B Matchmaking & Meetings</option>
-                        <option value="events">Trade Missions & Hosted Buyer Programs</option>
-                        <option value="strategy">Business Development & Market Entry</option>
-                        <option value="investement">Capital & Investment </option>
+                        {dynamicAreaInterests.map((opt, i) => (
+                          <option key={i} value={opt.value}>{opt.label}</option>
+                        ))}
                       </select>
                     </div>
 
@@ -254,7 +272,7 @@ export default function ContactModal() {
 
                     {statusMessage && (
                         <p style={{
-                          color: isSuccess ? 'var(--color-third)' : '#e74c3c',
+                          color: isSuccess ? 'var(--color-third)' : 'var(--color-error)',
                           marginTop: '15px',
                           textAlign: 'center',
                           fontWeight: 'bold'

@@ -5,54 +5,88 @@ const packages = [
     {
         id: 'pack1',
         number: '01',
-        title: 'Market Access Starter',
-        bestFor: 'SMEs testing a new international market.',
-        positioning: 'Fast and structured market validation.',
-        duration: '6 Weeks',
-        scope: [
-            '1 target country',
-            'Buyer sourcing & qualification',
-            '5–10 qualified B2B meetings',
-            'Email introductions & scheduling',
-            'Meeting coordination',
-            'Post-meeting summary report',
+        title: 'Strategic Commercial Tours',
+        subtitle: 'Open New Markets Through Structured Commercial Operations',
+        bestFor: 'Companies looking to accelerate international expansion through direct access to strategic stakeholders in targeted markets.',
+        duration: '8-12 weeks',
+        features: [
+            'Market assessment & target validation',
+            'Buyer / distributor / partner mapping',
+            'Strategic outreach & qualification',
+            'Qualified business introductions',
+            'Commercial agenda management',
+            'In-person meetings coordination',
+            'Field accompaniment & operational assistance - optional',
+        ],
+        followUp: [
+            'Post-meeting reporting & follow-up',
+        ],
+        logistics: [
+            'Hotel & transportation coordination',
+            'Chauffeur & logistics support',
         ],
     },
     {
         id: 'pack2',
         number: '02',
-        title: 'International Growth Sprint',
+        title: 'Remote Commercial Access Programs',
+        subtitle: 'Access International Decision-Makers Without Traveling',
         bestFor: 'Companies seeking structured opportunity generation in 1–2 markets.',
-        positioning: 'Short-term acceleration program.',
-        duration: '3 Months',
-        scope: [
-            '1–2 target countries',
-            'Advanced buyer profiling',
-            '20–30 qualified B2B meetings',
-            'Continuous outreach & booking over 3 months',
-            'Monthly reporting',
-            'Structured follow-up coordination',
+        duration: '6-8 Weeks',
+        features: [
+            'ICP definition & target profiling',
+            'Buyer / supplier mapping',
+            'Strategic outreach campaigns',
+            'Qualification & interest validation',
+            'Meeting coordination',
+            'Commercial follow-up support',
+            'Reporting & pipeline visibility',
         ],
+        followUp: [],
     },
     {
         id: 'pack3',
         number: '03',
-        title: 'Multi-Market Expansion Program',
+        title: 'Trade Show',
+        subtitle: 'Transform Events Into Real Commercial Opportunities',
         bestFor: 'Structured companies expanding into multiple countries.',
-        positioning: 'Coordinated multi-country business acceleration.',
-        duration: '6 Months',
-        scope: [
-            '2–3 target countries',
-            'Advanced prospect sourcing & qualification',
-            '40–60 qualified B2B meetings',
-            'Continuous booking over 6 months',
-            'Trade show scheduling support (if applicable)',
-            'Pipeline reporting & CRM-ready tracking',
+        duration: '8-12 Weeks',
+        features: [
+            'Buyer qualification & validation',
+            'B2B matchmaking programs',
+            'Pre-scheduled business meetings',
+            'Agenda & meeting management',
+            'VIP buyer coordination',
+            'Event Management Platform',
+            'AI-advanced matchmaking',
+            'On-site operational assistance',
+        ],
+        followUp: [
+            'Post-event reporting & follow-up',
         ],
     },
     {
         id: 'pack4',
         number: '04',
+        title: 'Market Entry & Commercial Expansion Support',
+        subtitle: 'Build the Right Commercial Expansion Strategy',
+        bestFor: 'Companies preparing to enter new international markets or strengthen their commercial presence abroad.',
+        duration: '',
+        features: [
+            'Market opportunity assessment',
+            'ICP & target definition',
+            'Commercial positioning',
+            'Buyer & stakeholder mapping',
+            'Market access strategy',
+            'Outreach strategy development',
+            'Commercial expansion planning',
+            'International business development support',
+        ],
+        followUp: [],
+    },
+    {
+        id: 'pack5',
+        number: '05',
         title: 'Investor Roadshow Program',
         label: 'For Project Owners',
         bestFor: 'Companies seeking in-market investor meetings.',
@@ -87,8 +121,8 @@ export default function EnterprisesPage() {
             <div className="ent-page">
 
                 <section className="ent-hero">
-                    <div className="ent-hero-bg ent-hero-bg--dark" style={{ backgroundImage: `url('img_1.jpeg')` }} />
-                    <div className="ent-hero-bg ent-hero-bg--light" style={{ backgroundImage: `url('img_2.jpeg')` }} />
+                    <div className="ent-hero-bg ent-hero-bg--dark" style={{ backgroundImage: `url('/img_1.jpeg')` }} />
+                    <div className="ent-hero-bg ent-hero-bg--light" style={{ backgroundImage: `url('/img_2.jpeg')` }} />
                     <div className="ent-hero-overlay" />
 
                     <motion.p className="ent-eyebrow" variants={fadeUp} initial="hidden" animate="visible" custom={0}>
@@ -112,7 +146,7 @@ export default function EnterprisesPage() {
                     >
                         <p className="ent-overview-title">Executive Introduction</p>
                         <p className="ent-overview-statement">
-Wink Consulting designs and operates structured international programs that generate measurable economic outcomes through curated B2B meetings, strategic buyer sourcing, and intelligent matchmaking systems.
+                            Wink Consulting designs and operates structured international programs that generate measurable economic outcomes through curated B2B meetings, strategic buyer sourcing, and intelligent matchmaking systems.
                         </p>
                         <p className="ent-overview-body">
                             Our 2026 Programs are designed with a progressive structure — from market testing to fully dedicated international booking partnerships — allowing companies to scale their international expansion in a controlled and measurable manner.
@@ -157,18 +191,19 @@ Wink Consulting designs and operates structured international programs that gene
                                                 {pkg.title}
                                                 {pkg.label && <span className="ent-pkg-label-badge">{pkg.label}</span>}
                                             </h3>
+                                            {pkg.subtitle && <p className="ent-pkg-subtitle">{pkg.subtitle}</p>}
                                             <p className="ent-pkg-bestfor">
                                                 <span className="ent-pkg-tag">Best for</span> {pkg.bestFor}
                                             </p>
                                         </div>
                                     </div>
                                     <div className="ent-pkg-trigger-right">
-                                        <span className="ent-pkg-duration-pill">{pkg.duration}</span>
+                                        {pkg.duration && <span className="ent-pkg-duration-pill">{pkg.duration}</span>}
                                         <span className={`ent-pkg-chevron ${openId === pkg.id ? 'is-open' : ''}`}>
-                      <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                        <path d="M4 7l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </span>
+                                            <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+                                                <path d="M4 7l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                                        </span>
                                     </div>
                                 </button>
 
@@ -181,42 +216,104 @@ Wink Consulting designs and operates structured international programs that gene
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
                                         >
-                                            <div className="ent-pkg-body-inner">
-                                                <div className="ent-pkg-positioning">
-                                                    <span className="ent-pkg-tag">Positioning</span>
-                                                    <p>{pkg.positioning}</p>
-                                                </div>
-                                                <div className="ent-pkg-scope">
-                                                    <p className="ent-scope-label">Scope of Work</p>
-                                                    <ul className="ent-scope-list">
-                                                        {pkg.scope.map((item, j) => (
-                                                            <li key={j}>
-                                                                <span className="ent-scope-bullet" />
-                                                                {item}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                                <div className="ent-pkg-footer">
-                                                    <div className="ent-pkg-duration-row">
-                                                        <span className="ent-duration-label">Duration</span>
-                                                        <span className="ent-duration-value">{pkg.duration}</span>
+                                            {pkg.features ? (
+                                                <div className="ent-pkg-body-inner">
+                                                    <div className="ent-pkg-two-cols">
+                                                        <div className="ent-pkg-scope">
+                                                            <p className="ent-scope-label">Features</p>
+                                                            <ul className="ent-scope-list ent-scope-list--single">
+                                                                {pkg.features.map((item, j) => (
+                                                                    <li key={j}>
+                                                                        <span className="ent-scope-bullet" />
+                                                                        {item}
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+
+                                                        {pkg.followUp && pkg.followUp.length > 0 && (
+                                                            <div className="ent-pkg-scope">
+                                                                <p className="ent-scope-label">Follow-up</p>
+                                                                <ul className="ent-scope-list ent-scope-list--single">
+                                                                    {pkg.followUp.map((item, j) => (
+                                                                        <li key={j}>
+                                                                            <span className="ent-scope-bullet" />
+                                                                            {item}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
+                                                        )}
+
+                                                        {pkg.logistics && (
+                                                            <div className="ent-pkg-scope">
+                                                                <p className="ent-scope-label">Logistics – Optional</p>
+                                                                <ul className="ent-scope-list ent-scope-list--single">
+                                                                    {pkg.logistics.map((item, j) => (
+                                                                        <li key={j}>
+                                                                            <span className="ent-scope-bullet" />
+                                                                            {item}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                    <button
-                                                      className="ent-pkg-cta"
-                                                      onClick={() => {
-                                                        window.dispatchEvent(new CustomEvent('openContactModal', {
-                                                          detail: { interest: 'matchmaking' }
-                                                        }));
-                                                      }}
-                                                    >
-                                                      Request Program Details
-                                                      <svg width="13" height="13" viewBox="0 0 18 18" fill="none">
-                                                        <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                                                      </svg>
-                                                    </button>
+
+                                                    <div className="ent-pkg-footer">
+                                                        <div className="ent-pkg-duration-row">
+                                                            {pkg.duration && (
+                                                                <>
+                                                                    <span className="ent-duration-label">Duration</span>
+                                                                    <span className="ent-duration-value">{pkg.duration}</span>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                        <button
+                                                            className="ent-pkg-cta"
+                                                            onClick={() => { window.location.href = '/Register'; }}
+                                                        >
+                                                            Register Interest
+                                                            <svg width="13" height="13" viewBox="0 0 18 18" fill="none">
+                                                                <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            ) : (
+                                                <div className="ent-pkg-body-inner">
+                                                    <div className="ent-pkg-positioning">
+                                                        <span className="ent-pkg-tag">Positioning</span>
+                                                        <p>{pkg.positioning}</p>
+                                                    </div>
+                                                    <div className="ent-pkg-scope">
+                                                        <p className="ent-scope-label">Scope of Work</p>
+                                                        <ul className="ent-scope-list">
+                                                            {pkg.scope.map((item, j) => (
+                                                                <li key={j}>
+                                                                    <span className="ent-scope-bullet" />
+                                                                    {item}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                    <div className="ent-pkg-footer">
+                                                        <div className="ent-pkg-duration-row">
+                                                            <span className="ent-duration-label">Duration</span>
+                                                            <span className="ent-duration-value">{pkg.duration}</span>
+                                                        </div>
+                                                        <button
+                                                            className="ent-pkg-cta"
+                                                            onClick={() => { window.location.href = '/Register'; }}
+                                                        >
+                                                            Register Interest
+                                                            <svg width="13" height="13" viewBox="0 0 18 18" fill="none">
+                                                                <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -240,17 +337,17 @@ Wink Consulting designs and operates structured international programs that gene
                             </p>
                         </div>
                         <button
-                          className="ent-final-btn"
-                          onClick={() => {
-                            window.dispatchEvent(new CustomEvent('openContactModal', {
-                              detail: { interest: 'matchmaking' }
-                            }));
-                          }}
+                            className="ent-final-btn"
+                            onClick={() => {
+                                window.dispatchEvent(new CustomEvent('openContactModal', {
+                                    detail: { interest: 'matchmaking' }
+                                }));
+                            }}
                         >
-                          Book a Strategic Call
-                          <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
-                            <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
+                            Book a Strategic Call
+                            <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+                                <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
                         </button>
                     </motion.div>
                 </section>
@@ -265,6 +362,15 @@ Wink Consulting designs and operates structured international programs that gene
           min-height: 100vh;
           padding-top: 50px;
           transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .ent-pkg-subtitle {
+          font-size: 0.72rem;
+          font-weight: 600;
+          color: var(--color-one);
+          opacity: 0.75;
+          letter-spacing: 0.06em;
+          line-height: 1.4;
         }
 
         .ent-hero {
@@ -295,7 +401,6 @@ Wink Consulting designs and operates structured international programs that gene
         :root[data-theme="light"] .ent-hero-bg--light { opacity: 1; }
         :root[data-theme="light"] .ent-hero-bg--dark  { opacity: 0; }
 
-
         .ent-hero > *:not(.ent-hero-bg):not(.ent-hero-overlay) {
           position: relative;
           z-index: 1;
@@ -311,6 +416,7 @@ Wink Consulting designs and operates structured international programs that gene
           color: var(--color-one);
           margin-bottom: 1.2rem;
         }
+
         .ent-headline {
           font-size: clamp(3rem, 7vw, 5.2rem);
           font-weight: 800;
@@ -319,6 +425,7 @@ Wink Consulting designs and operates structured international programs that gene
           color: var(--color-third);
           margin-bottom: 1.6rem;
         }
+
         .ent-hero-sub {
           font-size: clamp(1.05rem, 1.8vw, 1.25rem);
           color: var(--color-third);
@@ -333,6 +440,7 @@ Wink Consulting designs and operates structured international programs that gene
           border-bottom: 1px solid rgba(209, 219, 220, 0.08);
         }
         :root[data-theme="light"] .ent-overview { border-color: rgba(0, 63, 92, 0.1); }
+
         .ent-overview-inner {
           max-width: 860px;
           margin: 0 auto;
@@ -341,6 +449,7 @@ Wink Consulting designs and operates structured international programs that gene
           flex-direction: column;
           gap: 1.25rem;
         }
+
         .ent-overview-statement {
           font-size: clamp(1rem, 1.8vw, 1.22rem);
           font-weight: 700;
@@ -350,6 +459,7 @@ Wink Consulting designs and operates structured international programs that gene
           text-transform: uppercase;
           opacity: 0.9;
         }
+
         .ent-overview-body {
           font-size: clamp(0.85rem, 1.3vw, 0.95rem);
           color: var(--color-third);
@@ -365,11 +475,13 @@ Wink Consulting designs and operates structured international programs that gene
           flex-direction: column;
           gap: 2.5rem;
         }
+
         .ent-programs-header {
           display: flex;
           flex-direction: column;
           gap: 1.25rem;
         }
+
         .ent-section-label {
           font-size: 0.6rem;
           font-weight: 800;
@@ -378,11 +490,13 @@ Wink Consulting designs and operates structured international programs that gene
           color: var(--color-third);
           opacity: 0.35;
         }
+
         .ent-pkg-nav {
           display: flex;
           flex-wrap: wrap;
           gap: 0.5rem;
         }
+
         .ent-pkg-nav-item {
           display: inline-flex;
           align-items: center;
@@ -410,6 +524,7 @@ Wink Consulting designs and operates structured international programs that gene
           color: var(--color-one);
           background: rgba(0, 206, 193, 0.06);
         }
+
         .ent-pkg-nav-num {
           font-size: 0.58rem;
           opacity: 0.5;
@@ -420,6 +535,7 @@ Wink Consulting designs and operates structured international programs that gene
           flex-direction: column;
           gap: 0.75rem;
         }
+
         .ent-pkg-block {
           border: 1px solid rgba(209, 219, 220, 0.1);
           border-radius: 12px;
@@ -453,12 +569,9 @@ Wink Consulting designs and operates structured international programs that gene
           font-family: 'Montserrat', sans-serif;
           transition: background 0.2s ease;
         }
-        .ent-pkg-trigger:hover {
-          background: rgba(0, 206, 193, 0.04);
-        }
-        :root[data-theme="light"] .ent-pkg-trigger:hover {
-          background: rgba(0, 63, 92, 0.03);
-        }
+        .ent-pkg-trigger:hover { background: rgba(0, 206, 193, 0.04); }
+        :root[data-theme="light"] .ent-pkg-trigger:hover { background: rgba(0, 63, 92, 0.03); }
+
         .ent-pkg-trigger-left {
           display: flex;
           align-items: flex-start;
@@ -466,6 +579,7 @@ Wink Consulting designs and operates structured international programs that gene
           flex: 1;
           min-width: 0;
         }
+
         .ent-pkg-num {
           font-size: 0.58rem;
           font-weight: 800;
@@ -475,12 +589,14 @@ Wink Consulting designs and operates structured international programs that gene
           flex-shrink: 0;
           margin-top: 0.3rem;
         }
+
         .ent-pkg-titles {
           display: flex;
           flex-direction: column;
           gap: 0.35rem;
           min-width: 0;
         }
+
         .ent-pkg-title {
           font-size: clamp(1rem, 1.6vw, 1.18rem);
           font-weight: 800;
@@ -492,6 +608,7 @@ Wink Consulting designs and operates structured international programs that gene
           flex-wrap: wrap;
           gap: 0.6rem;
         }
+
         .ent-pkg-label-badge {
           font-size: 0.58rem;
           font-weight: 700;
@@ -503,12 +620,14 @@ Wink Consulting designs and operates structured international programs that gene
           border-radius: 100px;
           padding: 0.2rem 0.6rem;
         }
+
         .ent-pkg-bestfor {
           font-size: 0.76rem;
           color: var(--color-third);
           opacity: 0.5;
           line-height: 1.5;
         }
+
         .ent-pkg-tag {
           font-size: 0.6rem;
           font-weight: 800;
@@ -517,12 +636,14 @@ Wink Consulting designs and operates structured international programs that gene
           color: var(--color-one);
           margin-right: 0.3rem;
         }
+
         .ent-pkg-trigger-right {
           display: flex;
           align-items: center;
           gap: 1rem;
           flex-shrink: 0;
         }
+
         .ent-pkg-duration-pill {
           font-size: 0.65rem;
           font-weight: 700;
@@ -535,6 +656,7 @@ Wink Consulting designs and operates structured international programs that gene
           padding: 0.3rem 0.85rem;
           white-space: nowrap;
         }
+
         .ent-pkg-chevron {
           color: var(--color-third);
           opacity: 0.35;
@@ -547,18 +669,17 @@ Wink Consulting designs and operates structured international programs that gene
           color: var(--color-one);
         }
 
-        .ent-pkg-body {
-          overflow: hidden;
-        }
+        .ent-pkg-body { overflow: hidden; }
+
         .ent-pkg-body-inner {
-          padding: 0 2rem 2rem;
+          padding: 1.75rem 2rem 2rem;
           display: flex;
           flex-direction: column;
           gap: 1.75rem;
           border-top: 1px solid rgba(209, 219, 220, 0.08);
-          padding-top: 1.75rem;
         }
         :root[data-theme="light"] .ent-pkg-body-inner { border-top-color: rgba(0, 63, 92, 0.08); }
+
         .ent-pkg-positioning {
           display: flex;
           flex-direction: column;
@@ -577,11 +698,18 @@ Wink Consulting designs and operates structured international programs that gene
           font-style: italic;
         }
 
+        .ent-pkg-two-cols {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+        }
+
         .ent-pkg-scope {
           display: flex;
           flex-direction: column;
           gap: 0.85rem;
         }
+
         .ent-scope-label {
           font-size: 0.6rem;
           font-weight: 800;
@@ -590,12 +718,17 @@ Wink Consulting designs and operates structured international programs that gene
           color: var(--color-third);
           opacity: 0.35;
         }
+
         .ent-scope-list {
           list-style: none;
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 0.6rem 2rem;
+          padding: 0;
+          margin: 0;
         }
+        .ent-scope-list--single { grid-template-columns: 1fr; }
+
         .ent-scope-list li {
           display: flex;
           align-items: flex-start;
@@ -605,6 +738,7 @@ Wink Consulting designs and operates structured international programs that gene
           opacity: 0.75;
           line-height: 1.5;
         }
+
         .ent-scope-bullet {
           flex-shrink: 0;
           margin-top: 0.48em;
@@ -625,11 +759,13 @@ Wink Consulting designs and operates structured international programs that gene
           border-top: 1px solid rgba(209, 219, 220, 0.07);
         }
         :root[data-theme="light"] .ent-pkg-footer { border-top-color: rgba(0, 63, 92, 0.07); }
+
         .ent-pkg-duration-row {
           display: flex;
           align-items: center;
           gap: 0.75rem;
         }
+
         .ent-duration-label {
           font-size: 0.6rem;
           font-weight: 800;
@@ -638,6 +774,7 @@ Wink Consulting designs and operates structured international programs that gene
           color: var(--color-third);
           opacity: 0.3;
         }
+
         .ent-duration-value {
           font-size: 0.78rem;
           font-weight: 800;
@@ -645,6 +782,7 @@ Wink Consulting designs and operates structured international programs that gene
           letter-spacing: 0.06em;
           text-transform: uppercase;
         }
+
         .ent-pkg-cta {
           display: inline-flex;
           align-items: center;
@@ -674,6 +812,7 @@ Wink Consulting designs and operates structured international programs that gene
           padding: clamp(3.5rem, 7vw, 6rem) 4vw;
         }
         :root[data-theme="light"] .ent-next-steps { border-top-color: rgba(0, 63, 92, 0.1); }
+
         .ent-next-inner {
           max-width: 1100px;
           margin: 0 auto;
@@ -683,12 +822,14 @@ Wink Consulting designs and operates structured international programs that gene
           gap: 3rem;
           flex-wrap: wrap;
         }
+
         .ent-next-text {
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
           max-width: 600px;
         }
+
         .ent-next-body {
           font-size: clamp(0.9rem, 1.4vw, 1.05rem);
           font-weight: 600;
@@ -696,6 +837,7 @@ Wink Consulting designs and operates structured international programs that gene
           opacity: 0.75;
           line-height: 1.7;
         }
+
         .ent-final-btn {
           display: inline-flex;
           align-items: center;
@@ -722,9 +864,10 @@ Wink Consulting designs and operates structured international programs that gene
 
         @media (max-width: 760px) {
           .ent-scope-list { grid-template-columns: 1fr; }
+          .ent-pkg-two-cols { grid-template-columns: 1fr; gap: 1.25rem; }
           .ent-next-inner { flex-direction: column; align-items: flex-start; }
           .ent-pkg-trigger { padding: 1.25rem 1.25rem; }
-          .ent-pkg-body-inner { padding: 0 1.25rem 1.5rem; padding-top: 1.5rem; }
+          .ent-pkg-body-inner { padding: 1.5rem 1.25rem 1.5rem; }
           .ent-pkg-duration-pill { display: none; }
           .ent-pkg-nav { display: none; }
         }

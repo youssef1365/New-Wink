@@ -29,8 +29,8 @@ export default function EventsLayout() {
         setTheme={setTheme}
       />
       <EventsPage />
+
       <CallToAction
-        image="/events-bg.jpg"
         headline="Join Our Next Trade Mission"
         subheadline="Be part of a curated B2B experience."
         ctaLabel="Register Now"

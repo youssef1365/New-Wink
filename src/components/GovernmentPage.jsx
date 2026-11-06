@@ -98,8 +98,8 @@ export default function GovernmentPage() {
             <div className="gov-page">
 
                 <section className="gov-hero">
-                    <div className="gov-hero-bg gov-hero-bg--dark" style={{ backgroundImage: `url('img_3.jpeg')` }} />
-                    <div className="gov-hero-bg gov-hero-bg--light" style={{ backgroundImage: `url('img_4.jpeg')` }} />
+                    <div className="gov-hero-bg gov-hero-bg--dark" style={{ backgroundImage: `url('/img_3.jpeg')` }} />
+                    <div className="gov-hero-bg gov-hero-bg--light" style={{ backgroundImage: `url('/img_4.jpeg')` }} />
                     <div className="gov-hero-overlay" />
 
                     <motion.p className="gov-eyebrow" variants={fadeUp} initial="hidden" animate="visible" custom={0}>
